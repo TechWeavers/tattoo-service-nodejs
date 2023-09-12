@@ -7,8 +7,5 @@
     "mysql2": "^3.6.1",
     "save": "^2.9.0",
     "sequelize": "^6.33.0"
-  },
-  "scripts": {
-    "start": "node app.js"
   }
 }
