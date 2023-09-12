@@ -29,6 +29,6 @@ app.post("/cadastrar", function(req, res) {
     })
 })
 
-app.listen(8081, function(){
+app.listen(3306, function(){
     console.log("SERVIDOR ATIVO")
 })
