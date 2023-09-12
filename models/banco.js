@@ -1,8 +1,8 @@
 const Sequelize = require("sequelize")
 let sequelize
 
-if (process.env.NODE_ENV === 'production' && process.env.JAWSDB_URL) {
-    sequelize = new Sequelize(process.env.JAWSDB_URL, {
+if (process.env.NODE_ENV === 'production' && process.env.JAWSDB_MARIA_URL) {
+    sequelize = new Sequelize(process.env.JAWSDB_MARIA_URL, {
       host: 'dcrhg4kh56j13bnu.cbetxkdyhwsb.us-east-1.rds.amazonaws.com',
       dialect: 'mysql',
       logging: false, // Desative os logs se preferir

@@ -29,6 +29,9 @@ app.post("/cadastrar", function(req, res) {
     })
 })
 
-app.listen(3306, function(){
-    console.log("SERVIDOR ATIVO")
+const port = process.env.PORT || 3000
+
+
+app.listen(port, function(){
+    console.log("SERVIDOR ATIVO ${port}")
 })
