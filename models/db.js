@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === 'production' && process.env.JAWSDB_MARIA_URL) {
     });
   } else {
     // Use as configurações do banco de dados local se não estiver no Heroku
-    sequelize = new Sequelize('TattooServiceBD', 'root', '', {
+    sequelize = new Sequelize('DBTattooService', 'root', '', {
       host: 'localhost',
       dialect: 'mysql',
       define: {

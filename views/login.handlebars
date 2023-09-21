@@ -1,0 +1,67 @@
+<div class="login-container " id="login-container">
+    <div class="form-container">
+        <form class="form form-login" action="">
+            <h2 class="form-title">Entrar com</h2>
+            <div class="form-social">
+                <a href="#" class="social-icon">
+                    <i class="fa-brands fa-facebook-f"></i>
+                </a>
+                <a href="#" class="social-icon">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+                <a href="#" class="social-icon">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </a>
+            </div>
+            <p class="form-text">Ou utilize a conta</p>
+            <div class="form-input-container">
+                <input type="text" class="email" placeholder="Email">
+                <input type="password" class="senha" placeholder="Senha">
+            </div>
+            <button type="button" class="form-button">Logar</button>
+            <a href="" class="form-link">Esqueceu a senha?</a>
+        </form>
+        <form class="form form-register" action="/novo-usuario" method="POST">
+            <h2 class="form-title">Criar Conta</h2>
+            <div class="form-social">
+                <a href="#" class="social-icon">
+                    <i class="fa-brands fa-facebook-f"></i>
+                </a>
+                <a href="#" class="social-icon">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+                <a href="#" class="social-icon">
+                    <i class="fa-brands fa-whatsapp"></i>
+                </a>
+            </div>
+            <p class="form-text">Ou cadastre-se aqui</p>
+            <div class="form-input-container">
+                <div class="mb-3 text-start">
+                    <input type="text" class="nome" placeholder="Nome de usuário">
+                </div>
+                <div class="mb-3 text-start">
+                    <input type="text" class="email" placeholder="Email">
+                </div>
+                <div class="mb-3 text-start">
+                    <input type="password" class="senha" placeholder="Senha">
+                </div>
+            </div>
+            <div class="mb-3 text-start">
+                <button type="submit" class="form-button">Registrar</button>
+            </div>
+        </form>
+
+        <div class="overlay">
+            <div class="overlay-lr">
+                <h2 class="form-title-white">Tu ja tem login</h2>
+                <p class="form-text-white">Loga ai </p>
+                <button class="form-button-overlay" id="open-login">Login</button>
+            </div>
+            <div class="overlay-lr">
+                <h2 class="form-title-white">Garotos de Programa</h2>
+                <p class="form-text-white">Cadastra ai </p>
+                <button class="form-button-overlay" id="open-register">Cadastrar</button>
+            </div>
+        </div>
+    </div>
+</div>

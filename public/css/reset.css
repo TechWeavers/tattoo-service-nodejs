@@ -1,0 +1,31 @@
+main{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Red Hat Display', sans-serif;
+}
+:root{
+    --text-color-dark: #000;
+    --text-color-light: #fff;
+    --primary-color: #F49200;
+    --shadow-color: #333232;
+    --icon-color: #f5f5f5;
+    --red-color: #B44A4A;
+    --blue-color1: #58d0f5;
+    --blue-color2: #5B8491;
+}
+a{
+    text-decoration: none;
+    color: #000;
+}
+body{
+    background-image: url(/img/vintage-marine-tattoos-seamless-pattern-vector-34883137.jpg);
+    background-size: 10rem;
+}

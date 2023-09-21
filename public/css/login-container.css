@@ -1,0 +1,81 @@
+.login-container{
+  position: relative;
+  height: 480px;
+  width: 768px;
+  border-radius: 12px;
+  box-shadow: 1px 10px 20px var(--shadow-color);  
+  overflow: hidden;
+  background-color: var(--red-color);
+  
+
+}
+.login-container.move .overlay-lr:nth-child(2){
+  z-index: 1;
+  opacity: 0;
+  
+}
+
+.form-container{
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+.form-social{
+  display: flex;
+  gap: 24px;
+}
+.social-icon{
+  height: 40px;
+  width: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  background-color: var(--icon-color);
+  box-shadow: 0 2px 2px var(--text-color-light);
+  border-radius: 50%;
+  transition: 0.5s;
+}
+.social-icon:hover{
+  background-color: var(--primary-color);
+  transform: translateY(-15%);
+  color: var(--text-color-light);
+
+}
+.form-input-container{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+}
+.nome{
+  height: 40px;
+  width: 300px;
+  padding: 10px 20px;
+  border-style: none;
+  background-color: var(--text-color-light);
+  
+}
+.email{
+  height: 40px;
+  width: 300px;
+  padding: 10px 20px;
+  border-style: none;
+  background-color: var(--text-color-light);
+  
+}
+.senha{
+  height: 40px;
+  width: 300px;
+  padding: 10px 20px;
+  border-style: none;
+  background-color: var(--text-color-light);
+  
+}
+@media (max-width:768px){
+  .login-container{
+      width: 100vw;
+      height: 100vh;
+      box-shadow: none;
+  }
+}
