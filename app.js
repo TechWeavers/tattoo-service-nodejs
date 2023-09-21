@@ -8,6 +8,8 @@ const usuarioteste = require("./models/UsuarioTeste")
 
 app.engine("handlebars", handlebars({defaultLayout: "main"}))
 app.set("view engine", "handlebars")
+app.use(express.static('public'));
+
 
 app.use(bodyParser.urlencoded({extended: "main"}))
 app.use(bodyParser.json())
@@ -17,19 +19,11 @@ app.get("/", function(req,res){
 })
 
 app.get("/login", function(req,res){
-    res.render("login", {customstyle: `<link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./public/css/form.css">
-    <link rel="stylesheet" href="./public/css/login-container.css">
-    <link rel="stylesheet" href="./public/css/overlay.css">
-    <link rel="stylesheet" href="./public/css/reset.css">`, 
-    customscript: `<script src="https://kit.fontawesome.com/76d409ea62.js" crossorigin="anonymous"></script>
-    <script src="./js/login.js" defer></script>`})
+    res.render("login")
 })
 
 app.post("/novo-usuario", function(req, res) {
-    usuarioteste.UsuarioTeste.create({
+    usuarioteste.create({
         nome: req.body.nome,            
         email: req.body.email,
         senha: req.body.senha
@@ -41,7 +35,7 @@ app.post("/novo-usuario", function(req, res) {
 })
 
 app.post("/cadastrar", function(req, res) {
-    cliente.Cliente.create({
+    cliente.create({
         nome: req.body.nome,
         cpf: req.body.cpf,
         telefone: req.body.telefone,
