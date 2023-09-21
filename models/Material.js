@@ -20,6 +20,7 @@ const Material = db.sequelize.define('Material', {
   }
 });
 
+
 //Material.sync({ force: true })
   
 module.exports = Material

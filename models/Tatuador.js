@@ -1,20 +1,17 @@
-const Colaborador = require("./Colaborador");
 const Procedimento = require("./Procedimento");
+const Colaborador = require("./Colaborador");
 const db = require("./db")
 
 const Tatuador = db.sequelize.define("Tatuador", {
-    fk_Tatuador: {
+    id_tatuador: {
         type: db.Sequelize.INTEGER,
-        allowNull: false,
         primaryKey: true,
-        references: {
-            model: Colaborador,
-            key: 'id_colaborador'
-        }
+        autoIncrement: true,
     }
 });
 
-Tatuador.hasMany(Procedimento, { foreignKey: 'fk_Tatuador' });
+Tatuador.hasOne(Procedimento, { foreignKey: 'fk_tatuador' });
+Tatuador.hasOne(Colaborador, { foreignKey: 'fk_tatuador' });
 
 //Tatuador.sync({ force: true })
   
