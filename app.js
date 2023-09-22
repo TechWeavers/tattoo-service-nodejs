@@ -2,8 +2,8 @@ const express = require("express")
 const app = express()
 const handlebars = require("express-handlebars").engine 
 const bodyParser = require("body-parser")
-const cliente = require("./models/Cliente")
-const usuarioteste = require("./models/UsuarioTeste")
+const Colaborador = require("./models/Colaborador")
+const Usuario = require("./models/Usuario")
 
 
 app.engine("handlebars", handlebars({defaultLayout: "main"}))
@@ -15,35 +15,37 @@ app.use(bodyParser.urlencoded({extended: "main"}))
 app.use(bodyParser.json())
 
 app.get("/", function(req,res){
-    res.render("primeira_pagina")
-})
-
-app.get("/login", function(req,res){
     res.render("login")
 })
 
+app.get("/cadastroColaborador", function(req,res){
+    res.render("cadastroColaborador")
+})
+
 app.post("/novo-usuario", function(req, res) {
-    usuarioteste.create({
-        nome: req.body.nome,            
-        email: req.body.email,
-        senha: req.body.senha
+    Usuario.create({
+        usuario: req.body.usuario,            
+        senha: req.body.senha,
+        fk_colaborador: req.body.colaborador
     }).then(function(){
-        res.send("Dados cadastrados com sucesso!")
+        res.redirect("/")
+        console.log("Dados cadastrados com sucesso!")    
     }).catch(function(erro){
         res.send("Erro ao cadastrar " + erro)
     })
 })
 
-app.post("/cadastrar", function(req, res) {
-    cliente.create({
+app.post("/novo-colaborador", function(req, res) {
+    console.log(req.body.tipo)
+    Colaborador.create({
         nome: req.body.nome,
         cpf: req.body.cpf,
         telefone: req.body.telefone,
         email: req.body.email,
-        redeSocial: req.body.redeSocial,
-        fichaAnamnese: req.body.fichaAnamnese
+        redeSocial: req.body.redeSocial
     }).then(function(){
-        res.send("Dados cadastrados com sucesso!")
+        res.redirect("/cadastroColaborador")
+        console.log("Dados cadastrados com sucesso!")
     }).catch(function(erro){
         res.send("Erro ao cadastrar " + erro)
     })

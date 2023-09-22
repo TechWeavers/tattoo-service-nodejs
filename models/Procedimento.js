@@ -15,7 +15,7 @@ const Procedimento = db.sequelize.define('Procedimento', {
   }
 });
 
-Procedimento.hasMany(Material, { foreignKey: 'fk_Procedimento' });
+Procedimento.hasOne(Material, { foreignKey: 'fk_procedimento' });
 
 //Procedimento.sync({ force: true })
   
