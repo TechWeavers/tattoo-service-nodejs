@@ -13,11 +13,6 @@ const Usuario = db.sequelize.define("Usuario", {
     senha: {
         type: db.Sequelize.STRING,
     },
-    fk_colaborador: {
-        type: db.Sequelize.INTEGER,
-        allowNull: false,
-        unique: true,
-    },
 });
 
 Usuario.beforeCreate(async (usuario, options) => {
@@ -38,6 +33,6 @@ Usuario.beforeCreate(async (usuario, options) => {
     }
 })
 
-Usuario.sync({ force: true })
+//Usuario.sync({ force: true })
   
 module.exports = Usuario

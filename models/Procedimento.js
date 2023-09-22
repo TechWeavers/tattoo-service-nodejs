@@ -17,6 +17,6 @@ const Procedimento = db.sequelize.define('Procedimento', {
 
 Procedimento.hasOne(Material, { foreignKey: 'fk_procedimento' });
 
-Procedimento.sync({ force: true })
+//Procedimento.sync({ force: true })
   
 module.exports = Procedimento

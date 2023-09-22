@@ -1,4 +1,6 @@
+const Administrador = require("./Administrador");
 const Procedimento = require("./Procedimento");
+const Tatuador = require("./Tatuador");
 const Usuario = require("./Usuario");
 const db = require("./db")
 
@@ -26,8 +28,12 @@ const Colaborador = db.sequelize.define('Colaborador', {
 });
 
 Colaborador.hasOne(Usuario, { foreignKey: 'fk_colaborador' });
-Colaborador.hasOne(Procedimento, { foreignKey: 'fk_colaborador_agendador' });
+Colaborador.hasOne(Procedimento, { foreignKey: 'fk_colaborador' });
+Colaborador.hasOne(Tatuador, { foreignKey: 'fk_colaborador' });
+Colaborador.hasOne(Administrador, { foreignKey: 'fk_colaborador' });
 
-Colaborador.sync({ force: true })
+
+
+//Colaborador.sync({ force: true })
   
 module.exports = Colaborador

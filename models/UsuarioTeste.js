@@ -1,5 +1,3 @@
-const Colaborador = require("./Colaborador");
-const Procedimento = require("./Procedimento");
 const db = require("./db")
 
 const UsuarioTeste = db.sequelize.define("UsuarioTeste", {
@@ -19,6 +17,6 @@ const UsuarioTeste = db.sequelize.define("UsuarioTeste", {
     }
 });
 
-UsuarioTeste.sync({ force: true })
+//UsuarioTeste.sync({ force: true })
   
 module.exports = UsuarioTeste

@@ -20,9 +20,24 @@ app.get("/", function(req,res){
     res.render("login")
 })
 
+app.post("/login", async (req,res) => {
+    const usuarioExistente = await Usuario.findOne({
+        where: { usuario: req.body.usuario },
+    });
+
+    const compare = bcrypt.compare(req.body.senha, usuarioExistente.senha);
+
+    if (usuarioExistente) {        
+        console.log("LOGIN AUTORIZADO");    
+    } else {
+        console.log("LOGIN NAO AUTORIZADO");    
+    }
+    
+
+})
+
 app.post("/novo-usuario", async (req, res) => {
     const senha = await bcrypt.hash(req.body.senha, 8);
-    console.log(senha);
     Usuario.create({
         usuario: req.body.usuario,            
         senha: senha,

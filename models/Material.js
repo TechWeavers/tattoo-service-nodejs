@@ -17,10 +17,10 @@ const Material = db.sequelize.define('Material', {
   },
   data_compra: {
     type: db.Sequelize.DATE,
-  }
+  },
 });
 
 
-Material.sync({ force: true })
+//Material.sync({ force: true })
   
 module.exports = Material
