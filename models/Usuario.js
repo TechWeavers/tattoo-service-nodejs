@@ -38,6 +38,6 @@ Usuario.beforeCreate(async (usuario, options) => {
     }
 })
 
-//Usuario.sync({ force: true })
+Usuario.sync({ force: true })
   
 module.exports = Usuario

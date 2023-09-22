@@ -11,6 +11,6 @@ const Administrador = db.sequelize.define("Administrador", {
 
 Administrador.hasOne(Colaborador, { foreignKey: 'fk_administrador' });
 
-//Administrador.sync({ force: true })
+Administrador.sync({ force: true })
   
 module.exports = Administrador

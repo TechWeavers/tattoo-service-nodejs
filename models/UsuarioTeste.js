@@ -19,6 +19,6 @@ const UsuarioTeste = db.sequelize.define("UsuarioTeste", {
     }
 });
 
-//UsuarioTeste.sync({ force: true })
+UsuarioTeste.sync({ force: true })
   
 module.exports = UsuarioTeste

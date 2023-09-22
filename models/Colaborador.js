@@ -28,6 +28,6 @@ const Colaborador = db.sequelize.define('Colaborador', {
 Colaborador.hasOne(Usuario, { foreignKey: 'fk_colaborador' });
 Colaborador.hasOne(Procedimento, { foreignKey: 'fk_colaborador_agendador' });
 
-//Colaborador.sync({ force: true })
+Colaborador.sync({ force: true })
   
 module.exports = Colaborador

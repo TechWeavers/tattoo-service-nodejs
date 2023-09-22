@@ -13,6 +13,6 @@ const Tatuador = db.sequelize.define("Tatuador", {
 Tatuador.hasOne(Procedimento, { foreignKey: 'fk_tatuador' });
 Tatuador.hasOne(Colaborador, { foreignKey: 'fk_tatuador' });
 
-//Tatuador.sync({ force: true })
+Tatuador.sync({ force: true })
   
 module.exports = Tatuador

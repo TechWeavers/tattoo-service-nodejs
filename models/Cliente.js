@@ -29,6 +29,6 @@ const Cliente = db.sequelize.define('Cliente', {
 
 Cliente.hasOne(Procedimento, { foreignKey: 'fk_cliente' });
 
-//Cliente.sync({ force: true })
+Cliente.sync({ force: true })
   
 module.exports = Cliente
