@@ -136,6 +136,11 @@ Este comando iniciará o servidor e você poderá acessar a aplicação no naveg
 
    Agora você pode criar a estrutura de pastas e arquivos para o seu projeto, conforme descrito anteriormente.
 
-Depois de seguir esses passos, todas as dependências necessárias serão instaladas e adicionadas automaticamente ao arquivo `package.json` com suas versões correspondentes. Certifique-se de configurar corretamente o banco de dados usando o Sequelize e iniciar o desenvolvimento do aplicativo.
+
+10. **Altere as informações de conexão:**
+
+   Depois de seguir esses passos, todas as dependências necessárias serão instaladas e adicionadas automaticamente ao arquivo `package.json` com suas versões correspondentes. Certifique-se de configurar corretamente o banco de dados usando o Sequelize e iniciar o desenvolvimento do aplicativo.
+
+## Conclusão
 
 Este é um guia básico para começar a trabalhar com o projeto Tattoo Service Node.js. Você pode expandir e personalizar o sistema de acordo com as necessidades do seu estúdio de tatuagem.
