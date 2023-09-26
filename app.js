@@ -35,7 +35,7 @@ app.post("/login", async (req, res) => {
             return res.status(404).json({ message: "Usuário não encontrado" });
         }
     
-        if (usuarioEncontrado.senha !== senhaLogin) {
+        if (!(await bcrypt.compare(senhaLogin, usuarioEncontrado.senha))) {
             return res.status(401).json({ message: "Senha incorreta" });
         }
     
