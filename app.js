@@ -4,6 +4,7 @@ const handlebars = require("express-handlebars").engine;
 const bodyParser = require("body-parser");
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
+const tokenModule = require('./modules/token');
 const { eAdmin } = require('./middlewares/auth')
 const Colaborador = require("./models/Colaborador");
 const Usuario = require("./models/Usuario");
@@ -39,8 +40,15 @@ app.post("/login", async (req, res) => {
             return res.status(401).json({ message: "Senha incorreta" });
         }
     
-        res.status(200).json({ message: "Autenticado com sucesso" });
-    
+        let token = jwt.sign({id: usuarioEncontrado.id}, "J98JDASD908ML0G9ZV8ML1PI3I89S7D6F", {
+            //expiresIn: 600 //10MIN
+            expiresIn: "7d"
+        })
+
+        tokenModule.setToken(token);
+
+        res.status(200).json({ message: "Autenticado com sucesso", token: token });
+
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Erro interno do servidor: " + usuarioLogin + " " + senhaLogin });
@@ -63,7 +71,7 @@ app.post("/novo-usuario", async (req, res) => {
 })
 
 
-app.get("/novo-colaborador", async (req,res) => {
+app.get("/novo-colaborador", eAdmin, async (req,res) => {
     res.render("novo-colaborador");
 })
 
