@@ -71,5 +71,15 @@
 @media (max-width:768px){
     .form{
         width: 100%;
+        justify-content: space-evenly;
+    }
+    .form-register{
+        position: absolute; 
+        transform: translateX(100%);
+        background-color: var(--blue-color2);   
+    }
+    .login-container.move .form-register{
+        transform: translateX(0%);
     }
 }
+
