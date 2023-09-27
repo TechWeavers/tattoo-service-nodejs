@@ -9,7 +9,6 @@ const { eAdmin } = require('./middlewares/auth')
 const Colaborador = require("./models/Colaborador");
 const Usuario = require("./models/Usuario");
 
-
 app.engine("handlebars", handlebars({defaultLayout: "main"}))
 app.set("view engine", "handlebars")
 app.use(express.static('public'));
@@ -19,13 +18,23 @@ app.use(bodyParser.urlencoded({extended: "main"}))
 app.use(bodyParser.json())
 
 app.get("/", async (req,res) => {
-    res.render("login")
+    res.render("login", {
+        style: `<link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@600&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/form.css">
+        <link rel="stylesheet" href="/css/login-container.css">
+        <link rel="stylesheet" href="/css/overlay.css">
+        <link rel="stylesheet" href="/css/reset.css">
+        <script src="/js/login.js" defer></script>
+        <script src="https://kit.fontawesome.com/76d409ea62.js" crossorigin="anonymous"></script>`,
+        title: "Tela de Login"
+    });
 })
 
 app.post("/login", async (req, res) => {
     const usuarioLogin = req.body.usuarioLogin;
-    const senhaLogin = req.body.senhaLogin;
-    
+    const senhaLogin = req.body.senhaLogin;  
 
     try {
         const usuarioEncontrado = await Usuario.findOne({
@@ -55,7 +64,6 @@ app.post("/login", async (req, res) => {
     }
   })
 
-
 app.post("/novo-usuario", async (req, res) => {
     const senha = await bcrypt.hash(req.body.senhaCadastro, 8);
     Usuario.create({
@@ -72,7 +80,9 @@ app.post("/novo-usuario", async (req, res) => {
 
 
 app.get("/novo-colaborador", eAdmin, async (req,res) => {
-    res.render("novo-colaborador");
+    res.render("novo-colaborador", {        
+        title: "Cadastro de Colaborador"
+    });
 })
 
 app.post("/novo-colaborador", async (req, res) => {
