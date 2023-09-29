@@ -54,5 +54,6 @@
 @media(max-width:768px){
     .overlay-lr{
         display: none;
+        
     }
 }

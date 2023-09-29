@@ -1,0 +1,79 @@
+<div class="container text-center">
+    <div class="row">
+        <div class="col-1">
+            &nbsp;
+        </div>
+        <div class="col bg-primary">
+            <nav class="navbar bg-primary navbar-expand-lg" data-bs-theme="dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">StreetWise Tattoo Management</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                        <div class="navbar-nav">
+                            <a class="nav-link" aria-current="page" href="/novo-colaborador">Cadastrar Colaborador</a>
+                            <a class="nav-link active" href="/listar-colaboradores">Listar Colaboradores</a>
+                            <a class="nav-link" href="/novo-usuario">Cadastrar Usuario</a>
+                            <a class="nav-link" href="/listar-usuarios">Listar Usuarios</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="col-1">
+            &nbsp;
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-1">
+            &nbsp;
+        </div>
+        <div class="col bg-white">
+            &nbsp;
+        </div>
+        <div class="col-1">
+            &nbsp;
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-1">
+            &nbsp;
+        </div>
+        <div class="col bg-white">
+            <p class="text-start fs-5">Consultar Colaboradores</p>
+            <p>
+                <div class="container text-center">
+                    <div class="row bg-primary p-2 mb-3">
+                        <div class="col text-light"> ID </div>
+                        <div class="col text-light"> Nome </div>
+                        <div class="col text-light"> CPF </div>
+                        <div class="col text-light"> Telefone </div>
+                        <div class="col text-light"> Email </div>
+                        <div class="col text-light"> Rede Social </div>
+                        <div class="col text-light"> Tipo </div>
+                        <div class="col text-light"> Editar / Excluir </div>
+                    </div> 
+                    {{#each colaboradores}} {{#dataValues}} 
+                    <div class="row">
+                        <div class="col"> {{id_colaborador}} </div>
+                        <div class="col"> {{nome}} </div>
+                        <div class="col"> {{cpf}} </div>
+                        <div class="col"> {{telefone}} </div>
+                        <div class="col"> {{email}} </div>
+                        <div class="col"> {{redeSocial}} </div>
+                        <div class="col"> {{tipo}} </div>
+                        <div class="col">
+                            <button class="btn btn-primary"><a href="/editar-colaborador/{{id_colaborador}}" style="color:inherit">Edit</a></button>
+                            <button type="button" class="btn btn-danger" id="confirmDelete"><a href="/excluir-colaborador/{{id_colaborador}}" style="color:inherit">Delete</a></button>
+                        </div>
+                    </div> {{/dataValues}} {{/each}}
+                </div>
+                
+            </p>
+        </div>
+        <div class="col-1">
+            &nbsp;
+        </div>
+    </div>
+</div>

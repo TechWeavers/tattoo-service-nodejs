@@ -1,73 +1,77 @@
-<div class="login-container " id="login-container">
-    <div class="form-container">
-        <form class="form form-login" action="/login" method="POST">
-            <h2 class="form-title">Entrar com</h2>
-            <div class="form-social">
-                <a href="#" class="social-icon">
-                    <i class="fa-brands fa-facebook-f"></i>
-                </a>
-                <a href="#" class="social-icon">
-                    <i class="fa-brands fa-instagram"></i>
-                </a>
-                <a href="#" class="social-icon">
-                    <i class="fa-brands fa-whatsapp"></i>
-                </a>
-            </div>
-            <p class="form-text">Ou utilize a conta</p>
-            <div class="form-input-container">
-                <div class="mb-3 text-start">
-                    <input type="text" name="usuario" id="usuario" class="usuario" placeholder="Nome de Usuario">
+<main>
+    <div class="login-container " id="login-container">
+        <div class="form-container">
+            <form class="form form-login" action="/login" method="POST">
+                <h2 class="form-title">Entrar com</h2>
+                <div class="form-social">
+                    <a href="#" class="social-icon">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-icon">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-icon">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </a>
+                </div>
+                <p class="form-text">Ou utilize a conta</p>
+                <div class="form-input-container">
+                    <div class="mb-3 text-start">
+                        <input type="text" name="usuarioLogin" id="usuarioLogin" class="usuario" placeholder="Nome de Usuario">
+                    </div>
+                    <div class="mb-3 text-start">
+                        <input type="password" name="senhaLogin" id="senhaLogin" class="senha" placeholder="Senha">
+                    </div>
                 </div>
                 <div class="mb-3 text-start">
-                    <input type="password" name="senha" id="senha" class="senha" placeholder="Senha">
+                    <button type="submit" class="form-button">Logar</button>
                 </div>
-            </div>
-            <div class="mb-3 text-start">
-                <button type="submit" class="form-button">Logar</button>
-            </div>
-            <a href="" class="form-link">Esqueceu a senha?</a>
-        </form>
-        <form class="form form-register" action="/novo-usuario" method="POST">
-            <h2 class="form-title">Criar Conta</h2>
-            <div class="form-social">
-                <a href="#" class="social-icon">
-                    <i class="fa-brands fa-facebook-f"></i>
-                </a>
-                <a href="#" class="social-icon">
-                    <i class="fa-brands fa-instagram"></i>
-                </a>
-                <a href="#" class="social-icon">
-                    <i class="fa-brands fa-whatsapp"></i>
-                </a>
-            </div>
-            <p class="form-text">Ou cadastre-se aqui</p>
-            <div class="form-input-container">
+                <p class="mobile-text">Não tem conta? <a href="#" id="open-register-mobile">Registre-se</a></p>
+                <a href="" class="form-link">Esqueceu a senha?</a>
+            </form>
+            <form class="form form-register" action="/novo-usuario-login" method="POST">
+                <h2 class="form-title">Criar Conta</h2>
+                <div class="form-social">
+                    <a href="#" class="social-icon">
+                        <i class="fa-brands fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-icon">
+                        <i class="fa-brands fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-icon">
+                        <i class="fa-brands fa-whatsapp"></i>
+                    </a>
+                </div>
+                <p class="form-text">Ou cadastre-se aqui</p>
+                <div class="form-input-container">
+                    <div class="mb-3 text-start">
+                        <input type="text" name="usuarioCadastro" id="usuarioCadastro" class="usuario" placeholder="Nome de usuário">
+                    </div>
+                    <div class="mb-3 text-start">
+                        <input type="text" name="colaborador" id="colaborador" class="colaborador" placeholder="ID Colaborador">
+                    </div>
+                    <div class="mb-3 text-start">
+                        <input type="password" name="senhaCadastro" id="senhaCadastro" class="senha" placeholder="Senha">
+                    </div>
+                </div>
                 <div class="mb-3 text-start">
-                    <input type="text" name="usuario" id="usuario" class="usuario" placeholder="Nome de usuário">
+                    <button type="submit" class="form-button">Registrar</button>
                 </div>
-                <div class="mb-3 text-start">
-                    <input type="text" name="colaborador" id="colaborador" class="colaborador" placeholder="ID Colaborador">
+                <p class="mobile-text">Ja tem conta? <a href="#" id="open-login-mobile">Login</a></p>
+            </form>
+    
+            <div class="overlay">
+                <div class="overlay-lr">
+                    <h2 class="form-title-white">StreetWise Tattoo</h2>
+                    <p class="form-text-white">Você já é um usuário cadastrado?</p>
+                    <button class="form-button-overlay" id="open-login">Login</button>
                 </div>
-                <div class="mb-3 text-start">
-                    <input type="password" name="senha" id="senha" class="senha" placeholder="Senha">
+                <div class="overlay-lr">
+                    <h2 class="form-title-white">StreetWise Tattoo</h2>
+                    <p class="form-text-white">Ainda não é um usuário?</p>
+                    <button class="form-button-overlay" id="open-register">Cadastrar</button>
                 </div>
-            </div>
-            <div class="mb-3 text-start">
-                <button type="submit" class="form-button">Registrar</button>
-            </div>
-        </form>
-
-        <div class="overlay">
-            <div class="overlay-lr">
-                <h2 class="form-title-white">StreetWise Tattoo</h2>
-                <p class="form-text-white">Você já é um usuário cadastrado?</p>
-                <button class="form-button-overlay" id="open-login">Login</button>
-            </div>
-            <div class="overlay-lr">
-                <h2 class="form-title-white">StreetWise Tattoo</h2>
-                <p class="form-text-white">Ainda não é um usuário?</p>
-                <button class="form-button-overlay" id="open-register">Cadastrar</button>
             </div>
         </div>
     </div>
-</div>
+</main>
