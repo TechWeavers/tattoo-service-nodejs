@@ -1,0 +1,92 @@
+<div class="container text-center">
+    <div class="row">
+        <div class="col-1">
+            &nbsp;
+        </div>
+        <div class="col bg-primary">
+            <nav class="navbar bg-primary navbar-expand-lg" data-bs-theme="dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">StreetWise Tattoo Management</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                        <div class="navbar-nav">
+                            <a class="nav-link" aria-current="page" href="/novo-colaborador">Cadastrar Colaborador</a>
+                            <a class="nav-link" href="/listar-colaboradores">Listar Colaboradores</a>
+                            <a class="nav-link" href="/novo-usuario">Cadastrar Usuario</a>
+                            <a class="nav-link" href="/listar-usuarios">Listar Usuarios</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="col-1">
+            &nbsp;
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-1">
+            &nbsp;
+        </div>
+        <div class="col bg-white">
+            &nbsp;
+        </div>
+        <div class="col-1">
+            &nbsp;
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-1">
+            &nbsp;
+        </div>
+         <div class="col bg-white">
+            <p class="text-start fs-5">Editar Colaborador</p>
+
+            <p>
+                {{#each colaboradores}} {{#dataValues}} 
+                <form action="/atualizar-colaborador" method="POST">
+                    <input type="hidden" name="id_colaborador" class="form-control" id="id_colaborador" value="{{id_colaborador}}"> 
+                    <div class="mb-3 text-start">
+                        <label class="form-label">Nome:</label>
+                        <input type="name" name="nome" class="form-control" id="nome" value="{{nome}}">
+                    </div>
+                    <div class="mb-3 text-start">
+                        <label class="form-label">CPF:</label>
+                        <input type="text" name="cpf" class="form-control" id="cpf" value="{{cpf}}">
+                    </div>
+                    <div class="mb-3 text-start">
+                        <label class="form-label">Telefone:</label>
+                        <input type="text" name="telefone" class="form-control" id="telefone" value="{{telefone}}">
+                    </div>
+                    <div class="mb-3 text-start">
+                        <label class="form-label">Origem:</label>
+                        <select name="origem" class="form-select" aria-label="Default select example">
+                            <option value="celular" selected>Celular</option>
+                            <option value="whatsapp">Whatsapp</option>
+                            <option value="telefone_fixo">Telefone Fixo</option>
+                        </select>
+                    </div>
+                    <div class="mb-3 text-start">
+                        <label class="form-label">Email:</label>
+                        <input type="email" name="email" class="form-control" id="email" value="{{email}}">
+                    </div>
+                    <div class="mb-3 text-start">
+                        <label class="form-label">Rede Social:</label>
+                        <input type="text" name="redeSocial" class="form-control" id="redeSocial" value="{{redeSocial}}">
+                    </div>
+                    <div class="mb-3 text-start">
+                        <label class="form-label">Tipo: </label>
+                        <input type="text" name="tipo" class="form-control" id="tipo" value="{{tipo}}">
+                    </div>
+                    <div class="mb-3 text-start">
+                        <button type="submit" class="btn btn-primary">Cadastrar</button>
+                    </div>
+                </form> {{/dataValues}} {{/each}}                
+            </p>
+        </div>
+        <div class="col-1">
+            &nbsp;
+        </div>
+    </div>
+</div>

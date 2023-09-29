@@ -1,5 +1,6 @@
 const Colaborador = require("./Colaborador");
 const Usuario = require("./Usuario");
+const bcrypt = require('bcrypt');
 
 Colaborador.create({
     nome: "Administrador",
@@ -10,9 +11,20 @@ Colaborador.create({
     tipo: "Administrador"
 });
 
-Usuario.create({
-    fk_colaborador: 1,
-    usuario: "admin",
-    senha: "123"
-});
+async function criptografa(senha){
+    const senhaCript = await bcrypt.hash(senha, 8);
+    return senhaCript;
+}
+
+async function criarUsuario() {
+    const senha = await criptografa("123");
+
+    Usuario.create({
+        fk_colaborador: 1,
+        usuario: "admin",
+        senha: senha
+    });
+}
+
+criarUsuario();
   

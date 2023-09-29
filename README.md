@@ -66,11 +66,13 @@ Você pode executar o projeto com o seguinte comando:
 node app.js
 ```
 
-Para criar Colaborador e Usuario padrão, entrar pelo terminal na pasta "models" e utilizar o seguinte comando:
+Para criar Colaborador e Usuario padrão, utilizar o seguinte comando:
 
 ```bash
-node post.js
+node models/post.js
 ```
+
+Após estes passos será possível iniciar novamente a aplicação com "node app.js" e utilizar o sistema com usuário e senha padrão. (admin: 123)
 
 Este comando iniciará o servidor e criará um usuário padrão, você poderá acessar a aplicação no navegador em [http://localhost:8080](http://localhost:8080).
 

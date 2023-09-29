@@ -1,0 +1,68 @@
+<div class="container text-center">
+    <div class="row">
+        <div class="col-1">
+            &nbsp;
+        </div>
+        <div class="col bg-primary">
+            <nav class="navbar bg-primary navbar-expand-lg" data-bs-theme="dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="#">StreetWise Tattoo Management</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                        <div class="navbar-nav">
+                            <a class="nav-link" aria-current="page" href="/novo-colaborador">Cadastrar Colaborador</a>
+                            <a class="nav-link" href="/listar-colaboradores">Listar Colaboradores</a>
+                            <a class="nav-link" href="/novo-usuario">Cadastrar Usuario</a>
+                            <a class="nav-link" href="/listar-usuarios">Listar Usuarios</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="col-1">
+            &nbsp;
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-1">
+            &nbsp;
+        </div>
+        <div class="col bg-white">
+            &nbsp;
+        </div>
+        <div class="col-1">
+            &nbsp;
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-1">
+            &nbsp;
+        </div>
+         <div class="col bg-white">
+            <p class="text-start fs-5">Editar Usuario</p>
+
+            <p>
+                {{#each usuarios}} {{#dataValues}} 
+                <form action="/atualizar-usuario" method="POST">
+                    <input type="hidden" name="id_usuario" class="form-control" id="id_usuario" value="{{id_usuario}}"> 
+                    <div class="mb-3 text-start">
+                        <label class="form-label">Usuario:</label>
+                        <input type="text" name="usuario" class="form-control" id="usuario" value="{{usuario}}">
+                    </div>
+                    <div class="mb-3 text-start">
+                        <label class="form-label">Senha:</label>
+                        <input type="text" name="senha" class="form-control" id="senha" value="***********">
+                    </div>
+                    <div class="mb-3 text-start">
+                        <button type="submit" class="btn btn-primary">Cadastrar</button>
+                    </div>
+                </form> {{/dataValues}} {{/each}}                
+            </p>
+        </div>
+        <div class="col-1">
+            &nbsp;
+        </div>
+    </div>
+</div>

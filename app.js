@@ -32,6 +32,13 @@ app.get("/", async (req,res) => {
     });
 })
 
+
+app.get("/dashboard", eAdmin, async (req,res) => {
+    res.render("dashboard", {        
+        title: "Dashboard"
+    });
+})
+
 app.post("/login", async (req, res) => {
     const usuarioLogin = req.body.usuarioLogin;
     const senhaLogin = req.body.senhaLogin;  
@@ -56,7 +63,7 @@ app.post("/login", async (req, res) => {
 
         tokenModule.setToken(token);
 
-        res.status(200).json({ message: "Autenticado com sucesso", token: token });
+        res.redirect("/dashboard");
 
     } catch (error) {
         console.error(error);
@@ -64,11 +71,11 @@ app.post("/login", async (req, res) => {
     }
   })
 
-app.post("/novo-usuario", async (req, res) => {
-    const senha = await bcrypt.hash(req.body.senhaCadastro, 8);
+app.post("/novo-usuario-login", eAdmin, async (req, res) => {
+    const senhaCriptLogin = await bcrypt.hash(req.body.senhaCadastro, 8);
     Usuario.create({
         usuario: req.body.usuarioCadastro,            
-        senha: senha,
+        senha: senhaCriptLogin,
         fk_colaborador: req.body.colaborador
     }).then(function(){
         res.redirect("/")
@@ -78,30 +85,131 @@ app.post("/novo-usuario", async (req, res) => {
     })
 })
 
-
 app.get("/novo-colaborador", eAdmin, async (req,res) => {
     res.render("novo-colaborador", {        
         title: "Cadastro de Colaborador"
     });
 })
 
-app.post("/novo-colaborador", async (req, res) => {
+app.post("/novo-colaborador", eAdmin, async (req, res) => {
     console.log(req.body.tipo)
     Colaborador.create({
         nome: req.body.nome,
         cpf: req.body.cpf,
         telefone: req.body.telefone,
         email: req.body.email,
-        redeSocial: req.body.redeSocial
+        redeSocial: req.body.redeSocial,
+        tipo: req.body.tipo
     }).then(function(){
-        res.redirect("/novo-colaborador")
+        res.redirect("/listar-colaboradores")
         console.log("Dados cadastrados com sucesso!")
     }).catch(function(erro){
         res.send("Erro ao cadastrar " + erro)
     })
 })
 
+app.get("/listar-colaboradores", eAdmin, async (req,res) => {
+    Colaborador.findAll().then((colaboradores) => {
+        res.render("listar-colaboradores", {colaboradores,
+            title: "Listar Colaboradores"
+        })
+    }).catch(function(erro){
+        console.log("Erro ao carregar os dados " + erro)
+    })
+})
 
+app.get("/excluir-colaborador/:id", eAdmin, function(req, res){
+    Colaborador.destroy({where: {'id_colaborador': req.params.id}}).then(function(){
+        res.redirect("/listar-colaboradores")
+    }).catch(function(erro){
+        console.log("Erro ao carregar os dados " + erro)
+    })
+})
+
+app.get("/editar-colaborador/:id", eAdmin, function(req, res){ 
+    Colaborador.findAll({where: {'id_colaborador': req.params.id}}).then(function(colaboradores){
+        res.render("editar-colaborador", {colaboradores})
+    }).catch(function(erro){
+        console.log("Erro ao carregar os dados " + erro)
+    })
+})
+
+app.post("/atualizar-colaborador", eAdmin, function(req, res){
+    Colaborador.update({
+        nome: req.body.nome,
+        cpf: req.body.cpf,
+        telefone: req.body.telefone,
+        email: req.body.email,
+        redeSocial: req.body.redeSocial,
+        tipo: req.body.tipo
+    }, {
+        where: {
+            id_colaborador: req.body.id_colaborador
+        }
+    }).then(function(){
+        res.redirect("/listar-colaboradores")
+    })
+})
+
+app.get("/novo-usuario", eAdmin, async (req,res) => {
+    res.render("novo-usuario", {        
+        title: "Cadastro de Usuario"
+    });
+})
+
+app.post("/novo-usuario", async (req, res) => {
+    const senhaCript = await bcrypt.hash(req.body.senha, 8);
+    Usuario.create({
+        usuario: req.body.usuario,            
+        senha: senhaCript,
+        fk_colaborador: req.body.fk_colaborador
+    }).then(function(){
+        res.redirect("/listar-usuarios")
+        console.log("Dados cadastrados com sucesso!")    
+    }).catch(function(erro){
+        res.send("Erro ao cadastrar " + erro)
+    })
+})
+
+app.get("/listar-usuarios", eAdmin, async (req,res) => {
+    Usuario.findAll().then((usuarios) => {
+        res.render("listar-usuarios", {usuarios,
+            title: "Listar Usuarios"
+        })
+    }).catch(function(erro){
+        console.log("Erro ao carregar os dados " + erro)
+    })
+})
+
+app.get("/excluir-usuario/:id", function(req, res){
+    Usuario.destroy({where: {'id_usuario': req.params.id}}).then(function(){
+        res.redirect("/listar-usuarios")
+    }).catch(function(erro){
+        console.log("Erro ao carregar os dados " + erro)
+    })
+})
+
+
+app.get("/editar-usuario/:id", eAdmin, function(req, res){ 
+    Usuario.findAll({where: {'id_usuario': req.params.id}}).then(function(usuarios){
+        res.render("editar-usuario", {usuarios})
+    }).catch(function(erro){
+        console.log("Erro ao carregar os dados " + erro)
+    })
+})
+
+app.post("/atualizar-usuario", eAdmin, function(req, res){
+    Usuario.update({
+        usuario: req.body.usuario,
+        senha: req.body.senha,
+    }, {
+        where: {
+            id_usuario: req.body.id_usuario
+        }
+    }).then(function(){
+        res.redirect("/listar-usuarios")
+    })
+})
 
 app.listen(8080, () => {
     console.log("Servidor iniciado na porta 8080: http://localhost:8080")
