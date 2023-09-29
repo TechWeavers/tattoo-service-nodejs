@@ -58,13 +58,21 @@ Isso instalará todas as dependências listadas no arquivo `package.json`, inclu
 
 ## Executando o Projeto
 
-Após a instalação das dependências, você pode executar o projeto com o seguinte comando:
+Após a instalação das dependências, você deve ligar o XAMPP ou outro servidor MySQL para que as tabelas possam ser geradas automaticamente.
+
+Você pode executar o projeto com o seguinte comando:
 
 ```bash
-npm start
+node app.js
 ```
 
-Este comando iniciará o servidor e você poderá acessar a aplicação no navegador em [http://localhost:3000](http://localhost:8080).
+Para criar Colaborador e Usuario padrão, entrar pelo terminal na pasta "models" e utilizar o seguinte comando:
+
+```bash
+node post.js
+```
+
+Este comando iniciará o servidor e criará um usuário padrão, você poderá acessar a aplicação no navegador em [http://localhost:8080](http://localhost:8080).
 
 ## Passo a Passo da Contrução do Projeto
 
@@ -136,14 +144,9 @@ Este comando iniciará o servidor e você poderá acessar a aplicação no naveg
 
    Agora você pode criar a estrutura de pastas e arquivos para o seu projeto, conforme descrito anteriormente.
 
-<<<<<<< HEAD
 
 10. **Altere as informações de conexão:**
 
-=======
-10. **Altere as informações de conexão:**
-
->>>>>>> 5fcfb0a7c5d7f5779997b82c55a9cc441a60cae6
    Depois de seguir esses passos, todas as dependências necessárias serão instaladas e adicionadas automaticamente ao arquivo `package.json` com suas versões correspondentes. Certifique-se de configurar corretamente o banco de dados usando o Sequelize e iniciar o desenvolvimento do aplicativo.
 
 ## Conclusão

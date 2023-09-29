@@ -24,6 +24,9 @@ const Colaborador = db.sequelize.define('Colaborador', {
   },
   redeSocial: {
     type: db.Sequelize.STRING,
+  },
+  tipo: {
+    type: db.Sequelize.ENUM("Tatuador", "Administrador"),
   }
 });
 
