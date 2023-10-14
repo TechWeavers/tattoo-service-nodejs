@@ -9,15 +9,17 @@ const { eAdmin } = require('./middlewares/auth')
 const Colaborador = require("./models/Colaborador");
 const Usuario = require("./models/Usuario");
 
-app.engine("handlebars", handlebars({defaultLayout: "main"}))
+// configurações handlebars
+app.engine("handlebars", handlebars({ defaultLayout: "main" }))
 app.set("view engine", "handlebars")
 app.use(express.static('public'));
 
-
-app.use(bodyParser.urlencoded({extended: "main"}))
+//configurações bodyParser
+app.use(bodyParser.urlencoded({ extended: "main" }))
 app.use(bodyParser.json())
 
-app.get("/", async (req,res) => {
+// Página que renderiza a tela de login (handlebars)
+app.get("/", async(req, res) => {
     res.render("login", {
         style: `<link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,31 +34,25 @@ app.get("/", async (req,res) => {
     });
 })
 
-
-app.get("/dashboard", eAdmin, async (req,res) => {
-    res.render("dashboard", {        
-        title: "Dashboard"
-    });
-})
-
-app.post("/login", async (req, res) => {
+//rota interna de validação do login
+app.post("/login", async(req, res) => {
     const usuarioLogin = req.body.usuarioLogin;
-    const senhaLogin = req.body.senhaLogin;  
+    const senhaLogin = req.body.senhaLogin;
 
     try {
         const usuarioEncontrado = await Usuario.findOne({
             where: { usuario: usuarioLogin },
         });
-  
+
         if (!usuarioEncontrado) {
             return res.status(404).json({ message: "Usuário não encontrado" });
         }
-    
+
         if (!(await bcrypt.compare(senhaLogin, usuarioEncontrado.senha))) {
             return res.status(401).json({ message: "Senha incorreta" });
         }
-    
-        let token = jwt.sign({id: usuarioEncontrado.id}, "J98JDASD908ML0G9ZV8ML1PI3I89S7D6F", {
+
+        let token = jwt.sign({ id: usuarioEncontrado.id }, "J98JDASD908ML0G9ZV8ML1PI3I89S7D6F", {
             //expiresIn: 600 //10MIN
             expiresIn: "7d"
         })
@@ -69,29 +65,39 @@ app.post("/login", async (req, res) => {
         console.error(error);
         res.status(500).json({ message: "Erro interno do servidor: " + usuarioLogin + " " + senhaLogin });
     }
-  })
+})
 
-app.post("/novo-usuario-login", eAdmin, async (req, res) => {
+// Tela principal do site, com todas as funcionalidades do sistema
+app.get("/dashboard", eAdmin, async(req, res) => {
+    res.render("dashboard", {
+        title: "Dashboard"
+    });
+})
+
+// criar um novo login para usuários do sistema
+app.post("/novo-usuario-login", eAdmin, async(req, res) => {
     const senhaCriptLogin = await bcrypt.hash(req.body.senhaCadastro, 8);
     Usuario.create({
-        usuario: req.body.usuarioCadastro,            
+        usuario: req.body.usuarioCadastro,
         senha: senhaCriptLogin,
         fk_colaborador: req.body.colaborador
-    }).then(function(){
+    }).then(function() {
         res.redirect("/")
-        console.log("Dados cadastrados com sucesso!")    
-    }).catch(function(erro){
+        console.log("Dados cadastrados com sucesso!")
+    }).catch(function(erro) {
         res.send("Erro ao cadastrar " + erro)
     })
 })
 
-app.get("/novo-colaborador", eAdmin, async (req,res) => {
-    res.render("novo-colaborador", {        
+// página que renderiza o formulário de cadastro de um novo colaborador
+app.get("/novo-colaborador", eAdmin, async(req, res) => {
+    res.render("novo-colaborador", {
         title: "Cadastro de Colaborador"
     });
 })
 
-app.post("/novo-colaborador", eAdmin, async (req, res) => {
+// rota interna recebe os dados do formulário de cadastro de colaboradores, e registra no banco
+app.post("/cadastrar-colaborador", eAdmin, async(req, res) => {
     console.log(req.body.tipo)
     Colaborador.create({
         nome: req.body.nome,
@@ -100,41 +106,46 @@ app.post("/novo-colaborador", eAdmin, async (req, res) => {
         email: req.body.email,
         redeSocial: req.body.redeSocial,
         tipo: req.body.tipo
-    }).then(function(){
+    }).then(function() {
         res.redirect("/listar-colaboradores")
         console.log("Dados cadastrados com sucesso!")
-    }).catch(function(erro){
+    }).catch(function(erro) {
         res.send("Erro ao cadastrar " + erro)
     })
 })
 
-app.get("/listar-colaboradores", eAdmin, async (req,res) => {
+//visualização de todos os colaboradores cadastrados
+app.get("/listar-colaboradores", eAdmin, async(req, res) => {
     Colaborador.findAll().then((colaboradores) => {
-        res.render("listar-colaboradores", {colaboradores,
+        res.render("listar-colaboradores", {
+            colaboradores,
             title: "Listar Colaboradores"
         })
-    }).catch(function(erro){
+    }).catch(function(erro) {
         console.log("Erro ao carregar os dados " + erro)
     })
 })
 
-app.get("/excluir-colaborador/:id", eAdmin, function(req, res){
-    Colaborador.destroy({where: {'id_colaborador': req.params.id}}).then(function(){
+// exclusão do colaborador selecionado, através de um botão de delete
+app.get("/excluir-colaborador/:id", eAdmin, function(req, res) {
+    Colaborador.destroy({ where: { 'id_colaborador': req.params.id } }).then(function() {
         res.redirect("/listar-colaboradores")
-    }).catch(function(erro){
+    }).catch(function(erro) {
         console.log("Erro ao carregar os dados " + erro)
     })
 })
 
-app.get("/editar-colaborador/:id", eAdmin, function(req, res){ 
-    Colaborador.findAll({where: {'id_colaborador': req.params.id}}).then(function(colaboradores){
-        res.render("editar-colaborador", {colaboradores})
-    }).catch(function(erro){
+//rota externa que renderiza um formulário de edição do colaborador, que foi selecionado pelo botão de editar, na página de visualização, trazendo os dados do colaborador selecionado
+app.get("/editar-colaborador/:id", eAdmin, function(req, res) {
+    Colaborador.findAll({ where: { 'id_colaborador': req.params.id } }).then(function(colaboradores) {
+        res.render("editar-colaborador", { colaboradores })
+    }).catch(function(erro) {
         console.log("Erro ao carregar os dados " + erro)
     })
 })
 
-app.post("/atualizar-colaborador", eAdmin, function(req, res){
+//rota interna que atualiza os dados do colaborador, vindo do formulário de atualização dos dados
+app.post("/atualizar-colaborador", eAdmin, function(req, res) {
     Colaborador.update({
         nome: req.body.nome,
         cpf: req.body.cpf,
@@ -146,59 +157,65 @@ app.post("/atualizar-colaborador", eAdmin, function(req, res){
         where: {
             id_colaborador: req.body.id_colaborador
         }
-    }).then(function(){
+    }).then(function() {
         res.redirect("/listar-colaboradores")
     })
 })
 
-app.get("/novo-usuario", eAdmin, async (req,res) => {
-    res.render("novo-usuario", {        
+//renderiza a formulário de cadastro de novos usuários
+app.get("/novo-usuario", eAdmin, async(req, res) => {
+    res.render("novo-usuario", {
         title: "Cadastro de Usuario"
     });
 })
 
-app.post("/novo-usuario", async (req, res) => {
+// rota interna para criar um novo login para usuários do sistema, recebendo os dados do formulário de cadastro de usuários
+app.post("/novo-usuario", async(req, res) => {
     const senhaCript = await bcrypt.hash(req.body.senha, 8);
     Usuario.create({
-        usuario: req.body.usuario,            
+        usuario: req.body.usuario,
         senha: senhaCript,
         fk_colaborador: req.body.fk_colaborador
-    }).then(function(){
+    }).then(function() {
         res.redirect("/listar-usuarios")
-        console.log("Dados cadastrados com sucesso!")    
-    }).catch(function(erro){
+        console.log("Dados cadastrados com sucesso!")
+    }).catch(function(erro) {
         res.send("Erro ao cadastrar " + erro)
     })
 })
 
-app.get("/listar-usuarios", eAdmin, async (req,res) => {
+//página de visualização de todos os usuários cadastrados no sistema
+app.get("/listar-usuarios", eAdmin, async(req, res) => {
     Usuario.findAll().then((usuarios) => {
-        res.render("listar-usuarios", {usuarios,
+        res.render("listar-usuarios", {
+            usuarios,
             title: "Listar Usuarios"
         })
-    }).catch(function(erro){
+    }).catch(function(erro) {
         console.log("Erro ao carregar os dados " + erro)
     })
 })
 
-app.get("/excluir-usuario/:id", function(req, res){
-    Usuario.destroy({where: {'id_usuario': req.params.id}}).then(function(){
+//exclusão do colaborador selecionado, através de um botão de delete, na página de edição dos usuários
+app.get("/excluir-usuario/:id", function(req, res) {
+    Usuario.destroy({ where: { 'id_usuario': req.params.id } }).then(function() {
         res.redirect("/listar-usuarios")
-    }).catch(function(erro){
+    }).catch(function(erro) {
         console.log("Erro ao carregar os dados " + erro)
     })
 })
 
-
-app.get("/editar-usuario/:id", eAdmin, function(req, res){ 
-    Usuario.findAll({where: {'id_usuario': req.params.id}}).then(function(usuarios){
-        res.render("editar-usuario", {usuarios})
-    }).catch(function(erro){
+//rota externa que renderiza um formulário de edição do colaborador, que foi selecionado pelo botão de editar, na página de visualização, trazendo os dados do colaborador selecionado
+app.get("/editar-usuario/:id", eAdmin, function(req, res) {
+    Usuario.findAll({ where: { 'id_usuario': req.params.id } }).then(function(usuarios) {
+        res.render("editar-usuario", { usuarios })
+    }).catch(function(erro) {
         console.log("Erro ao carregar os dados " + erro)
     })
 })
 
-app.post("/atualizar-usuario", eAdmin, function(req, res){
+//rota interna que atualiza os dados de cada usuário, recebendo os dados do formulário de edição de usuários
+app.post("/atualizar-usuario", eAdmin, function(req, res) {
     Usuario.update({
         usuario: req.body.usuario,
         senha: req.body.senha,
@@ -206,7 +223,7 @@ app.post("/atualizar-usuario", eAdmin, function(req, res){
         where: {
             id_usuario: req.body.id_usuario
         }
-    }).then(function(){
+    }).then(function() {
         res.redirect("/listar-usuarios")
     })
 })
