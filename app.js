@@ -175,7 +175,7 @@ app.get("/novo-usuario", eAdmin, async(req, res) => {
 // rota interna para criar um novo login para usuários do sistema, recebendo os dados do formulário de cadastro de usuários
 app.post("/novo-usuario", async(req, res) => {
     const senhaCript = await bcrypt.hash(req.body.senha, 8);
-    Controller.cadastrarUsuario(
+    Controller_Colaborador_Usuario.cadastrarUsuario(
         req.body.usuario,
         senhaCript,
         req.body.fk_colaborador);
