@@ -13,6 +13,14 @@ class Controller_Colaborador_Usuario {
             tipo: tipo
         })
     }
+
+    static cadastrarUsuario(usuario, senha, fk_colaborador) {
+        Usuario.create({
+            usuario: usuario,
+            senha: senha,
+            fk_colaborador: fk_colaborador
+        })
+    }
 }
 
 

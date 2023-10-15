@@ -175,16 +175,13 @@ app.get("/novo-usuario", eAdmin, async(req, res) => {
 // rota interna para criar um novo login para usuários do sistema, recebendo os dados do formulário de cadastro de usuários
 app.post("/novo-usuario", async(req, res) => {
     const senhaCript = await bcrypt.hash(req.body.senha, 8);
-    Usuario.create({
-        usuario: req.body.usuario,
-        senha: senhaCript,
-        fk_colaborador: req.body.fk_colaborador
-    }).then(function() {
-        res.redirect("/listar-usuarios")
-        console.log("Dados cadastrados com sucesso!")
-    }).catch(function(erro) {
-        res.send("Erro ao cadastrar " + erro)
-    })
+    Controller.cadastrarUsuario(
+        req.body.usuario,
+        senhaCript,
+        req.body.fk_colaborador);
+
+    res.redirect("/listar-usuarios")
+    console.log("Dados cadastrados com sucesso!")
 })
 
 //página de visualização de todos os usuários cadastrados no sistema
