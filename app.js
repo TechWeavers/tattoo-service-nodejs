@@ -18,6 +18,11 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: "main" }))
 app.use(bodyParser.json())
 
+//importando as classes de controle
+
+//classe de controle do colaborador
+const { Controller_Colaborador_Usuario } = require("./Controller_Colaborador_Usuario")
+
 // Página que renderiza a tela de login (handlebars)
 app.get("/", async(req, res) => {
     res.render("login", {
@@ -99,19 +104,17 @@ app.get("/novo-colaborador", eAdmin, async(req, res) => {
 // rota interna recebe os dados do formulário de cadastro de colaboradores, e registra no banco
 app.post("/cadastrar-colaborador", eAdmin, async(req, res) => {
     console.log(req.body.tipo)
-    Colaborador.create({
-        nome: req.body.nome,
-        cpf: req.body.cpf,
-        telefone: req.body.telefone,
-        email: req.body.email,
-        redeSocial: req.body.redeSocial,
-        tipo: req.body.tipo
-    }).then(function() {
-        res.redirect("/listar-colaboradores")
-        console.log("Dados cadastrados com sucesso!")
-    }).catch(function(erro) {
-        res.send("Erro ao cadastrar " + erro)
-    })
+    Controller_Colaborador_Usuario.cadastrarColaborador(
+        req.body.nome,
+        req.body.cpf,
+        req.body.telefone,
+        req.body.email,
+        req.body.redeSocial,
+        req.body.tipo
+    );
+    res.redirect("/listar-colaboradores");
+    console.log("dados cadastrados com sucesso");
+
 })
 
 //visualização de todos os colaboradores cadastrados
@@ -231,3 +234,17 @@ app.post("/atualizar-usuario", eAdmin, function(req, res) {
 app.listen(8080, () => {
     console.log("Servidor iniciado na porta 8080: http://localhost:8080")
 })
+
+//Colaborador.create({
+// nome: req.body.nome,
+//cpf: req.body.cpf,
+//telefone: req.body.telefone,
+//email: req.body.email,
+//redeSocial: req.body.redeSocial,
+//tipo: req.body.tipo
+//}).then(function() {
+//res.redirect("/listar-colaboradores")
+//console.log("Dados cadastrados com sucesso!")
+//}).catch(function(erro) {
+// res.send("Erro ao cadastrar " + erro)
+//})
