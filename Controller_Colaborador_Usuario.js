@@ -15,12 +15,22 @@ class Controller_Colaborador_Usuario {
         })
     }
 
+    static visualizarColaboradores() {
+        const view = Colaborador.findAll();
+        return view;
+    }
+
     static cadastrarUsuario(usuario, senha, fk_colaborador) {
         Usuario.create({
             usuario: usuario,
             senha: senha,
             fk_colaborador: fk_colaborador
         })
+    }
+
+    static visualizarUsuarios() {
+        const viewUsuarios = Usuario.findAll();
+        return viewUsuarios;
     }
 }
 

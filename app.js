@@ -119,7 +119,8 @@ app.post("/cadastrar-colaborador", eAdmin, async(req, res) => {
 
 //visualização de todos os colaboradores cadastrados
 app.get("/listar-colaboradores", eAdmin, async(req, res) => {
-    Colaborador.findAll().then((colaboradores) => {
+    //const viewDados = Controller_Colaborador_Usuario.visualizarColaboradores;
+    Controller_Colaborador_Usuario.visualizarColaboradores().then((colaboradores) => {
         res.render("listar-colaboradores", {
             colaboradores,
             title: "Listar Colaboradores"
@@ -186,7 +187,7 @@ app.post("/novo-usuario", async(req, res) => {
 
 //página de visualização de todos os usuários cadastrados no sistema
 app.get("/listar-usuarios", eAdmin, async(req, res) => {
-    Usuario.findAll().then((usuarios) => {
+    Controller_Colaborador_Usuario.visualizarUsuarios().then((usuarios) => {
         res.render("listar-usuarios", {
             usuarios,
             title: "Listar Usuarios"
