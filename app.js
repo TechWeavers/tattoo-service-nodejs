@@ -132,7 +132,7 @@ app.get("/listar-colaboradores", eAdmin, async(req, res) => {
 
 // exclusão do colaborador selecionado, através de um botão de delete
 app.get("/excluir-colaborador/:id", eAdmin, function(req, res) {
-    Colaborador.destroy({ where: { 'id_colaborador': req.params.id } }).then(function() {
+    Controller_Colaborador_Usuario.excluirColaborador(req.params.id).then(function() {
         res.redirect("/listar-colaboradores")
     }).catch(function(erro) {
         console.log("Erro ao carregar os dados " + erro)
@@ -199,7 +199,7 @@ app.get("/listar-usuarios", eAdmin, async(req, res) => {
 
 //exclusão do colaborador selecionado, através de um botão de delete, na página de edição dos usuários
 app.get("/excluir-usuario/:id", function(req, res) {
-    Usuario.destroy({ where: { 'id_usuario': req.params.id } }).then(function() {
+    Controller_Colaborador_Usuario.excluirUsuario(req.params.id).then(function() {
         res.redirect("/listar-usuarios")
     }).catch(function(erro) {
         console.log("Erro ao carregar os dados " + erro)
@@ -229,7 +229,7 @@ app.post("/atualizar-usuario", eAdmin, function(req, res) {
     })
 })
 
-app.listen(8080, () => {
+app.listen(8081, () => {
     console.log("Servidor iniciado na porta 8080: http://localhost:8080")
 })
 

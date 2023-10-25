@@ -20,6 +20,11 @@ class Controller_Colaborador_Usuario {
         return view;
     }
 
+    static excluirColaborador(id_colaborador) {
+        const deleta = Colaborador.destroy({ where: { 'id_colaborador': id_colaborador } })
+        return deleta;
+    }
+
     static cadastrarUsuario(usuario, senha, fk_colaborador) {
         Usuario.create({
             usuario: usuario,
@@ -31,6 +36,11 @@ class Controller_Colaborador_Usuario {
     static visualizarUsuarios() {
         const viewUsuarios = Usuario.findAll();
         return viewUsuarios;
+    }
+
+    static excluirUsuario(id_usuario) {
+        const deleta = Usuario.destroy({ where: { 'id_usuario': id_usuario } });
+        return deleta;
     }
 }
 
