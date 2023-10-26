@@ -25,6 +25,28 @@ class Controller_Colaborador_Usuario {
         return deleta;
     }
 
+    static procurarColaborador(id_colaborador) {
+        const procura = Colaborador.findAll({ where: { 'id_colaborador': id_colaborador } })
+        return procura;
+    }
+
+    static atualizarColaborador(idColaborador, nome, cpf, telefone, email, redeSocial, tipo) {
+        const atualiza = Colaborador.update({
+            nome: nome,
+            cpf: cpf,
+            telefone: telefone,
+            email: email,
+            redeSocial: redeSocial,
+            tipo: tipo
+        }, {
+            where: {
+                id_colaborador: idColaborador
+            }
+        })
+        return atualiza;
+    }
+
+
     static cadastrarUsuario(usuario, senha, fk_colaborador) {
         Usuario.create({
             usuario: usuario,

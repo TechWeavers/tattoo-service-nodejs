@@ -141,7 +141,7 @@ app.get("/excluir-colaborador/:id", eAdmin, function(req, res) {
 
 //rota externa que renderiza um formulário de edição do colaborador, que foi selecionado pelo botão de editar, na página de visualização, trazendo os dados do colaborador selecionado
 app.get("/editar-colaborador/:id", eAdmin, function(req, res) {
-    Colaborador.findAll({ where: { 'id_colaborador': req.params.id } }).then(function(colaboradores) {
+    Controller_Colaborador_Usuario.procurarColaborador(req.params.id).then(function(colaboradores) {
         res.render("editar-colaborador", { colaboradores })
     }).catch(function(erro) {
         console.log("Erro ao carregar os dados " + erro)
@@ -150,18 +150,14 @@ app.get("/editar-colaborador/:id", eAdmin, function(req, res) {
 
 //rota interna que atualiza os dados do colaborador, vindo do formulário de atualização dos dados
 app.post("/atualizar-colaborador", eAdmin, function(req, res) {
-    Colaborador.update({
-        nome: req.body.nome,
-        cpf: req.body.cpf,
-        telefone: req.body.telefone,
-        email: req.body.email,
-        redeSocial: req.body.redeSocial,
-        tipo: req.body.tipo
-    }, {
-        where: {
-            id_colaborador: req.body.id_colaborador
-        }
-    }).then(function() {
+    Controller_Colaborador_Usuario.atualizarColaborador(
+        req.body.id_colaborador,
+        req.body.nome,
+        req.body.cpf,
+        req.body.telefone,
+        req.body.email,
+        req.body.redeSocial,
+        req.body.tipo).then(function() {
         res.redirect("/listar-colaboradores")
     })
 })
