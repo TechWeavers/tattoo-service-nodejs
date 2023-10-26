@@ -204,7 +204,7 @@ app.get("/excluir-usuario/:id", function(req, res) {
 
 //rota externa que renderiza um formulário de edição do colaborador, que foi selecionado pelo botão de editar, na página de visualização, trazendo os dados do colaborador selecionado
 app.get("/editar-usuario/:id", eAdmin, function(req, res) {
-    Usuario.findAll({ where: { 'id_usuario': req.params.id } }).then(function(usuarios) {
+    Controller_Colaborador_Usuario.procurarUsuario(req.params.id).then(function(usuarios) {
         res.render("editar-usuario", { usuarios })
     }).catch(function(erro) {
         console.log("Erro ao carregar os dados " + erro)
@@ -213,14 +213,10 @@ app.get("/editar-usuario/:id", eAdmin, function(req, res) {
 
 //rota interna que atualiza os dados de cada usuário, recebendo os dados do formulário de edição de usuários
 app.post("/atualizar-usuario", eAdmin, function(req, res) {
-    Usuario.update({
-        usuario: req.body.usuario,
-        senha: req.body.senha,
-    }, {
-        where: {
-            id_usuario: req.body.id_usuario
-        }
-    }).then(function() {
+    Controller_Colaborador_Usuario.atualizarUsuario(
+        req.body.id_usuario,
+        req.body.usuario,
+        req.body.senha).then(function() {
         res.redirect("/listar-usuarios")
     })
 })

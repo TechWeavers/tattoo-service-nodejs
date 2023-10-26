@@ -64,6 +64,23 @@ class Controller_Colaborador_Usuario {
         const deleta = Usuario.destroy({ where: { 'id_usuario': id_usuario } });
         return deleta;
     }
+
+    static procurarUsuario(id_usuario) {
+        const procura = Usuario.findAll({ where: { 'id_usuario': id_usuario } })
+        return procura;
+    }
+
+    static atualizarUsuario(id_usuario, usuario, senha) {
+        const atualiza = Usuario.update({
+            usuario: usuario,
+            senha: senha,
+        }, {
+            where: {
+                id_usuario: id_usuario
+            }
+        })
+        return atualiza;
+    }
 }
 
 
