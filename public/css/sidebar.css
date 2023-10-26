@@ -1,0 +1,35 @@
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  display: flex;
+  background-color: #F49200;
+  width: 150px;
+  z-index: 200;
+}
+
+.sidebar-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.icon {
+  color: #fefefe;
+  height: 25px;
+  width: 25px;
+}
+
+.func-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 20px;
+}
+
+.sidebar-link {
+  grid-template-columns: 25px 1fr;
+  column-gap: 10px;
+  color: #fefefe;
+  text-decoration: none;
+  width: 100%;
+}
