@@ -1,0 +1,102 @@
+.bi{
+  font-size: 20px;
+}
+
+.icon-white {
+  color: #fefefe;
+}
+
+.sidebar {
+  min-height: calc(100vh - 60px);
+  font-weight: normal;
+  position: fixed;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #F49200;
+  width: 150px;
+}
+
+.option-container {
+  align-items: center;
+  margin: 20px 20px 50px 20px;
+}
+
+.option-flex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.dropdown-list {
+  list-style: none;
+}
+
+.logo-container {
+  display: block;
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.logo-img {
+  height: 100px;
+  width: 100px;
+}
+
+#caixa {
+  height: 25px;
+  width: 25px;
+}
+
+
+
+
+.nav-container{
+  display: grid;
+  justify-content: center;
+}
+
+.nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item{
+  transition:0.2s;
+  
+  padding: 10px 15px;
+}
+
+.nav-item-box-down {
+  box-shadow: 0 1px 0 #fefefe;
+}
+
+
+
+.nav-item:hover {
+  background-color: #ffb340;
+}
+
+.nav-icon {
+  width: 25px;
+  height: 25px;
+}
+
+.menu-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 10px;
+  color: #fefefe;
+}
+
+input:checked + .sidebar {
+  width: 64px;
+}
+
+input:checked ~ {
+  .sidebar{
+    width: 64px;
+  }
+
+  
+
+}
