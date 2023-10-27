@@ -44,3 +44,17 @@
     color: #ffb340;
     font-size: 15px;
 }
+
+
+@media only screen and (max-width: 850px) {
+    .street-name {
+        height: 40px;
+        width: 180px;
+        
+    }
+    .middle-section{
+    height: 40px;
+    margin:22.5px 0;
+    text-align: center;
+    }
+  }
