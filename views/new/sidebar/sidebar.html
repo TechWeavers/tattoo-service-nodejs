@@ -20,9 +20,10 @@
     <div class="option-container">
       <div class="option-flex">
         <div class="option-hamburguer">
-          <label for="caixa"><i  class="bi bi-list icon-white"></i></label>
+          <label for="caixa">
+            <i id="toggle-btn" class="bi bi-list icon-white"></i></label>
         </div>
-        <div class="option-gear">
+        <div  id="gear" class="option-gear">
           <li class="dropdown dropdown-list ">
             <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="bi bi-gear icon-white abc"></i>
@@ -46,8 +47,9 @@
       </div>
     </div>
 
-    <div class="logo-container">
-      <img class="logo-img" src="logo.svg">
+    <div class="logo-container" id="logo-animation">
+      <img id="logo-expended" class="logo-img" src="logo.svg">
+      <img id="logo-small" class="logo-img-small" src="logo-small.svg">
     </div>
 
     <nav class="nav-container">
@@ -79,6 +81,36 @@
       </ul>
     </nav>
   </nav>
-  drdrtdrdrt  
+  <script>
+    var isToggled = false;
+    var titles = document.getElementsByClassName("menu-title")
+
+    document.getElementById("toggle-btn").onclick = () => {
+      if (!isToggled) {
+        setTimeout(() => {
+          document.getElementById("logo-expended").style.display = "none"
+          document.getElementById("logo-small").style.display = "inline-block"
+          document.getElementById("gear").style.display = "none"
+          for(var i = 0; i<titles.length; i++) {
+            titles[i].style.display = "none"
+          }
+        }, 5)  
+        
+      } else {
+        // document.getElementById("logo-expended").style.display = "inherit"
+        setTimeout(() => {
+          document.getElementById("logo-expended").style.display = "inline-block"
+          document.getElementById("logo-small").style.display = "none"
+          document.getElementById("gear").style.display = "inline-block"
+          for(var i = 0; i<titles.length; i++) {
+            titles[i].style.display = "inline-block"
+          }
+        }, 300)
+
+
+      }
+      isToggled = !isToggled;
+    }
+  </script>
 </body>
 </html>
