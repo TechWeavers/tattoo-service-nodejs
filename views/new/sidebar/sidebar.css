@@ -6,6 +6,14 @@
   color: #fefefe;
 }
 
+.icon-drop{
+  font-size: 15px;
+}
+
+.senha {
+  font-size: 10px;
+}
+
 .sidebar {
   min-height: calc(100vh - 60px);
   font-weight: normal;
@@ -16,6 +24,7 @@
   background-color: #F49200;
   width: 150px;
   transition: 0.8s;
+  z-index: 200;
 }
 
 
@@ -44,6 +53,8 @@
   width: 100px;
   display:inline-block;
   text-align: center;
+  opacity: 1;
+  transition: opacity 10s ease;
 }
 
 .logo-img-small {
@@ -52,12 +63,14 @@
   width: 50px;
   display: none;
   text-align: center;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 #caixa {
   height: 25px;
   width: 25px;
+  display: none;
+  visibility: hidden;
 }
 
 
@@ -73,8 +86,7 @@
 }
 
 .nav-item{
-  transition:0.2s;
-  
+  transition:0.5s;
   padding: 10px 15px;
 }
 
@@ -98,13 +110,4 @@
   font-size: 12px;
   color: #fefefe;
   display: inline-block;
-}
-
-input:checked + .sidebar {
-  width: 64px;
-}
-
-input {
-  display: none;
-  visibility: hidden;
 }

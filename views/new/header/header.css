@@ -7,4 +7,40 @@
     top: 0px;
     left: 0px;
     right: 0px;
+    z-index: 100;
+}
+
+.left-section {
+    width: 240px;
+}
+
+.middle-section{
+    width: 306px;
+    margin:22.5px 0;
+}
+
+.rigth-section{
+    width: 240px;  
+}
+
+.profile-hud {
+    display: grid;
+    grid-template-columns: 35px 175px;
+    column-gap: 10px;
+    text-align: left;
+    margin: 20px 0;
+}
+
+.profile-nome{
+    display: block;
+    font-family: 'Inter', sans-serif;
+    color: #fefefe;
+    font-size: 15px;
+}
+
+.profile-cargo{
+    display: block;
+    font-family: 'Inter', sans-serif;
+    color: #ffb340;
+    font-size: 15px;
 }

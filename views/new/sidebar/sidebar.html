@@ -15,7 +15,7 @@
 </head>
 <body>
   <input type="checkbox" id="caixa" nome="caixa">
-  <nav class="sidebar sidebar-offcanvas">
+  <nav class="sidebar" id="sidebar-offcanvas">
     
     <div class="option-container">
       <div class="option-flex">
@@ -31,13 +31,13 @@
             <ul class="dropdown-menu ">
               <li>
                 <a class="dropdown-item" href="#">
-                  <i class="bi bi-asterisk"></i>
-                  <span>Alterar senha</span>
+                  <i class="bi bi-key"></i>
+                  <span >Alterar senha</span>
                 </a>
               </li>
               <li>
                 <a class="dropdown-item" href="#">
-                  <i class="bi bi-box-arrow-right"></i>
+                  <i class="bi bi-box-arrow-right icon-drop"></i>
                   <span>Sair</span>
                 </a>
               </li>
@@ -81,6 +81,7 @@
       </ul>
     </nav>
   </nav>
+
   <script>
     var isToggled = false;
     var titles = document.getElementsByClassName("menu-title")
@@ -95,6 +96,9 @@
             titles[i].style.display = "none"
           }
         }, 5)  
+        setTimeout(() => {
+          document.getElementById("sidebar-offcanvas").style.width = "64px"
+        }, 0)
         
       } else {
         // document.getElementById("logo-expended").style.display = "inherit"
@@ -102,15 +106,19 @@
           document.getElementById("logo-expended").style.display = "inline-block"
           document.getElementById("logo-small").style.display = "none"
           document.getElementById("gear").style.display = "inline-block"
+          
           for(var i = 0; i<titles.length; i++) {
             titles[i].style.display = "inline-block"
           }
         }, 300)
-
-
+        setTimeout(() => {
+          document.getElementById("sidebar-offcanvas").style.width = "150px"
+        }, 0)
       }
       isToggled = !isToggled;
     }
+
+
   </script>
 </body>
 </html>
