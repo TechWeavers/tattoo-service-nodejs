@@ -4,23 +4,189 @@
             &nbsp;
         </div>
         <div class="col bg-primary">
-            <nav class="navbar bg-primary navbar-expand-lg" data-bs-theme="dark">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">StreetWise Tattoo Management</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
+            <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+                <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+                    <a class="navbar-brand brand-logo" href="../../index.html"><img src="../../images/logo.svg" alt="logo"/></a>
+                    <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../images/logo-mini.svg" alt="logo"/></a>
+                </div>
+                <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+                    <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+                    <span class="icon-menu"></span>
                     </button>
-                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                        <div class="navbar-nav">
-                            <a class="nav-link active" aria-current="page" href="/novo-colaborador">Cadastrar Colaborador</a>
-                            <a class="nav-link" href="/listar-colaboradores">Listar Colaboradores</a>
-                            <a class="nav-link" href="/novo-usuario">Cadastrar Usuario</a>
-                            <a class="nav-link" href="/listar-usuarios">Listar Usuarios</a>
+                    <ul class="navbar-nav mr-lg-2">
+                    <li class="nav-item nav-search d-none d-lg-block">
+                        <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="search">
+                            <i class="icon-search"></i>
+                            </span>
                         </div>
-                    </div>
+                        <input type="text" class="form-control" placeholder="Search Projects.." aria-label="search" aria-describedby="search">
+                        </div>
+                    </li>
+                    </ul>
+                    <ul class="navbar-nav navbar-nav-right">
+                        <li class="nav-item dropdown d-lg-flex d-none">
+                            <button type="button" class="btn btn-info font-weight-bold">+ Create New</button>
+                        </li>
+                    <li class="nav-item dropdown d-flex">
+                        <a class="nav-link count-indicator dropdown-toggle d-flex justify-content-center align-items-center" id="messageDropdown" href="#" data-toggle="dropdown">
+                        <i class="icon-air-play mx-0"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="messageDropdown">
+                        <p class="mb-0 font-weight-normal float-left dropdown-header">Messages</p>
+                        <a class="dropdown-item preview-item">
+                            <div class="preview-thumbnail">
+                                <img src="../../images/faces/face4.jpg" alt="image" class="profile-pic">
+                            </div>
+                            <div class="preview-item-content flex-grow">
+                            <h6 class="preview-subject ellipsis font-weight-normal">David Grey
+                            </h6>
+                            <p class="font-weight-light small-text text-muted mb-0">
+                                The meeting is cancelled
+                            </p>
+                            </div>
+                        </a>
+                        <a class="dropdown-item preview-item">
+                            <div class="preview-thumbnail">
+                                <img src="../../images/faces/face2.jpg" alt="image" class="profile-pic">
+                            </div>
+                            <div class="preview-item-content flex-grow">
+                            <h6 class="preview-subject ellipsis font-weight-normal">Tim Cook
+                            </h6>
+                            <p class="font-weight-light small-text text-muted mb-0">
+                                New product launch
+                            </p>
+                            </div>
+                        </a>
+                        <a class="dropdown-item preview-item">
+                            <div class="preview-thumbnail">
+                                <img src="../../images/faces/face3.jpg" alt="image" class="profile-pic">
+                            </div>
+                            <div class="preview-item-content flex-grow">
+                            <h6 class="preview-subject ellipsis font-weight-normal"> Johnson
+                            </h6>
+                            <p class="font-weight-light small-text text-muted mb-0">
+                                Upcoming board meeting
+                            </p>
+                            </div>
+                        </a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown d-flex mr-4 ">
+                        <a class="nav-link count-indicator dropdown-toggle d-flex align-items-center justify-content-center" id="notificationDropdown" href="#" data-toggle="dropdown">
+                        <i class="icon-cog"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown">
+                        <p class="mb-0 font-weight-normal float-left dropdown-header">Settings</p>
+                        <a class="dropdown-item preview-item">               
+                            <i class="icon-head"></i> Profile
+                        </a>
+                        <a class="dropdown-item preview-item">
+                            <i class="icon-inbox"></i> Logout
+                        </a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown mr-4 d-lg-flex d-none">
+                        <a class="nav-link count-indicatord-flex align-item s-center justify-content-center" href="#">
+                        <i class="icon-grid"></i>
+                        </a>
+                    </li>
+                    </ul>
+                    <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+                    <span class="icon-menu"></span>
+                    </button>
                 </div>
             </nav>
         </div>
+        <div class="container-fluid page-body-wrapper">
+      <!-- partial:../../partials/_sidebar.html -->
+            <nav class="sidebar sidebar-offcanvas" id="sidebar">
+                <div class="user-profile">
+                <div class="user-image">
+                    <img src="../../images/faces/face28.png">
+                </div>
+                <div class="user-name">
+                    Edward Spencer
+                </div>
+                <div class="user-designation">
+                    Developer
+                </div>
+                </div>
+                <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="../../index.html">
+                    <i class="icon-box menu-icon"></i>
+                    <span class="menu-title">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
+                    <i class="icon-disc menu-icon"></i>
+                    <span class="menu-title">UI Elements</span>
+                    <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="ui-basic">
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item"> <a class="nav-link" href="../../pages/ui-features/buttons.html">Buttons</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="../../pages/ui-features/typography.html">Typography</a></li>
+                    </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../../pages/forms/basic_elements.html">
+                    <i class="icon-file menu-icon"></i>
+                    <span class="menu-title">Form elements</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../../pages/charts/chartjs.html">
+                    <i class="icon-pie-graph menu-icon"></i>
+                    <span class="menu-title">Charts</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../../pages/tables/basic-table.html">
+                    <i class="icon-command menu-icon"></i>
+                    <span class="menu-title">Tables</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../../pages/icons/feather-icons.html">
+                    <i class="icon-help menu-icon"></i>
+                    <span class="menu-title">Icons</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+                    <i class="icon-head menu-icon"></i>
+                    <span class="menu-title">User Pages</span>
+                    <i class="menu-arrow"></i>
+                    </a>
+                    <div class="collapse" id="auth">
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item"> <a class="nav-link" href="../../pages/samples/login.html"> Login </a></li>
+                        <li class="nav-item"> <a class="nav-link" href="../../pages/samples/login-2.html"> Login 2 </a></li>
+                        <li class="nav-item"> <a class="nav-link" href="../../pages/samples/register.html"> Register </a></li>
+                        <li class="nav-item"> <a class="nav-link" href="../../pages/samples/register-2.html"> Register 2 </a></li>
+                        <li class="nav-item"> <a class="nav-link" href="../../pages/samples/lock-screen.html"> Lockscreen </a></li>
+                    </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="../../docs/documentation.html">
+                    <i class="icon-book menu-icon"></i>
+                    <span class="menu-title">Documentation</span>
+                    </a>
+                </li>
+                </ul>
+            </nav>
+        </div>
+      <!-- partial -->
+    </div>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        </div>
         <div class="col-1">
             &nbsp;
         </div>
@@ -40,48 +206,55 @@
         <div class="col-1">
             &nbsp;
         </div>
-        <div class="col bg-white">
-            <p class="text-start fs-5">Cadastro de Novos Colaboradores</p>
-        
-            <form action="/novo-colaborador" method="POST">
-                <div class="mb-3 text-start">
-                    <label class="form-label">Nome:</label>
-                    <input type="name" name="nome" class="form-control" id="nome">
+        <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="row">
+            <div class="col-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <h1 class="card-title">Cadastro de Clientes</h1>
+                  <p class="card-description">
+                   Informações do cliente
+                  </p>
+                  <form class="forms-sample" action="/novo-colaborador" method="POST"></form>
+                    <div class="form-group">
+                      <label for="exampleInputUsername1">Username</label>
+                      <input type="text" class="form-control" id="exampleInputUsername1" placeholder="Username">
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputEmail1">Email address</label>
+                      <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputPassword1">Password</label>
+                      <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                      <label for="exampleInputConfirmPassword1">Confirm Password</label>
+                      <input type="password" class="form-control" id="exampleInputConfirmPassword1" placeholder="Password">
+                    </div>
+                    <div class="form-check form-check-flat form-check-primary">
+                      <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input">
+                        Remember me
+                      </label>
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2">Submit</button>
+                    <button class="btn btn-light">Cancel</button>
+                    <button type="button" class="btn btn-warning mr-lg-2" href="/consulta-C">Lista de Clientes</button> 
+                  </form>
+                  
                 </div>
-                <div class="mb-3 text-start">
-                    <label class="form-label">CPF:</label>
-                    <input type="text" name="cpf" class="form-control" id="cpf">
-                </div>
-                <div class="mb-3 text-start">
-                    <label class="form-label">Telefone:</label>
-                    <input type="text" name="telefone" class="form-control" id="telefone">
-                </div>
-                <div class="mb-3 text-start">
-                    <label class="form-label">Origem:</label>
-                    <select name="origem" class="form-select" aria-label="Default select example">
-                        <option value="celular" selected>Celular</option>
-                        <option value="whatsapp">Whatsapp</option>
-                        <option value="telefone_fixo">Telefone Fixo</option>
-                    </select>
-                </div>
-                <div class="mb-3 text-start">
-                    <label class="form-label">Email:</label>
-                    <input type="email" name="email" class="form-control" id="email">
-                </div>
-                <div class="mb-3 text-start">
-                    <label class="form-label">Rede Social:</label>
-                    <input type="text" name="redeSocial" class="form-control" id="redeSocial">
-                </div>
-                <div class="mb-3 text-start">
-                    <label class="form-label">Tipo: </label>
-                    <input type="text" name="tipo" class="form-control" id="tipo">
-                </div>
-                <div class="mb-3 text-start">
-                    <button type="submit" class="btn btn-primary">Cadastrar</button>
-                </div>
-            </form>
-        
-        </div>
+                
+              </div>
+              
+            </div>
+            
+        <!-- content-wrapper ends -->
+        <!-- partial:../../partials/_footer.html -->
+
+        <!-- partial -->
+      </div>
         <div class="col-1">
             &nbsp;
         </div>

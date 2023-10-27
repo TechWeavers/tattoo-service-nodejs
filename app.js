@@ -34,7 +34,29 @@ app.get("/", async (req,res) => {
 
 
 app.get("/dashboard", eAdmin, async (req,res) => {
-    res.render("dashboard", {        
+    res.render("dashboard", {
+        style:`  
+        
+        <link rel="stylesheet" href="vendors/mdi/css/materialdesignicons.min.css">
+        <link rel="stylesheet" href="vendors/feather/feather.css">
+        <link rel="stylesheet" href="vendors/base/vendor.bundle.base.css">
+        <link rel="stylesheet" href="vendors/flag-icon-css/css/flag-icon.min.css"/>
+        <link rel="stylesheet" href="vendors/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="vendors/jquery-bar-rating/fontawesome-stars-o.css">
+        <link rel="stylesheet" href="vendors/jquery-bar-rating/fontawesome-stars.css">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="shortcut icon" href="images/favicon.png" />
+
+       
+        <script src="vendors/base/vendor.bundle.base.js" defer></script>
+        <script src="js/off-canvas.js" defer></script>
+        <script src="js/hoverable-collapse.js" defer></script>
+        <script src="js/template.js" defer></script>
+        <script src="vendors/chart.js/Chart.min.js" defer></script>
+        <script src="vendors/jquery-bar-rating/jquery.barrating.min.js" defer></script>
+        <script src="js/dashboard.js" defer></script>
+        
+        `,      
         title: "Dashboard"
     });
 })
@@ -86,7 +108,19 @@ app.post("/novo-usuario-login", eAdmin, async (req, res) => {
 })
 
 app.get("/novo-colaborador", eAdmin, async (req,res) => {
-    res.render("novo-colaborador", {        
+    res.render("novo-colaborador", {
+        style:` 
+        
+        <link rel="stylesheet" href="../../vendors/mdi/css/materialdesignicons.min.css">
+        <link rel="stylesheet" href="../../vendors/feather/feather.css">
+        <link rel="stylesheet" href="../../vendors/base/vendor.bundle.base.css">
+        <link rel="stylesheet" href="../../css/style.css">
+        <link rel="shortcut icon" href="../../images/favicon.png" />
+          
+        <script src="../../vendors/base/vendor.bundle.base.js" defer></script>
+        <script src="../../js/off-canvas.js" defer></script>
+        <script src="../../js/hoverable-collapse.js" defer></script>
+        <script src="../../js/template.js" defer></script>`,        
         title: "Cadastro de Colaborador"
     });
 })
@@ -199,6 +233,78 @@ app.get("/editar-usuario/:id", eAdmin, function(req, res){
 })
 
 app.post("/atualizar-usuario", eAdmin, function(req, res){
+    Usuario.update({
+        usuario: req.body.usuario,
+        senha: req.body.senha,
+    }, {
+        where: {
+            id_usuario: req.body.id_usuario
+        }
+    }).then(function(){
+        res.redirect("/listar-usuarios")
+    })
+})
+app.get("/novo-Cliente", eAdmin, async (req,res) => {
+    res.render("novo-Cliente", {
+        style:` 
+        
+        <link rel="stylesheet" href="../../vendors/mdi/css/materialdesignicons.min.css">
+        <link rel="stylesheet" href="../../vendors/feather/feather.css">
+        <link rel="stylesheet" href="../../vendors/base/vendor.bundle.base.css">
+        <link rel="stylesheet" href="../../css/style.css">   
+        <link rel="shortcut icon" href="../../images/favicon.png" />
+          
+        <script src="../../vendors/base/vendor.bundle.base.js"></script>
+        <script src="../../js/off-canvas.js"></script>
+        <script src="../../js/hoverable-collapse.js"></script>
+        <script src="../../js/template.js"></script>`,        
+        title: "Cadastro de Cliente"
+    });
+})
+app.post("/novo-Cliente", eAdmin, async (req, res) => {
+    console.log(req.body.tipo)
+    Colaborador.create({
+        nome: req.body.nome,
+        cpf: req.body.cpf,
+        telefone: req.body.telefone,
+        email: req.body.email,
+        redeSocial: req.body.redeSocial,
+        tipo: req.body.tipo
+    }).then(function(){
+        res.redirect("/listar-Clientes")
+        console.log("Dados cadastrados com sucesso!")
+    }).catch(function(erro){
+        res.send("Erro ao cadastrar " + erro)
+    })
+})
+app.get("/listar-Cliente", eAdmin, async (req,res) => {
+    Usuario.findAll().then((usuarios) => {
+        res.render("listar-Cliente", {clientes,
+            title: "Listar Cliente"
+        })
+    }).catch(function(erro){
+        console.log("Erro ao carregar os dados " + erro)
+    })
+})
+
+app.get("/excluir-cliente/:id", function(req, res){
+    Usuario.destroy({where: {'id_usuario': req.params.id}}).then(function(){
+        res.redirect("/listar-usuarios")
+    }).catch(function(erro){
+        console.log("Erro ao carregar os dados " + erro)
+    })
+})
+
+
+app.get("/editar-Cliente/:id", eAdmin, function(req, res){ 
+    Usuario.findAll({where: {'id_usuario': req.params.id}}).then(function(usuarios){
+        res.render("editar-usuario", {usuarios})
+    }).catch(function(erro){
+        console.log("Erro ao carregar os dados " + erro)
+    })
+})
+
+app.post("/atualizar-Cliente", eAdmin, function(req, res){
     Usuario.update({
         usuario: req.body.usuario,
         senha: req.body.senha,
