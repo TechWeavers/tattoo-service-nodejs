@@ -102,7 +102,10 @@ app.post("/novo-usuario-login", eAdmin, async(req, res) => {
 app.get("/novo-colaborador", eAdmin, async(req, res) => {
     res.render("novo-colaborador", {
         title: "Cadastro de Colaborador",
-        style: `<link rel="stylesheet" href="../../css/style.css">
+        style: `<link rel="stylesheet" href="/css/estilos3.css">
+        <link rel="stylesheet" href="/css/sidebar.css">
+        <link rel="stylesheet" href="/css/header.css">
+        <link rel="stylesheet" href="../../css/style.css">
         <link rel="stylesheet" href="https://unpkg.com/mdi@latest/css/materialdesignicons.min.css">
         <link rel="stylesheet" href="https://unpkg.com/feather-icons@latest/dist/feather.css">
         <link rel="stylesheet" href="https://unpkg.com/vendors-base@latest/vendor.bundle.base.css">
