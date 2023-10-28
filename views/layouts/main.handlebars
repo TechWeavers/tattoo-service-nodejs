@@ -21,131 +21,134 @@
 <body>
     
 <header class="header">
-  <div class="left-section">
-  </div>
-  <div class="middle-section">
-    <img class="street-name" src="/img/streetwise-name.svg">
-  </div>
-  <div class="right-section">
-    <div class="profile-hud">
-      <img class="profile-img" src="/img/profile.svg">
-      <div class="profile-text">
-          <div class="profile-nome">Placeholder</div>
-          <div class="profile-cargo">Administrador</div>
+        <div class="left-section">
+        </div>
+        <div class="middle-section">
+            <img class="street-name" src="/img/streetwise-name.svg">
+        </div>
+        <div class="right-section">
+            <div class="profile-hud">
+                <img class="profile-img" src="/img/profile.svg">
+                <div class="profile-text">
+                    <div class="profile-nome">Placeholder</div>
+                    <div class="profile-cargo">Administrador</div>
+                </div>
+
+            </div>
+            
+        </div>
+    </header>
+
+  <input type="checkbox" id="caixa" nome="caixa">
+  <nav class="sidebar" id="sidebar-offcanvas">
+    
+    <div class="option-container">
+      <div class="option-flex">
+        <div class="option-hamburguer">
+          <label for="caixa">
+            <i id="toggle-btn" class="bi bi-list icon-white"></i></label>
+        </div>
+        <div  id="gear" class="option-gear">
+          <li class="dropdown dropdown-list ">
+            <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-gear icon-white abc"></i>
+            </a>
+            <ul class="dropdown-menu ">
+              <li>
+                <a class="dropdown-item" href="#">
+                  <i class="bi bi-key"></i>
+                  <span >Alterar senha</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#">
+                  <i class="bi bi-box-arrow-right icon-drop"></i>
+                  <span>Sair</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+        </div>
       </div>
     </div>
-  </div>
-</header>
 
+    <div class="logo-container" id="logo-animation">
+      <img id="logo-expended" class="logo-img" src="/img/logo.svg">
+      <img id="logo-small" class="logo-img-small" src="/img/logo-small.svg">
+    </div>
 
-<input type="checkbox" id="caixa" nome="caixa">
-<nav class="sidebar" id="sidebar-offcanvas">
-  <div class="option-container">
-    <div class="option-flex">
-      <div class="option-hamburguer">
-        <label for="caixa">
-          <i id="toggle-btn" class="bi bi-list icon-white"></i></label>
-      </div>
-      <div  id="gear" class="option-gear">
-        <li class="dropdown dropdown-list ">
-          <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-gear icon-white abc"></i>
+    <nav class="nav-container">
+      <ul class="nav-list">
+        <li class="nav-item nav-item-box-down">
+          <a class="nav-link" href="index.html">
+            <i class="bi bi-graph-up-arrow icon-white"></i>
+            <span class="menu-title">Dashboard</span>
           </a>
-          <ul class="dropdown-menu ">
-            <li>
-              <a class="dropdown-item" href="#">
-                <i class="bi bi-key"></i>
-                <span >Alterar senha</span>
-              </a>
-            </li>
-            <li>
-              <a class="dropdown-item" href="#">
-                <i class="bi bi-box-arrow-right icon-drop"></i>
-                <span>Sair</span>
-              </a>
-            </li>
-          </ul>
         </li>
-      </div>
-    </div>
-  </div>
-
-  <div class="logo-container" id="logo-animation">
-    <img id="logo-expended" class="logo-img" src="logo.svg">
-    <img id="logo-small" class="logo-img-small" src="logo-small.svg">
-  </div>
-
-  <nav class="nav-container">
-    <ul class="nav-list">
-      <li class="nav-item nav-item-box-down">
-        <a class="nav-link" href="index.html">
-          <i class="bi bi-graph-up-arrow icon-white"></i>
-          <span class="menu-title">Dashboard</span>
-        </a>
-      </li>
-      <li class="nav-item nav-item-box-down">
-        <a class="nav-link" href="index.html">
-          <img class="bi icon-white" src="Vector.svg">
-          <span class="menu-title">Agenda</span>
-        </a>
-      </li>
-      <li class="nav-item nav-item-box-down">
-        <a class="nav-link" href="index.html">
-          <i class="bi bi-box-seam icon-white nav-icon"></i>
-          <span class="menu-title">Estoque</span>
-        </a>
-      </li>
-      <li class="nav-item nav-item-box-down">
-        <a class="nav-link" href="novo-colaborador">
-          <i class="bi bi-clipboard icon-white "></i>
-          <span class="menu-title">Cadastrar</span>
-        </a>
-      </li>
-      <li class="nav-item ">
-        <a class="nav-link" href="listar-colaboradores">
-          <i class="bi bi-eye-fill abc icon-white"></i>
-          <span class="menu-title">Visualizar</span>
-        </a>
-      </li>
-    </ul>
+        <li class="nav-item nav-item-box-down">
+          <a class="nav-link" href="index.html">
+            <img class="bi icon-white" src="/img/Vector.svg">
+            <span class="menu-title">Agenda</span>
+          </a>
+        </li>
+        <li class="nav-item nav-item-box-down">
+          <a class="nav-link" href="index.html">
+            <i class="bi bi-box-seam icon-white nav-icon"></i>
+            <span class="menu-title">Estoque</span>
+          </a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" href="novo-colaborador">
+            <i class="bi bi-clipboard icon-white abc"></i>
+            <span class="menu-title">Cadastrar</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
   </nav>
-</nav>
 
-<script>
-  var isToggled = false;
-  var titles = document.getElementsByClassName("menu-title")
+  {{{body}}}
+  {{{script}}}
+    
+  <script>
+    var isToggled = false;
+    var titles = document.getElementsByClassName("menu-title")
 
-  document.getElementById("toggle-btn").onclick = () => {
-    if (!isToggled) {
-      setTimeout(() => {
-        document.getElementById("logo-expended").style.display = "none"
-        document.getElementById("logo-small").style.display = "inline-block"
-        document.getElementById("gear").style.display = "none"
-        for(var i = 0; i<titles.length; i++) {
-          titles[i].style.display = "none"
-        }
-      }, 5)  
-      setTimeout(() => {
-        document.getElementById("sidebar-offcanvas").style.width = "64px"
-      }, 0)
-      
-    } else {
-      // document.getElementById("logo-expended").style.display = "inherit"
-      setTimeout(() => {
-        document.getElementById("logo-expended").style.display = "inline-block"
-        document.getElementById("logo-small").style.display = "none"
-        document.getElementById("gear").style.display = "inline-block"
+    document.getElementById("toggle-btn").onclick = () => {
+      if (!isToggled) {
+        setTimeout(() => {
+          document.getElementById("logo-expended").style.display = "none"
+          document.getElementById("logo-small").style.display = "inline-block"
+          document.getElementById("gear").style.display = "none"
+                    document.getElementById("gear").style.display = "none"
+
+          for(var i = 0; i<titles.length; i++) {
+            titles[i].style.display = "none"
+          }
+        }, 5)  
+        setTimeout(() => {
+          document.getElementById("sidebar-offcanvas").style.width = "64px"
+        }, 0)
         
-        for(var i = 0; i<titles.length; i++) {
-          titles[i].style.display = "inline-block"
-        }
-      }, 300)
-      setTimeout(() => {
-        document.getElementById("sidebar-offcanvas").style.width = "150px"
-      }, 0)
+      } else {
+        // document.getElementById("logo-expended").style.display = "inherit"
+        setTimeout(() => {
+          document.getElementById("logo-expended").style.display = "inline-block"
+          document.getElementById("logo-small").style.display = "none"
+          document.getElementById("gear").style.display = "inline-block"
+          
+          for(var i = 0; i<titles.length; i++) {
+            titles[i].style.display = "inline-block"
+          }
+        }, 300)
+        setTimeout(() => {
+          document.getElementById("sidebar-offcanvas").style.width = "150px"
+        }, 0)
+      }
+      isToggled = !isToggled;
     }
-    isToggled = !isToggled;
-  }
 
 
-</script>
+  </script>
+</body>
+</html>
