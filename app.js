@@ -164,7 +164,10 @@ app.get("/excluir-colaborador/:id", eAdmin, function(req, res) {
 //rota externa que renderiza um formulário de edição do colaborador, que foi selecionado pelo botão de editar, na página de visualização, trazendo os dados do colaborador selecionado
 app.get("/editar-colaborador/:id", eAdmin, function(req, res) {
     Controller_Colaborador_Usuario.procurarColaborador(req.params.id).then(function(colaboradores) {
-        res.render("editar-colaborador", { colaboradores })
+        res.render("editar-colaborador", {
+            colaboradores,
+            style: '<link rel="stylesheet" href="/css/estilos3.css">'
+        })
     }).catch(function(erro) {
         console.log("Erro ao carregar os dados " + erro)
     })
