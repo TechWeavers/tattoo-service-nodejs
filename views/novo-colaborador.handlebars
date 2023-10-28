@@ -58,7 +58,7 @@
     <nav class="nav-container">
       <ul class="nav-list">
         <li class="nav-item nav-item-box-down">
-          <a class="nav-link" href="dashboard">
+          <a class="nav-link" href="index.html">
             <i class="bi bi-graph-up-arrow icon-white"></i>
             <span class="menu-title">Dashboard</span>
           </a>
@@ -135,45 +135,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
-
-  <script>
-    var isToggled = false;
-    var titles = document.getElementsByClassName("menu-title")
-
-    document.getElementById("toggle-btn").onclick = () => {
-      if (!isToggled) {
-        setTimeout(() => {
-          document.getElementById("logo-expended").style.display = "none"
-          document.getElementById("logo-small").style.display = "inline-block"
-          document.getElementById("gear").style.display = "none"
-          for(var i = 0; i<titles.length; i++) {
-            titles[i].style.display = "none"
-          }
-        }, 5)  
-        setTimeout(() => {
-          document.getElementById("sidebar-offcanvas").style.width = "64px"
-        }, 0)
-        
-      } else {
-        // document.getElementById("logo-expended").style.display = "inherit"
-        setTimeout(() => {
-          document.getElementById("logo-expended").style.display = "inline-block"
-          document.getElementById("logo-small").style.display = "none"
-          document.getElementById("gear").style.display = "inline-block"
-          
-          for(var i = 0; i<titles.length; i++) {
-            titles[i].style.display = "inline-block"
-          }
-        }, 300)
-        setTimeout(() => {
-          document.getElementById("sidebar-offcanvas").style.width = "150px"
-        }, 0)
-      }
-      isToggled = !isToggled;
-    }
-
-
-  </script>
+</div>
