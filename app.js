@@ -100,6 +100,7 @@ app.post("/novo-usuario-login", eAdmin, async(req, res) => {
 app.get("/novo-colaborador", eAdmin, async(req, res) => {
     res.render("novo-colaborador", {
         title: "Cadastro de Colaborador"
+        style: '<link rel="stylesheet" href="/css/estilo3.css"> '
     });
 })
 
