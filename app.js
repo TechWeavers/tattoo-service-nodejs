@@ -33,6 +33,7 @@ app.get("/", async(req, res) => {
         <link rel="stylesheet" href="/css/login-container.css">
         <link rel="stylesheet" href="/css/overlay.css">
         <link rel="stylesheet" href="/css/reset.css">
+        <link rel="stylesheet" href="/css/sidebar.css">
         <script src="/js/login.js" defer></script>
         <script src="https://kit.fontawesome.com/76d409ea62.js" crossorigin="anonymous"></script>`,
         title: "Tela de Login"
@@ -75,7 +76,8 @@ app.post("/login", async(req, res) => {
 // Tela principal do site, com todas as funcionalidades do sistema
 app.get("/dashboard", eAdmin, async(req, res) => {
     res.render("dashboard", {
-        title: "Dashboard"
+        title: "Dashboard",
+        style: '<link rel="stylesheet" href="/css/sidebar.css">'
     });
 })
 
