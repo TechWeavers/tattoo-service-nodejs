@@ -1,4 +1,4 @@
-<div class="container text-center">
+<!--<div class="container text-center">
     <div class="row">
         <div class="col-1">
             &nbsp;
@@ -66,6 +66,45 @@
         </div>
         <div class="col-1">
             &nbsp;
+        </div>
+    </div>
+</div>-->
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Lista de Usuários</h4>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>ID Colaborador</th>
+                                        <th>Usuário</th>
+                                        <th>Senha</th>
+                                    </tr>
+                                </thead>
+                                {{#each usuarios}} {{#dataValues}} 
+                                <tbody>
+                                    <tr>
+                                        <td class="py-1">{{fk_colaborador}}</td>
+                                        <td>{{usuario}}</td>
+                                        <td>*********</td>
+                                        <td>
+                                            <button class="btn btn-primary"><a href="/editar-usuario/{{id_usuario}}" style="color:inherit">Edit</a></button>
+                                            <button type="button" class="btn btn-danger" id="confirmDelete"><a href="/excluir-usuario/{{id_usuario}}" style="color:inherit">Delete</a></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                {{/dataValues}} 
+                                {{/each}}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
