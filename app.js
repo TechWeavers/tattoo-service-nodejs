@@ -196,7 +196,8 @@ app.post("/atualizar-colaborador", eAdmin, function(req, res) {
 //renderiza a formulário de cadastro de novos usuários
 app.get("/novo-usuario", eAdmin, async(req, res) => {
     res.render("novo-usuario", {
-        title: "Cadastro de Usuario"
+        title: "Cadastro de Usuario",
+        style: `<link rel="stylesheet" href="/css/style.css">`,
     });
 })
 
