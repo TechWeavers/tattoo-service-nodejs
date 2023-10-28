@@ -99,7 +99,7 @@ app.post("/novo-usuario-login", eAdmin, async(req, res) => {
 // página que renderiza o formulário de cadastro de um novo colaborador
 app.get("/novo-colaborador", eAdmin, async(req, res) => {
     res.render("novo-colaborador", {
-        title: "Cadastro de Colaborador"
+        title: "Cadastro de Colaborador",
         style: '<link rel="stylesheet" href="/css/estilo3.css"> '
     });
 })
