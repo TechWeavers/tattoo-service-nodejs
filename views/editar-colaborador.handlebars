@@ -1,149 +1,142 @@
-<!--<div class="container text-center">
-    <div class="row">
-        <div class="col-1">
-            &nbsp;
+
+<header class="header">
+        <div class="left-section">
         </div>
-        <div class="col bg-primary">
-            <nav class="navbar bg-primary navbar-expand-lg" data-bs-theme="dark">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">StreetWise Tattoo Management</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                        <div class="navbar-nav">
-                            <a class="nav-link" aria-current="page" href="/novo-colaborador">Cadastrar Colaborador</a>
-                            <a class="nav-link" href="/listar-colaboradores">Listar Colaboradores</a>
-                            <a class="nav-link" href="/novo-usuario">Cadastrar Usuario</a>
-                            <a class="nav-link" href="/listar-usuarios">Listar Usuarios</a>
-                        </div>
-                    </div>
+        <div class="middle-section">
+            <img class="street-name" src="/img/streetwise-name.svg">
+        </div>
+        <div class="right-section">
+            <div class="profile-hud">
+                <img class="profile-img" src="/img/profile.svg">
+                <div class="profile-text">
+                    <div class="profile-nome">Placeholder</div>
+                    <div class="profile-cargo">Administrador</div>
                 </div>
-            </nav>
+
+            </div>
+            
         </div>
-        <div class="col-1">
-            &nbsp;
+    </header>
+ <input type="checkbox" id="caixa" nome="caixa">
+  <nav class="sidebar" id="sidebar-offcanvas">
+    
+    <div class="option-container">
+      <div class="option-flex">
+        <div class="option-hamburguer">
+          <label for="caixa">
+            <i id="toggle-btn" class="bi bi-list icon-white"></i></label>
         </div>
+        <div  id="gear" class="option-gear">
+          <li class="dropdown dropdown-list ">
+            <a href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-gear icon-white abc"></i>
+            </a>
+            <ul class="dropdown-menu ">
+              <li>
+                <a class="dropdown-item" href="#">
+                  <i class="bi bi-key"></i>
+                  <span >Alterar senha</span>
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#">
+                  <i class="bi bi-box-arrow-right icon-drop"></i>
+                  <span>Sair</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+        </div>
+      </div>
     </div>
-    <div class="row">
-        <div class="col-1">
-            &nbsp;
-        </div>
-        <div class="col bg-white">
-            &nbsp;
-        </div>
-        <div class="col-1">
-            &nbsp;
-        </div>
+
+    <div class="logo-container" id="logo-animation">
+      <img id="logo-expended" class="logo-img" src="/img/logo.svg">
+      <img id="logo-small" class="logo-img-small" src="/img/logo-small.svg">
     </div>
-    <div class="row">
-        <div class="col-1">
-            &nbsp;
-        </div>
-         <div class="col bg-white">
-            <p class="text-start fs-5">Editar Colaborador</p>
 
-            <p>
-                {{#each colaboradores}} {{#dataValues}} 
-                <form action="/atualizar-colaborador" method="POST">
-                    <input type="hidden" name="id_colaborador" class="form-control" id="id_colaborador" value="{{id_colaborador}}"> 
-                    <div class="mb-3 text-start">
-                        <label class="form-label">Nome:</label>
-                        <input type="name" name="nome" class="form-control" id="nome" value="{{nome}}">
-                    </div>
-                    <div class="mb-3 text-start">
-                        <label class="form-label">CPF:</label>
-                        <input type="text" name="cpf" class="form-control" id="cpf" value="{{cpf}}">
-                    </div>
-                    <div class="mb-3 text-start">
-                        <label class="form-label">Telefone:</label>
-                        <input type="text" name="telefone" class="form-control" id="telefone" value="{{telefone}}">
-                    </div>
-                    <div class="mb-3 text-start">
-                        <label class="form-label">Origem:</label>
-                        <select name="origem" class="form-select" aria-label="Default select example">
-                            <option value="celular" selected>Celular</option>
-                            <option value="whatsapp">Whatsapp</option>
-                            <option value="telefone_fixo">Telefone Fixo</option>
-                        </select>
-                    </div>
-                    <div class="mb-3 text-start">
-                        <label class="form-label">Email:</label>
-                        <input type="email" name="email" class="form-control" id="email" value="{{email}}">
-                    </div>
-                    <div class="mb-3 text-start">
-                        <label class="form-label">Rede Social:</label>
-                        <input type="text" name="redeSocial" class="form-control" id="redeSocial" value="{{redeSocial}}">
-                    </div>
-                    <div class="mb-3 text-start">
-                        <label class="form-label">Tipo: </label>
-                        <input type="text" name="tipo" class="form-control" id="tipo" value="{{tipo}}">
-                    </div>
-                    <div class="mb-3 text-start">
-                        <button type="submit" class="btn btn-primary">Cadastrar</button>
-                    </div>
-                </form> {{/dataValues}} {{/each}}                
-            </p>
-        </div>
-        <div class="col-1">
-            &nbsp;
-        </div>
-    </div>
-</div>-->
+    <nav class="nav-container">
+      <ul class="nav-list">
+        <li class="nav-item nav-item-box-down">
+          <a class="nav-link" href="index.html">
+            <i class="bi bi-graph-up-arrow icon-white"></i>
+            <span class="menu-title">Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item nav-item-box-down">
+          <a class="nav-link" href="index.html">
+            <img class="bi icon-white" src="/img/Vector.svg">
+            <span class="menu-title">Agenda</span>
+          </a>
+        </li>
+        <li class="nav-item nav-item-box-down">
+          <a class="nav-link" href="index.html">
+            <i class="bi bi-box-seam icon-white nav-icon"></i>
+            <span class="menu-title">Estoque</span>
+          </a>
+        </li>
+        <li class="nav-item ">
+          <a class="nav-link" href="novo-colaborador">
+            <i class="bi bi-clipboard icon-white abc"></i>
+            <span class="menu-title">Cadastrar</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </nav>
 
-
-
-<div class="main-panel">        
-    <div class="content-wrapper">
-        <div class="row">
-        <div class="col-md-6 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="card-title">Colaboradores</h4>
-                    <p class="card-description">
-                    Cadastro de Colaboradores
-                    </p>
-                    {{#each colaboradores}}
-                    {{#dataValues}}
-                    <form class="forms-sample" action="/atualizar-colaborador" method="POST">
-                    <input type="hidden" name="id_colaborador" class="form-control" id="id_colaborador" value="{{id_colaborador}}"> 
-                        <div class="form-group">
-                            <label class="form-label">Nome:</label>
-                            <input type="name" name="nome" class="form-control" id="nome" value="{{nome}}">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">CPF:</label>
-                            <input type="text" name="cpf" class="form-control" id="cpf" value="{{cpf}}">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Telefone:</label>
-                            <input type="text" name="telefone" class="form-control" id="telefone" value="{{telefone}}">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Origem:</label>
-                            <select name="origem" class="form-select" aria-label="Default select example">
-                                <option value="celular" selected>Celular</option>
-                                <option value="whatsapp">Whatsapp</option>
-                                <option value="telefone_fixo">Telefone Fixo</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Email:</label>
-                            <input type="email" name="email" class="form-control" id="email" value="{{email}}">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Rede Social:</label>
-                            <input type="text" name="redeSocial" class="form-control" id="redeSocial" value="{{redeSocial}}">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Tipo: </label>
-                            <input type="text" name="tipo" class="form-control" id="tipo" value="{{tipo}}">
-                        </div>
-                        <button type="submit" class="btn btn-primary mr-2">Cadastrar</button>
-                        <button class="btn btn-light">Cancelar</button>
-                    </form>
-                    {{/dataValues}}
-                    {{/each}}
+    <div class="main-panel">        
+        <div class="content-wrapper">
+            <div class="row">
+            <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Colaboradores</h4>
+                        <p class="card-description">
+                        Atualização de Colaboradores
+                        </p>
+                        {{#each colaboradores}}
+                        {{#dataValues}}
+                        <form class="forms-sample" action="/atualizar-colaborador" method="POST">
+                        <input type="hidden" name="id_colaborador" class="form-control" id="id_colaborador" value="{{id_colaborador}}">
+                            <div class="form-group">
+                                <label class="form-label">Nome:</label>
+                                <input type="name" name="nome" class="form-control" id="nome" value="{{nome}}">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">CPF:</label>
+                                <input type="text" name="cpf" class="form-control" id="cpf" value="{{cpf}}">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Telefone:</label>
+                                <input type="text" name="telefone" class="form-control" id="telefone" value="{{telefone}}">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Origem:</label>
+                                <select name="origem" class="form-select" aria-label="Default select example">
+                                    <option value="celular" selected>Celular</option>
+                                    <option value="whatsapp">Whatsapp</option>
+                                    <option value="telefone_fixo">Telefone Fixo</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email:</label>
+                                <input type="email" name="email" class="form-control" id="email" value="{{email}}">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Rede Social:</label>
+                                <input type="text" name="redeSocial" class="form-control" id="redeSocial" value="{{redeSocial}}">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Tipo: </label>
+                                <input type="text" name="tipo" class="form-control" id="tipo" value="{{tipo}}">
+                            </div>
+                            <button type="submit" class="btn btn-primary mr-2">Atualizar</button>
+                            <button class="btn btn-light">Cancelar</button>
+                        </form>
+                        {{/dataValues}}
+                        {{/each}}
+                    </div>
                 </div>
             </div>
         </div>
