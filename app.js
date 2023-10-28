@@ -77,7 +77,7 @@ app.post("/login", async(req, res) => {
 app.get("/dashboard", eAdmin, async(req, res) => {
     res.render("dashboard", {
         title: "Dashboard",
-        style: '<link rel="stylesheet" href="/css/sidebar.css">'
+        style: '<link rel="stylesheet" href="/css/sidebar.css"> <link rel = "Stylesheet"href = "/css/header.css" > '
     });
 })
 
