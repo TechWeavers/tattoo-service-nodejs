@@ -77,11 +77,7 @@ app.post("/login", async(req, res) => {
 app.get("/dashboard", eAdmin, async(req, res) => {
     res.render("dashboard", {
         title: "Dashboard",
-<<<<<<< Updated upstream
-        style: '<link rel="stylesheet" href="/css/estilo3.css"> '
-=======
         style: `<link rel="stylesheet" href="/css/sidebar.css">`
->>>>>>> Stashed changes
     });
 })
 
@@ -104,9 +100,6 @@ app.post("/novo-usuario-login", eAdmin, async(req, res) => {
 app.get("/novo-colaborador", eAdmin, async(req, res) => {
     res.render("novo-colaborador", {
         title: "Cadastro de Colaborador",
-<<<<<<< Updated upstream
-        style: '<link rel="stylesheet" href="/css/estilo3.css"> '
-=======
         style: `<link rel="stylesheet" href="../../css/style.css">
         <link rel="stylesheet" href="https://unpkg.com/mdi@latest/css/materialdesignicons.min.css">
         <link rel="stylesheet" href="https://unpkg.com/feather-icons@latest/dist/feather.css">
@@ -122,7 +115,6 @@ app.get("/novo-colaborador", eAdmin, async(req, res) => {
         <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
         <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
         <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`
->>>>>>> Stashed changes
     });
 })
 
