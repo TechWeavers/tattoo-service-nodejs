@@ -38,7 +38,8 @@
             
         </div>
     </header>
- <input type="checkbox" id="caixa" nome="caixa">
+
+  <input type="checkbox" id="caixa" nome="caixa">
   <nav class="sidebar" id="sidebar-offcanvas">
     
     <div class="option-container">
@@ -106,8 +107,8 @@
     </nav>
   </nav>
 
-    {{{body}}}
-    {{{script}}}
+  {{{body}}}
+  {{{script}}}
     
   <script>
     var isToggled = false;
@@ -119,6 +120,8 @@
           document.getElementById("logo-expended").style.display = "none"
           document.getElementById("logo-small").style.display = "inline-block"
           document.getElementById("gear").style.display = "none"
+                    document.getElementById("gear").style.display = "none"
+
           for(var i = 0; i<titles.length; i++) {
             titles[i].style.display = "none"
           }

@@ -107,24 +107,7 @@ app.post("/novo-usuario-login", eAdmin, async(req, res) => {
 app.get("/novo-colaborador", eAdmin, async(req, res) => {
     res.render("novo-colaborador", {
         title: "Cadastro de Colaborador",
-        style: `<link rel="stylesheet" href="/css/estilos3.css">
-        <link rel="stylesheet" href="/css/sidebar.css">
-        <link rel="stylesheet" href="/css/header.css">
-        <link rel="stylesheet" href="../../css/style.css">
-        <link rel="stylesheet" href="https://unpkg.com/mdi@latest/css/materialdesignicons.min.css">
-        <link rel="stylesheet" href="https://unpkg.com/feather-icons@latest/dist/feather.css">
-        <link rel="stylesheet" href="https://unpkg.com/vendors-base@latest/vendor.bundle.base.css">
-        <link rel="stylesheet" href="https://unpkg.com/select2@latest/dist/css/select2.min.css">
-        <link rel="stylesheet" href="https://unpkg.com/select2@latest/dist/css/select2-bootstrap.min.css">`,
-        script: `<script src="https://unpkg.com/vendors-base@latest/vendor.bundle.base.js"></script>
-        <script src="https://unpkg.com/@vx/off-canvas@^latest/dist/off-canvas.js"></script>
-        <script src="https://unpkg.com/@vx/hoverable-collapse@^latest/dist/hoverable-collapse.js"></script>
-        <script src="https://unpkg.com/@vx/template@^latest/dist/template.js"></script>
-        <script src="https://unpkg.com/typeahead.js@latest/dist/typeahead.bundle.min.js"></script>
-        <script src="https://unpkg.com/select2@latest/dist/js/select2.min.js"></script>
-        <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
-        <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
-        <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`
+        style: `<link rel="stylesheet" href="/css/style.css">`,
     });
 })
 

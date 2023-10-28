@@ -24,7 +24,9 @@
   background-color: #F49200;
   width: 150px;
   transition: 0.8s;
-  z-index: 200;
+  z-index: 999;
+  top: 0;
+  left: 0;
 }
 
 
