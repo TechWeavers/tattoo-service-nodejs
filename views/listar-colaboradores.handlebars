@@ -1,148 +1,46 @@
-<div class="container text-center">
-    <div class="row">
-        <div class="col-1">
-            &nbsp;
-        </div>
-        <div class="col bg-primary">
-            <nav class="navbar bg-primary navbar-expand-lg" data-bs-theme="dark" style="background-color: #F49200; color: black;">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="#">StreetWise Tattoo Management</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                        <div class="navbar-nav">
-                            <a class="nav-link" aria-current="page" href="/novo-colaborador">Cadastrar Colaborador</a>
-                            <a class="nav-link active" href="/listar-colaboradores">Listar Colaboradores</a>
-                            <a class="nav-link" href="/novo-usuario">Cadastrar Usuario</a>
-                            <a class="nav-link" href="/listar-usuarios">Listar Usuarios</a>
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Lista de Colaboradores</h4>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nome</th>
+                                        <th>CPF</th>
+                                        <th>Telefone</th>
+                                        <th>Email</th>
+                                        <th>Rede</th>
+                                        <th>Tipo</th>
+                                        <th>Editar</th>
+                                    </tr>
+                                </thead>
+                                {{#each colaboradores}} {{#dataValues}} 
+                                <tbody>
+                                    <tr>
+                                        <td class="py-1">{{id_colaborador}}</td>
+                                        <td>{{nome}}</td>
+                                        <td>{{cpf}}</td>
+                                        <td>{{telefone}}</td>
+                                        <td>{{email}}</td>
+                                        <td>{{redeSocial}}</td>
+                                        <td>{{tipo}}</td>
+                                        <td>
+                                            <button class="btn btn-primary"><a href="/editar-colaborador/{{id_colaborador}}" style="color:inherit">Edit</a></button>
+                                            <button type="button" class="btn btn-danger" id="confirmDelete"><a href="/excluir-colaborador/{{id_colaborador}}" style="color:inherit">Delete</a></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                {{/dataValues}} {{/each}}
+                            </table>
                         </div>
                     </div>
                 </div>
-            </nav>
-        </div>
-        <div class="col-1">
-            &nbsp;
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-1">
-            &nbsp;
-        </div>
-        <div class="col bg-white">
-            &nbsp;
-        </div>
-        <div class="col-1">
-            &nbsp;
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-1">
-            &nbsp;
-        </div>
-        <div class="col bg-white">
-            <p class="text-start fs-5">Consultar Colaboradores</p>
-            <p>
-                <div class="container text-center">
-                    <div class="row bg-primary p-2 mb-3">
-                        <div class="col text-light"> ID </div>
-                        <div class="col text-light"> Nome </div>
-                        <div class="col text-light"> CPF </div>
-                        <div class="col text-light"> Telefone </div>
-                        <div class="col text-light"> Email </div>
-                        <div class="col text-light"> Rede Social </div>
-                        <div class="col text-light"> Tipo </div>
-                        <div class="col text-light"> Editar / Excluir </div>
-                    </div> 
-                    {{#each colaboradores}} {{#dataValues}} 
-                    <div class="row">
-                        <div class="col"> {{id_colaborador}} </div>
-                        <div class="col"> {{nome}} </div>
-                        <div class="col"> {{cpf}} </div>
-                        <div class="col"> {{telefone}} </div>
-                        <div class="col"> {{email}} </div>
-                        <div class="col"> {{redeSocial}} </div>
-                        <div class="col"> {{tipo}} </div>
-                        <div class="col">
-                            <button class="btn btn-primary"><a href="/editar-colaborador/{{id_colaborador}}" style="color:inherit">Edit</a></button>
-                            <button type="button" class="btn btn-danger" id="confirmDelete"><a href="/excluir-colaborador/{{id_colaborador}}" style="color:inherit">Delete</a></button>
-                        </div>
-                    </div> {{/dataValues}} {{/each}}
-                </div>
-                
-            </p>
-        </div>
-        <div class="col-1">
-            &nbsp;
+            </div>
         </div>
     </div>
 </div>
-
-<!--<div class="col-lg-12 grid-margin stretch-card">
-    <div class="card ">
-      <div class="card-body">
-        <h4 class="card-title">STREET WISE</h4>
-        <p class="card-description">
-          FUNCIONARIOS
-        </p>
-        <div class="table-responsive">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <TH>
-                  Funcionario
-                </TH>
-                <th>
-                  ID Do Funcionario
-                </th>
-                <th>
-                  Nome
-                </th>
-                <th>
-                  CPF
-                </th>
-                <th>
-                  Email
-                </th>
-                <th>
-                  Rede Social
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="py-1">
-                  <img src="#" alt="image"/>
-                </td>
-                {{#each colaboradores}} {{#dataValues}}
-                <td>
-                  {{id}}
-                </td>
-                <td>
-                  {{nome}}
-                </td>
-                <td>
-                 {{cpf}}
-                </td>
-                <td>
-                  {{email}}
-                </td>
-                <td>
-                  <span>@</span>{{redeSocial}}
-                </td>
-                {{/dataValues}}
-                {{/each}}
-                <td>
-                  <button type="button" class="btn-primary"><a href="/editar-usuario/{{id}}" style="color: blue">Editar</a></button>
-                        <button type="button" class="btn-primary"><a href="/excluir-usuario/{{id}}" style="color:red">Excluir</a></button>
-                </td>
-              </tr>
-
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-</div>-->
-
-<!--- imagem gato https://pbs.twimg.com/profile_images/1608260851810574336/Ajz_0Rlp_400x400.jpg-->
