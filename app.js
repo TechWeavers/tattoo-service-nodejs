@@ -133,7 +133,8 @@ app.get("/listar-colaboradores", eAdmin, async(req, res) => {
     Controller_Colaborador_Usuario.visualizarColaboradores().then((colaboradores) => {
         res.render("listar-colaboradores", {
             colaboradores,
-            title: "Listar Colaboradores"
+            title: "Listar Colaboradores",
+            style: `<link rel="stylesheet" href="/css/style.css">`
         })
     }).catch(function(erro) {
         console.log("Erro ao carregar os dados " + erro)
