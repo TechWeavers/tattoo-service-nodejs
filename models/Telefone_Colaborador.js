@@ -17,6 +17,6 @@ const Telefone_Colaborador = db.sequelize.define("telefone_colaborador", {
     }
 })
 
-Telefone_Colaborador.sync({ force: true });
+//Telefone_Colaborador.sync({ force: true });
 
 module.exports = Telefone_Colaborador;
