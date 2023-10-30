@@ -274,9 +274,23 @@ app.post("/atualizar-usuario", eAdmin, function(req, res) {
     })
 })
 
+//futura rotas para o estoque(apenas um teste por enquanto)
+app.get("/listar-estoque", function(req, res){
+    res.render("listar-estoque")
+})
+app.get("/novo-estoque", function(req, res){
+    res.render("novo-estoque")
+})
+app.get("/editar-estoque", function(req, res){
+    res.render("editar-estoque")
+})
+
+//porta
 app.listen(8081, () => {
     console.log("Servidor iniciado na porta 8080: http://localhost:8080")
 })
+
+
 
 //Colaborador.create({
 // nome: req.body.nome,

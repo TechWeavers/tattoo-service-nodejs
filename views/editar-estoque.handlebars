@@ -1,0 +1,46 @@
+<div class="main-panel">        
+  <div class="content-wrapper">
+    <div class="row">
+      <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Estoque</h4>
+            <p class="card-description">
+              Atualização de Material
+            </p>
+            {{#each materiais}} {{#dataValues}} 
+            <form action="/atualizar-estoque" method="POST">
+              <input type="hidden" name="id_material" class="form-control" id="id_material" value="{{id_material}}"> 
+              <div class="mb-3 text-start">
+                <label class="form-label">Nome:</label>
+                <input type="text" name="nome" class="form-control" id="nome" value="{{nome}}">
+              </div>
+              <div class="mb-3 text-start">
+                <label class="form-label">Quantidade:</label>
+                <input type="number" name="quantidade" class="form-control" id="quantidade" value="{{quantidade}}">
+              </div>
+              <div class="mb-3 text-start">
+                <label class="form-label">Valor por unidade:</label>
+                <input type="number" name="valor_unidade" class="form-control" id="valor_unidade" value="{{valor_unidade}}">
+              </div>
+              <div class="mb-3 text-start">
+                <label class="form-label">Data de compra:</label>
+                <input type="date" name="data_compra" class="form-control" id="data_compra" value="{{data_compra}}">
+              </div>
+              <div class="mb-3 text-start">
+                <button type="submit" class="btn btn-primary mr-2">Atualizar</button>
+                <button class="btn btn-secondary ml-2"><a href="/listar-estoque">Cancelar</a></button>
+              </div>
+            </form>
+            {{/dataValues}}
+            {{/each}}
+          </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+
+
+
+

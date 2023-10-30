@@ -1,0 +1,43 @@
+
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="row">
+      <button class="btn btn-primary col-2 m-3"><a href="/novo-estoque" style="color:inherit">Novo material</a></button>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Lista de materiais</h4>
+            <div class="table-responsive">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>ID Material</th>
+                    <th>Nome</th>
+                    <th>Quantidade</th>
+                    <th>Valor Unidade</th>
+                    <th>Data de compra</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="py-1">{{id_material}}</td>
+                    <td>{{nome}}</td>
+                    <td>{{quantidade}}</td>
+                    <td>{{valor_unidade}}</td>
+                    <td>{{data_compra}}</td>
+                    <td>
+                      <button class="btn btn-secondary"><a href="/editar-estoque{{id_material}}" style="color:inherit">Edit</a></button>
+                      <button type="button" class="btn btn-primary" id="confirmDelete"><a href="/excluir-estoque/{{id_material}}" style="color:inherit">Delete</a></button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

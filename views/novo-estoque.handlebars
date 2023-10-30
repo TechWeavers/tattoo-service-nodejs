@@ -1,0 +1,38 @@
+
+    <div class="main-panel">        
+        <div class="content-wrapper">
+            <div class="row">
+            <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Estoque</h4>
+                        <p class="card-description">
+                        Cadastro de materiais
+                        </p>
+                        <form class="forms-sample" action="/cadastrar-estoque" method="POST">
+                            <div class="form-group">
+                                <label class="form-label">Nome do material:</label>
+                                <input type="name" name="nome-material" class="form-control" id="nome-material">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Quantidade:</label>
+                                <input type="number" name="quantidade" class="form-control" id="quantidade">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Valor Unidade:</label>
+                                <input type="number" name="valor-unidade" class="form-control" id="valor-unidade">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Data de compra:</label>
+                                <input type="date" name="data-compra" class="form-control" id="data-compra">
+                            </div>
+                            <button type="submit" class="btn btn-primary mr-2">Cadastrar</button>
+                            <button class="btn btn-secondary ml-2"><a href="/listar-estoque">Cancelar</a></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
