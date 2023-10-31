@@ -20,8 +20,9 @@ app.use(bodyParser.json())
 
 //importando as classes de controle
 
-//classe de controle do colaborador
+
 const { Controller_Colaborador_Usuario } = require("./Controller_Colaborador_Usuario")
+const { Controller_Estoque } = require("./Controller_Estoque");
 
 // Página que renderiza a tela de login (handlebars)
 app.get("/", async(req, res) => {
@@ -275,19 +276,38 @@ app.post("/atualizar-usuario", eAdmin, function(req, res) {
 })
 
 //futura rotas para o estoque(apenas um teste por enquanto)
-app.get("/listar-estoque", function(req, res){
-    res.render("listar-estoque", {
-        title: "Listagem de estoque",
-        style: `<link rel="stylesheet" href="/css/style.css">`,
+app.get("/listar-estoque", function(req, res) {
+    Controller_Estoque.visualizarMaterial().then((materiais) => {
+        res.render("listar-estoque", {
+            materiais,
+            title: "Listagem de estoque",
+            style: `<link rel="stylesheet" href="/css/style.css">`,
+        })
     })
 })
-app.get("/novo-estoque", function(req, res){
+app.get("/novo-estoque", function(req, res) {
     res.render("novo-estoque", {
         title: "Cadastrar estoque",
         style: `<link rel="stylesheet" href="/css/style.css">`,
     })
 })
-app.get("/editar-estoque", function(req, res){
+
+// rota interna recebe os dados do formulário de cadastro de materiais, e registra no banco
+app.post("/cadastrar-estoque", eAdmin, async(req, res) => {
+    console.log(req.body.tipo)
+    Controller_Estoque.cadastrarMaterial(
+        req.body.nome,
+        req.body.quantidade,
+        req.body.valor_unidade,
+        req.body.data_compra
+    );
+    res.redirect("/listar-estoque");
+    console.log("dados cadastrados com sucesso");
+
+})
+
+
+app.get("/editar-estoque", function(req, res) {
     res.render("editar-estoque", {
         title: "Editar estoque",
         style: `<link rel="stylesheet" href="/css/style.css">`,
