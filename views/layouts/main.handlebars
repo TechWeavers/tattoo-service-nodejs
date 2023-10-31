@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="/css/estilo3.css">
     <link rel="stylesheet" href="/css/sidebar.css">
     <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/bodymargem.css">
     
     {{{style}}}
     <title>StreetWise Tattoo Management - {{title}}</title>
@@ -152,6 +153,19 @@
         }, 0)
       }
       isToggled = !isToggled;
+
+      //Mudar a margem - by kauan
+
+      const body = document.getElementsByTagName("body")[0];
+      toggleBtn.onclick = () => {
+	    if (!isToggled) {
+		    body.classList.add("");
+	    } else {
+	  	  body.classList.remove("bodymargem");
+	    }
+	
+	    isToggled = !isToggled;
+      }
     }
 
 
