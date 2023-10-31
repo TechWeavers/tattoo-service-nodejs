@@ -276,13 +276,22 @@ app.post("/atualizar-usuario", eAdmin, function(req, res) {
 
 //futura rotas para o estoque(apenas um teste por enquanto)
 app.get("/listar-estoque", function(req, res){
-    res.render("listar-estoque")
+    res.render("listar-estoque", {
+        title: "Listagem de estoque",
+        style: `<link rel="stylesheet" href="/css/style.css">`,
+    })
 })
 app.get("/novo-estoque", function(req, res){
-    res.render("novo-estoque")
+    res.render("novo-estoque", {
+        title: "Cadastrar estoque",
+        style: `<link rel="stylesheet" href="/css/style.css">`,
+    })
 })
 app.get("/editar-estoque", function(req, res){
-    res.render("editar-estoque")
+    res.render("editar-estoque", {
+        title: "Editar estoque",
+        style: `<link rel="stylesheet" href="/css/style.css">`,
+    })
 })
 
 //porta
