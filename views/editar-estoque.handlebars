@@ -8,7 +8,8 @@
             <p class="card-description">
               Atualização de Material
             </p>
-            {{#each materiais}} {{#dataValues}} 
+            {{#each materiais}} 
+            {{#dataValues}} 
             <form action="/atualizar-estoque" method="POST">
               <input type="hidden" name="id_material" class="form-control" id="id_material" value="{{id_material}}"> 
               <div class="mb-3 text-start">

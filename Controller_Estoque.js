@@ -14,9 +14,32 @@ class Controller_Estoque {
         return cadastro;
     }
 
-    static visualizarMaterial() {
+    static visualizarMaterial(id_material) {
         const view = Material.findAll();
         return view;
+    }
+
+    static excluirMaterial(id_material) {
+        const deleta = Material.destroy({ where: { 'id_material': id_material } });
+        return deleta;
+    }
+
+    // procura o material para editar
+    static procurarMaterial(id_material) {
+        const procura = Material.findAll({ where: { 'id_material': id_material } });
+        return procura;
+    }
+
+    static atualizarMaterial(id_material, nome, quantidade, valor_unidade, data_compra) {
+        const procura = Material.update({
+            nome: nome,
+            quantidade: quantidade,
+            valor_unidade: valor_unidade,
+            data_compra: data_compra
+        }, {
+            where: { id_material: id_material }
+        })
+        return procura;
     }
 
 
