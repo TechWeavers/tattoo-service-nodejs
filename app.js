@@ -24,6 +24,7 @@ app.use(bodyParser.json())
 
 const { Controller_Colaborador_Usuario } = require("./Controller_Colaborador_Usuario")
 const { Controller_Estoque } = require("./Controller_Estoque");
+const { Controller_Cliente } = require("./Controller_Cliente");
 
 // Página que renderiza a tela de login (handlebars)
 app.get("/", async(req, res) => {
@@ -282,7 +283,7 @@ app.post("/atualizar-usuario", eAdmin, function(req, res) {
 
 // ---------------------------- CRUD ESTOQUE -------------------------------------
 //rota de listagem dos materiais disponíveis no estoque
-app.get("/listar-estoque", function(req, res) {
+app.get("/listar-estoque", eAdmin, function(req, res) {
     Controller_Estoque.visualizarMaterial().then((materiais) => {
         res.render("listar-estoque", {
             materiais,
@@ -315,7 +316,7 @@ app.post("/cadastrar-estoque", eAdmin, async(req, res) => {
 })
 
 // procura o material especificado no botão e renderiza o formulário de edição do mesmo
-app.get("/editar-estoque/:id", async(req, res) => {
+app.get("/editar-estoque/:id", eAdmin, async(req, res) => {
     Controller_Estoque.procurarMaterial(req.params.id).then(function(materiais) {
         res.render("editar-estoque", {
             materiais,
@@ -343,7 +344,7 @@ app.get("/editar-estoque/:id", async(req, res) => {
     })
 })
 
-app.post("/atualizar-estoque", async(req, res) => {
+app.post("/atualizar-estoque", eAdmin, async(req, res) => {
     Controller_Estoque.atualizarMaterial(
         req.body.id_material,
         req.body.nome,
@@ -354,7 +355,7 @@ app.post("/atualizar-estoque", async(req, res) => {
     })
 })
 
-app.get("/excluir-estoque/:id", async(req, res) => {
+app.get("/excluir-estoque/:id", eAdmin, async(req, res) => {
     Controller_Estoque.excluirMaterial(req.params.id).then(function() {
         res.redirect("/listar-estoque")
     }).catch(function(erro) {
@@ -362,23 +363,95 @@ app.get("/excluir-estoque/:id", async(req, res) => {
     })
 })
 
-//Rotas criada como teste
-app.get("/listar-cliente", function(req,res){
-    res.render("listar-cliente", {
-        title: "Listar cliente",
-        style: `<link rel="stylesheet" href="/css/style.css">`,
+// ------------------------------------ CRUD Cliente -------------------------------------------
+
+//visualização de clientes cadastrados
+app.get("/listar-cliente", function(req, res) {
+    Controller_Cliente.visualizarCliente().then((clientes) => {
+        res.render("listar-cliente", {
+            clientes,
+            title: "Listar cliente",
+            style: `<link rel="stylesheet" href="/css/style.css">`,
+        })
+    }).catch((erro) => {
+        res.send("Erro ao carregar os dados. Volte a página anterior! <br> Erro: " + erro)
     })
 })
-app.get("/novo-cliente", function(req,res){
+
+// renderiza o formulário de cadastro de clientes
+app.get("/novo-cliente", function(req, res) {
     res.render("novo-cliente", {
         title: "Novo cliente",
         style: `<link rel="stylesheet" href="/css/style.css">`,
     })
 })
-app.get("/editar-cliente", function(req,res){
-    res.render("editar-cliente", {
-        title: "Editar cliente",
-        style: `<link rel="stylesheet" href="/css/style.css">`,
+
+//rota interna de cadastro de clientes
+app.post("/cadastrar-cliente", async(req, res) => {
+    Controller_Cliente.cadastrarCliente(
+        req.body.nome,
+        req.body.cpf,
+        req.body.telefone,
+        req.body.email,
+        req.body.redeSocial
+    ).then(() => {
+        res.redirect("/listar-cliente");
+        console.log("dados cadastrados com sucesso")
+    })
+})
+
+// rota de exclusão do cliente
+app.get("/excluir-cliente/:id", async(req, res) => {
+    Controller_Cliente.excluirCliente(req.params.id).then(() => {
+        res.redirect("/listar-cliente")
+        console.log("dados excluídos com sucesso")
+    }).catch((erro) => {
+        re.send("Erro ao excluir os dados: " + erro)
+    })
+})
+
+// procura o cliente esepcificado ao apertar o botão de editar, e renderiza o formulário com os dados dele para editá-lo
+app.get("/editar-cliente/:id", async(req, res) => {
+    Controller_Cliente.procurarCliente(req.params.id).then((cliente) => {
+        res.render("editar-cliente", {
+            cliente,
+            title: "Editar cliente",
+            style: `<link rel="stylesheet" href="/css/estilos3.css">
+                    <link rel="stylesheet" href="/css/sidebar.css">
+                    <link rel="stylesheet" href="/css/header.css">
+                    <link rel="stylesheet" href="../../css/style.css">
+                    <link rel="stylesheet" href="https://unpkg.com/mdi@latest/css/materialdesignicons.min.css">
+                    <link rel="stylesheet" href="https://unpkg.com/feather-icons@latest/dist/feather.css">
+                    <link rel="stylesheet" href="https://unpkg.com/vendors-base@latest/vendor.bundle.base.css">
+                    <link rel="stylesheet" href="https://unpkg.com/select2@latest/dist/css/select2.min.css">
+                    <link rel="stylesheet" href="https://unpkg.com/select2@latest/dist/css/select2-bootstrap.min.css">`,
+            script: `<script src="https://unpkg.com/vendors-base@latest/vendor.bundle.base.js"></script>
+                    <script src="https://unpkg.com/@vx/off-canvas@^latest/dist/off-canvas.js"></script>
+                    <script src="https://unpkg.com/@vx/hoverable-collapse@^latest/dist/hoverable-collapse.js"></script>
+                    <script src="https://unpkg.com/@vx/template@^latest/dist/template.js"></script>
+                    <script src="https://unpkg.com/typeahead.js@latest/dist/typeahead.bundle.min.js"></script>
+                    <script src="https://unpkg.com/select2@latest/dist/js/select2.min.js"></script>
+                    <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
+                    <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
+                    <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`,
+        })
+    })
+})
+
+// rota de atualização dos dados
+app.post("/atualizar-cliente", async(req, res) => {
+    Controller_Cliente.atualizarCliente(
+        req.body.id_cliente,
+        req.body.nome,
+        req.body.cpf,
+        req.body.telefone,
+        req.body.email,
+        req.body.redeSocial
+    ).then(() => {
+        res.redirect("/listar-cliente");
+        console.log("Dados atualizados com sucesso")
+    }).catch((erro) => {
+        res.send("Erro ao atualizar os dados. <br> Erro: " + erro)
     })
 })
 
@@ -399,6 +472,8 @@ app.listen(8081, () => {
 //}).then(function() {
 //res.redirect("/listar-colaboradores")
 //console.log("Dados cadastrados com sucesso!")
+//}).catch(function(erro) {
+// res.send("Erro ao cadastrar " + erro)
 //}).catch(function(erro) {
 // res.send("Erro ao cadastrar " + erro)
 //})

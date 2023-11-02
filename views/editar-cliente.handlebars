@@ -8,7 +8,7 @@
             <p class="card-description">
               Atualização de clientes
             </p>
-            {{#each clientes}} 
+            {{#each cliente}} 
             {{#dataValues}} 
             <form action="/atualizar-cliente" method="POST">
               <input type="hidden" name="id_cliente" class="form-control" id="id_cliente" value="{{id_cliente}}"> 
@@ -35,6 +35,10 @@
               <div class="mb-3 text-start">
                 <label class="form-label">Ficha Anamnese</label>
                 <input type="file" name="fichaAnamnese" class="form-control" id="fichaAnamnese" value="{{fichaAnamnese}}">
+              </div>
+              <div class="mb-3 text-start">
+                <button type="submit" class="btn btn-primary mr-2">Atualizar</button>
+                <button class="btn btn-secondary ml-2"><a href="/listar-cliente">Cancelar</a></button>
               </div>
             </form>
             {{/dataValues}}

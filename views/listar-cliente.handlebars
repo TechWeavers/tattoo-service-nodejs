@@ -21,7 +21,8 @@
                     <th></th>
                   </tr>
                 </thead>
-                {{#each clientes}} {{#dataValues}} 
+                {{#each clientes}} 
+                {{#dataValues}} 
                 <tbody>
                   <tr>
                     <td class="py-1">{{id_cliente}}</td>
@@ -31,12 +32,13 @@
                     <td>{{email}}</td>
                     <td>{{redeSocial}}</td>
                     <td>
-                      <button class="btn btn-secondary"><a href="/editarcliente/{{id_cliente}}" style="color:inherit">Edit</a></button>
+                      <button class="btn btn-secondary"><a href="/editar-cliente/{{id_cliente}}" style="color:inherit">Edit</a></button>
                       <button type="button" class="btn btn-primary" id="confirmDelete"><a href="/excluir-cliente/{{id_cliente}}" style="color:inherit">Delete</a></button>
                     </td>
                   </tr>
                 </tbody>
-                {{/dataValues}} {{/each}}
+                {{/dataValues}} 
+                {{/each}}
               </table>
             </div>
           </div>
