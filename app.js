@@ -362,6 +362,26 @@ app.get("/excluir-estoque/:id", async(req, res) => {
     })
 })
 
+//Rotas criada como teste
+app.get("/listar-cliente", function(req,res){
+    res.render("listar-cliente", {
+        title: "Listar cliente",
+        style: `<link rel="stylesheet" href="/css/style.css">`,
+    })
+})
+app.get("/novo-cliente", function(req,res){
+    res.render("novo-cliente", {
+        title: "Novo cliente",
+        style: `<link rel="stylesheet" href="/css/style.css">`,
+    })
+})
+app.get("/editar-cliente", function(req,res){
+    res.render("editar-cliente", {
+        title: "Editar cliente",
+        style: `<link rel="stylesheet" href="/css/style.css">`,
+    })
+})
+
 //porta
 app.listen(8081, () => {
     console.log("Servidor iniciado na porta 8080: http://localhost:8080")
