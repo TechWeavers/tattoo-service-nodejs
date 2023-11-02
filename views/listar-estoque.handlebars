@@ -20,6 +20,8 @@
                     <th>Data de compra</th>
                   </tr>
                 </thead>
+                {{#each materiais}}
+                {{#dataValues}}
                 <tbody>
                   <tr>
                     <td class="py-1">{{id_material}}</td>
@@ -28,11 +30,13 @@
                     <td>{{valor_unidade}}</td>
                     <td>{{data_compra}}</td>
                     <td>
-                      <button class="btn btn-secondary"><a href="/editar-estoque{{id_material}}" style="color:inherit">Edit</a></button>
+                      <button class="btn btn-secondary"><a href="/editar-estoque/{{id_material}}" style="color:inherit">Edit</a></button>
                       <button type="button" class="btn btn-primary" id="confirmDelete"><a href="/excluir-estoque/{{id_material}}" style="color:inherit">Delete</a></button>
                     </td>
                   </tr>
                 </tbody>
+                {{/dataValues}}
+                {{/each}}
               </table>
             </div>
           </div>

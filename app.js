@@ -9,6 +9,7 @@ const { eAdmin } = require('./middlewares/auth')
 const Colaborador = require("./models/Colaborador");
 const Usuario = require("./models/Usuario");
 
+
 // configurações handlebars
 app.engine("handlebars", handlebars({ defaultLayout: "main" }))
 app.set("view engine", "handlebars")
@@ -20,8 +21,9 @@ app.use(bodyParser.json())
 
 //importando as classes de controle
 
-//classe de controle do colaborador
+
 const { Controller_Colaborador_Usuario } = require("./Controller_Colaborador_Usuario")
+const { Controller_Estoque } = require("./Controller_Estoque");
 
 // Página que renderiza a tela de login (handlebars)
 app.get("/", async(req, res) => {
@@ -102,6 +104,8 @@ app.post("/novo-usuario-login", eAdmin, async(req, res) => {
         res.send("Erro ao cadastrar " + erro)
     })
 })
+
+//--------------------------------------- CRUD de Colaborador -------------------------------
 
 // página que renderiza o formulário de cadastro de um novo colaborador
 app.get("/novo-colaborador", eAdmin, async(req, res) => {
@@ -193,6 +197,8 @@ app.post("/atualizar-colaborador", eAdmin, function(req, res) {
     })
 })
 
+//------------------------------------ CRUD Usuários --------------------------------------
+
 //renderiza a formulário de cadastro de novos usuários
 app.get("/novo-usuario", eAdmin, async(req, res) => {
     res.render("novo-usuario", {
@@ -274,22 +280,104 @@ app.post("/atualizar-usuario", eAdmin, function(req, res) {
     })
 })
 
-//futura rotas para o estoque(apenas um teste por enquanto)
-app.get("/listar-estoque", function(req, res){
-    res.render("listar-estoque", {
-        title: "Listagem de estoque",
-        style: `<link rel="stylesheet" href="/css/style.css">`,
+// ---------------------------- CRUD ESTOQUE -------------------------------------
+//rota de listagem dos materiais disponíveis no estoque
+app.get("/listar-estoque", function(req, res) {
+    Controller_Estoque.visualizarMaterial().then((materiais) => {
+        res.render("listar-estoque", {
+            materiais,
+            title: "Listagem de estoque",
+            style: `<link rel="stylesheet" href="/css/style.css">`,
+        })
     })
 })
-app.get("/novo-estoque", function(req, res){
+
+// renderiza o formulário de cadastro do material
+app.get("/novo-estoque", eAdmin, function(req, res) {
     res.render("novo-estoque", {
         title: "Cadastrar estoque",
         style: `<link rel="stylesheet" href="/css/style.css">`,
     })
 })
-app.get("/editar-estoque", function(req, res){
-    res.render("editar-estoque", {
-        title: "Editar estoque",
+
+// rota interna recebe os dados do formulário de cadastro de materiais, e registra no banco
+app.post("/cadastrar-estoque", eAdmin, async(req, res) => {
+    console.log(req.body.tipo)
+    Controller_Estoque.cadastrarMaterial(
+        req.body.nome,
+        req.body.quantidade,
+        req.body.valor_unidade,
+        req.body.data_compra
+    );
+    res.redirect("/listar-estoque");
+    console.log("dados cadastrados com sucesso");
+
+})
+
+// procura o material especificado no botão e renderiza o formulário de edição do mesmo
+app.get("/editar-estoque/:id", async(req, res) => {
+    Controller_Estoque.procurarMaterial(req.params.id).then(function(materiais) {
+        res.render("editar-estoque", {
+            materiais,
+            style: `<link rel="stylesheet" href="/css/estilos3.css">
+            <link rel="stylesheet" href="/css/sidebar.css">
+            <link rel="stylesheet" href="/css/header.css">
+            <link rel="stylesheet" href="../../css/style.css">
+            <link rel="stylesheet" href="https://unpkg.com/mdi@latest/css/materialdesignicons.min.css">
+            <link rel="stylesheet" href="https://unpkg.com/feather-icons@latest/dist/feather.css">
+            <link rel="stylesheet" href="https://unpkg.com/vendors-base@latest/vendor.bundle.base.css">
+            <link rel="stylesheet" href="https://unpkg.com/select2@latest/dist/css/select2.min.css">
+            <link rel="stylesheet" href="https://unpkg.com/select2@latest/dist/css/select2-bootstrap.min.css">`,
+            script: `<script src="https://unpkg.com/vendors-base@latest/vendor.bundle.base.js"></script>
+            <script src="https://unpkg.com/@vx/off-canvas@^latest/dist/off-canvas.js"></script>
+            <script src="https://unpkg.com/@vx/hoverable-collapse@^latest/dist/hoverable-collapse.js"></script>
+            <script src="https://unpkg.com/@vx/template@^latest/dist/template.js"></script>
+            <script src="https://unpkg.com/typeahead.js@latest/dist/typeahead.bundle.min.js"></script>
+            <script src="https://unpkg.com/select2@latest/dist/js/select2.min.js"></script>
+            <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
+            <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
+            <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`,
+        })
+    }).catch(function(erro) {
+        console.log("erro ao carregar os dados: " + erro)
+    })
+})
+
+app.post("/atualizar-estoque", async(req, res) => {
+    Controller_Estoque.atualizarMaterial(
+        req.body.id_material,
+        req.body.nome,
+        req.body.quantidade,
+        req.body.valor_unidade,
+        req.body.data_compra).then(function() {
+        res.redirect("/listar-estoque")
+    })
+})
+
+app.get("/excluir-estoque/:id", async(req, res) => {
+    Controller_Estoque.excluirMaterial(req.params.id).then(function() {
+        res.redirect("/listar-estoque")
+    }).catch(function(erro) {
+        res.send("Erro ao deletar os dados: " + erro)
+    })
+})
+
+//Rotas criada como teste
+app.get("/listar-cliente", function(req,res){
+    res.render("listar-cliente", {
+        title: "Listar cliente",
+        style: `<link rel="stylesheet" href="/css/style.css">`,
+    })
+})
+app.get("/novo-cliente", function(req,res){
+    res.render("novo-cliente", {
+        title: "Novo cliente",
+        style: `<link rel="stylesheet" href="/css/style.css">`,
+    })
+})
+app.get("/editar-cliente", function(req,res){
+    res.render("editar-cliente", {
+        title: "Editar cliente",
         style: `<link rel="stylesheet" href="/css/style.css">`,
     })
 })
