@@ -178,5 +178,7 @@
     display: inline-block;
   }
 
-
-
+/*Margem aberto*/
+.caixa::after .content-wrapper{
+  margin-left: 60px;
+}

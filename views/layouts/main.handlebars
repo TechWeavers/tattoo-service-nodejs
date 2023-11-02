@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="/css/sidebar.css">
     <link rel="stylesheet" href="/css/header.css">
     <link rel="stylesheet" href="/css/bodymargem.css">
-    <link rel="icon" href"/img/icon.png">
+    <link rel="icon" href="/img/icon.png">
     {{{style}}}
     <title>StreetWise Tattoo Management - {{title}}</title>
 </head>
@@ -159,9 +159,9 @@
       const body = document.getElementsByTagName("body")[0];
       toggleBtn.onclick = () => {
 	    if (!isToggled) {
-		    body.classList.add("");
+		    body.classList.add("sidebar-icon-only");
 	    } else {
-	  	  body.classList.remove("bodymargem");
+	  	  body.classList.remove("sidebar-icon-only");
 	    }
 	
 	    isToggled = !isToggled;
