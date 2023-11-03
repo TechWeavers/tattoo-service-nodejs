@@ -1,6 +1,8 @@
 const db = require("./db");
 const Cliente = require("./Cliente");
 
+// a ficha de anamnese terá um relacionamento 1,1 com cliente, cada ficha de anamnese criada será obrigatório o id do cliente.
+
 const FichaAnamnese = db.sequelize.define("fichaAnamnese", {
     id_ficha: {
         type: db.Sequelize.INTEGER,

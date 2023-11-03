@@ -8,6 +8,7 @@ const tokenModule = require('./modules/token');
 const { eAdmin } = require('./middlewares/auth')
 const Colaborador = require("./models/Colaborador");
 const Usuario = require("./models/Usuario");
+const FichaAnamnese = require("./models/FichaAnamnese");
 
 
 // configurações handlebars
@@ -452,6 +453,25 @@ app.post("/atualizar-cliente", async(req, res) => {
         console.log("Dados atualizados com sucesso")
     }).catch((erro) => {
         res.send("Erro ao atualizar os dados. <br> Erro: " + erro)
+    })
+})
+
+// ------------------------------ CRUD Ficha que será relacionada com cliente -----------------
+app.get("/nova-ficha", async(req, res) => {
+    res.render("nova-ficha", {
+        title: "Nova ficha",
+        style: `<link rel="stylesheet" href="/css/style.css">`,
+    })
+})
+
+app.post("/cadastrar-ficha", async(req, res) => {
+    FichaAnamnese.create({
+        alergia1: req.body.alergia1,
+        fk_cliente: req.body.fk_cliente
+    }).then(() => {
+        res.send("dados cadastrados com sucesso")
+    }).catch((erro) => {
+        res.send("erro ao cadastrar ficha: " + erro)
     })
 })
 
