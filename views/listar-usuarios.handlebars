@@ -70,10 +70,11 @@
     </div>
 </div>-->
 
-<div class="main-panel">
+<div class="main-panel ">
     <div class="content-wrapper">
         <div class="row">
-            <button class="btn btn-primary col-2 m-3"><a href="/novo-usuario" style="color:inherit">Novo Usuário</a></button>
+            <button class="btn btn-primary col-2 m-3"><a href="/novo-usuario" style="color:inherit">Novo
+                    Usuário</a></button>
         </div>
         <div class="row">
             <div class="col-lg-12 grid-margin stretch-card">
@@ -89,19 +90,22 @@
                                         <th>Senha</th>
                                     </tr>
                                 </thead>
-                                {{#each usuarios}} {{#dataValues}} 
+                                {{#each usuarios}} {{#dataValues}}
                                 <tbody>
                                     <tr>
                                         <td class="py-1">{{fk_colaborador}}</td>
                                         <td>{{usuario}}</td>
                                         <td>*****</td>
                                         <td>
-                                            <button class="btn btn-secondary"><a href="/editar-usuario/{{id_usuario}}" style="color:inherit">Edit</a></button>
-                                            <button type="button" class="btn btn-primary" id="confirmDelete"><a href="/excluir-usuario/{{id_usuario}}" style="color:inherit">Delete</a></button>
+                                            <button class="btn btn-secondary"><a href="/editar-usuario/{{id_usuario}}"
+                                                    style="color:inherit">Edit</a></button>
+                                            <button type="button" class="btn btn-primary" id="confirmDelete"><a
+                                                    href="/excluir-usuario/{{id_usuario}}"
+                                                    style="color:inherit">Delete</a></button>
                                         </td>
                                     </tr>
                                 </tbody>
-                                {{/dataValues}} 
+                                {{/dataValues}}
                                 {{/each}}
                             </table>
                         </div>
@@ -109,6 +113,88 @@
                 </div>
             </div>
         </div>
-        
+        <div class="card">
+            <div class="col-lg-12 grid-margin stretch-card">
+                
+                    <div class="row col-sm">
+                        <div class="col-auto pasta-ordem active" >
+                            <a href="#">Linguica</a>
+                        </div>
+                        <div class="col-auto  pasta-ordem">
+                            <a href="#">Linguica</a>
+                        </div>
+                        <div class="col-auto pasta-ordem ">
+                            <a href="#">Linguica</a>
+                        </div>
+                    </div>
+                <div class="card">
+                    <div class="card-body card-pasta bg-orange">
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>ID Colaborador</th>
+                                        <th>Usuário</th>
+                                        <th>Senha</th>
+                                    </tr>
+                                </thead>
+                                {{#each usuarios}} {{#dataValues}}
+                                <tbody>
+                                    <tr>
+                                        <td class="py-1">{{fk_colaborador}}</td>
+                                        <td>{{usuario}}</td>
+                                        <td>*****</td>
+                                        <td>
+                                            <button class="btn btn-secondary"><a href="/editar-usuario/{{id_usuario}}"
+                                                    style="color:inherit">Edit</a></button>
+                                            <button type="button" class="btn btn-primary" id="confirmDelete"><a
+                                                    href="/excluir-usuario/{{id_usuario}}"
+                                                    style="color:inherit">Delete</a></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                {{/dataValues}}
+                                {{/each}}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <thead>
+            <tr class="row row-cols-auto">
+                <td class="col">
+                    Linguica
+                </td>
+                <td class="col">
+                    Linguica
+                </td>
+                <td class="col">
+                    Linguica
+                </td>
+            </tr>
+            <tr class="row ">
+                <div class="col-lg-12 grid-margin stretch-card">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <tbody>
+                                <tr>
+                                    <td class="py-1">{{fk_colaborador}}</td>
+                                    <td>{{usuario}}</td>
+                                    <td>*****</td>
+                                    <td>
+                                        <button class="btn btn-secondary"><a href="/editar-usuario/{{id_usuario}}"
+                                                style="color:inherit">Edit</a></button>
+                                        <button type="button" class="btn btn-primary" id="confirmDelete"><a
+                                                href="/excluir-usuario/{{id_usuario}}"
+                                                style="color:inherit">Delete</a></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </tr>
+        </thead>
     </div>
 </div>
