@@ -1,4 +1,5 @@
-const db = require("./db")
+const db = require("./db");
+const MaterialConsumido = require("./MaterialConsumido");
 
 const Material = db.sequelize.define('Material', {
   id_material: {
@@ -20,6 +21,7 @@ const Material = db.sequelize.define('Material', {
   },
 });
 
+Material.hasOne(MaterialConsumido, { foreignKey: 'fk_material' });
 
 //Material.sync({ force: true })
   

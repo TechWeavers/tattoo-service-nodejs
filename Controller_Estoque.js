@@ -1,4 +1,6 @@
+const { Sequelize } = require("./models/db");
 const Material = require("./models/Material");
+const MaterialConsumido = require("./models/MaterialConsumido");
 
 // classe de controle que utiliza a própria entidade no banco de dados, possui funções estáticas  que devem ser implementadas nas rotas do arquivo app.js, a fim de se responsabilizar pela logica de execução das entidade de estoque
 
@@ -12,6 +14,43 @@ class Controller_Estoque {
             data_compra: data_compra
         })
         return cadastro;
+    }
+
+    
+    static async diminuirQuantidade(id_material, id_colaborador, quantidade, data_consumo) {
+        // Busque o material para obter o valor da unidade
+        const material = await Material.findOne({
+        where: { id_material: id_material }
+        });
+    
+        if (material) {
+        // Calcule o valor total
+        const valor_total = material.valor_unidade * quantidade;
+    
+        // Atualize a quantidade no Material
+        await Material.update(
+            {
+            quantidade: Sequelize.literal(`quantidade - ${quantidade}`)
+            },
+            {
+            where: { id_material: id_material }
+            }
+        );
+    
+        // Crie o objeto MaterialConsumido
+        const consumo = await MaterialConsumido.create({
+            nome: material.nome,
+            quantidade: quantidade,
+            valor_total: valor_total,
+            data_consumo: data_consumo,
+            fk_material: id_material,
+            fk_colaborador: id_colaborador
+        });
+    
+        return { material, consumo };
+        } else {
+        throw new Error('Material não encontrado');
+        }
     }
 
     static visualizarMaterial(id_material) {

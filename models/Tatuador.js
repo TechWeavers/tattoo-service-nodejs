@@ -1,5 +1,6 @@
 const Procedimento = require("./Procedimento");
-const db = require("./db")
+const db = require("./db");
+const MaterialConsumido = require("./MaterialConsumido");
 
 const Tatuador = db.sequelize.define("Tatuador", {
     id_tatuador: {

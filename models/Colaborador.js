@@ -3,7 +3,8 @@ const Procedimento = require("./Procedimento");
 const Tatuador = require("./Tatuador");
 const Usuario = require("./Usuario");
 const Telefone_Colaborador = require("./Telefone_Colaborador");
-const db = require("./db")
+const db = require("./db");
+const MaterialConsumido = require("./MaterialConsumido");
 
 const Colaborador = db.sequelize.define('Colaborador', {
     id_colaborador: {
@@ -36,6 +37,8 @@ Colaborador.hasOne(Procedimento, { foreignKey: 'fk_colaborador' });
 Colaborador.hasOne(Tatuador, { foreignKey: 'fk_colaborador' });
 Colaborador.hasOne(Administrador, { foreignKey: 'fk_colaborador' });
 Colaborador.hasMany(Telefone_Colaborador, { foreignKey: 'fk_colaborador' })
+Colaborador.hasOne(MaterialConsumido, { foreignKey: 'fk_colaborador' });
+
 
 
 

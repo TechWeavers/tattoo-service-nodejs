@@ -32,6 +32,8 @@ const FichaAnamnese = db.sequelize.define("fichaAnamnese", {
     }
 })
 
+FichaAnamnese.hasOne(Cliente, { foreignKey: 'fk_anamnese' });
+
 //FichaAnamnese.sync({ force: true });
 //FichaAnamnese.belongsTo(Cliente);
 
