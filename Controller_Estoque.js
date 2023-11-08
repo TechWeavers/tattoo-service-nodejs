@@ -16,32 +16,41 @@ class Controller_Estoque {
         return cadastro;
     }
 
-    static diminuirQuantidade(id_material, quantidade) {        
-        const update = Material.update({
-            quantidade: Sequelize.literal(`quantidade - ${quantidade}`)
-        }, {
-            where: { id_material: id_material }
-        })
-
-        return update;
-    }
-
-    static async cadastrarMaterialConsumido(id_material, quantidade, data_consumo) {        
+    
+    static async diminuirQuantidade(id_material, id_colaborador, quantidade, data_consumo) {
+        // Busque o material para obter o valor da unidade
         const material = await Material.findOne({
-            where: { id_material: id_material }
+        where: { id_material: id_material }
         });
-
+    
+        if (material) {
+        // Calcule o valor total
         const valor_total = material.valor_unidade * quantidade;
-
-        const consumo = MaterialConsumido.create({
+    
+        // Atualize a quantidade no Material
+        await Material.update(
+            {
+            quantidade: Sequelize.literal(`quantidade - ${quantidade}`)
+            },
+            {
+            where: { id_material: id_material }
+            }
+        );
+    
+        // Crie o objeto MaterialConsumido
+        const consumo = await MaterialConsumido.create({
             nome: material.nome,
             quantidade: quantidade,
             valor_total: valor_total,
             data_consumo: data_consumo,
-            fk_tatuador: id_material
-        })
-
-        return consumo;
+            fk_material: id_material,
+            fk_colaborador: id_colaborador
+        });
+    
+        return { material, consumo };
+        } else {
+        throw new Error('Material não encontrado');
+        }
     }
 
     static visualizarMaterial(id_material) {

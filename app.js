@@ -387,12 +387,10 @@ app.post("/atualizar-estoque", eAdmin, async(req, res) => {
 app.post("/consumir-estoque", eAdmin, async(req, res) => {
     Controller_Estoque.diminuirQuantidade(
         req.body.id_material,
+        req.body.id_colaborador,
         req.body.quantidade,        
-        ).then(Controller_Estoque.cadastrarMaterialConsumido(
-            req.body.id_material,
-            req.body.quantidade,
-            req.body.data_consumo
-        )).then(function() {
+        req.body.data_consumo
+    ).then(function() {
         res.redirect("/listar-estoque")
     })
 })
