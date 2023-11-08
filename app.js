@@ -345,6 +345,34 @@ app.get("/editar-estoque/:id", eAdmin, async(req, res) => {
     })
 })
 
+app.get("/consumir-estoque/:id", eAdmin, async(req, res) => {
+    Controller_Estoque.procurarMaterial(req.params.id).then(function(materiais) {
+        res.render("consumir-estoque", {
+            materiais,
+            style: `<link rel="stylesheet" href="/css/estilos3.css">
+            <link rel="stylesheet" href="/css/sidebar.css">
+            <link rel="stylesheet" href="/css/header.css">
+            <link rel="stylesheet" href="../../css/style.css">
+            <link rel="stylesheet" href="https://unpkg.com/mdi@latest/css/materialdesignicons.min.css">
+            <link rel="stylesheet" href="https://unpkg.com/feather-icons@latest/dist/feather.css">
+            <link rel="stylesheet" href="https://unpkg.com/vendors-base@latest/vendor.bundle.base.css">
+            <link rel="stylesheet" href="https://unpkg.com/select2@latest/dist/css/select2.min.css">
+            <link rel="stylesheet" href="https://unpkg.com/select2@latest/dist/css/select2-bootstrap.min.css">`,
+            script: `<script src="https://unpkg.com/vendors-base@latest/vendor.bundle.base.js"></script>
+            <script src="https://unpkg.com/@vx/off-canvas@^latest/dist/off-canvas.js"></script>
+            <script src="https://unpkg.com/@vx/hoverable-collapse@^latest/dist/hoverable-collapse.js"></script>
+            <script src="https://unpkg.com/@vx/template@^latest/dist/template.js"></script>
+            <script src="https://unpkg.com/typeahead.js@latest/dist/typeahead.bundle.min.js"></script>
+            <script src="https://unpkg.com/select2@latest/dist/js/select2.min.js"></script>
+            <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
+            <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
+            <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`,
+        })
+    }).catch(function(erro) {
+        console.log("erro ao carregar os dados: " + erro)
+    })
+})
+
 app.post("/atualizar-estoque", eAdmin, async(req, res) => {
     Controller_Estoque.atualizarMaterial(
         req.body.id_material,
@@ -352,6 +380,19 @@ app.post("/atualizar-estoque", eAdmin, async(req, res) => {
         req.body.quantidade,
         req.body.valor_unidade,
         req.body.data_compra).then(function() {
+        res.redirect("/listar-estoque")
+    })
+})
+
+app.post("/consumir-estoque", eAdmin, async(req, res) => {
+    Controller_Estoque.diminuirQuantidade(
+        req.body.id_material,
+        req.body.quantidade,        
+        ).then(Controller_Estoque.cadastrarMaterialConsumido(
+            req.body.id_material,
+            req.body.quantidade,
+            req.body.data_consumo
+        )).then(function() {
         res.redirect("/listar-estoque")
     })
 })
