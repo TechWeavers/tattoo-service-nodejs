@@ -1,4 +1,5 @@
 const Cliente = require("./models/Cliente");
+const FichaAnamnese = require("./models/FichaAnamnese");
 
 class Controller_Cliente {
     static visualizarCliente() {
@@ -37,6 +38,14 @@ class Controller_Cliente {
             redeSocial: redeSocial
         }, { where: { 'id_cliente': id_cliente } })
         return atualiza;
+    }
+
+    static cadastrarFicha(alergia1, fk_cliente) {
+        const cad = FichaAnamnese.create({
+            alergia1: alergia1,
+            fk_cliente: fk_cliente
+        })
+        return cad;
     }
 }
 

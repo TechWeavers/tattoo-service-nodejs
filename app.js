@@ -465,15 +465,14 @@ app.get("/nova-ficha", async(req, res) => {
 })
 
 app.post("/cadastrar-ficha", async(req, res) => {
-    FichaAnamnese.create({
-        alergia1: req.body.alergia1,
-        fk_cliente: req.body.fk_cliente
-    }).then(() => {
+    Controller_Cliente.cadastrarFicha(req.body.alergia1, req.body.fk_cliente).then(() => {
         res.send("dados cadastrados com sucesso")
     }).catch((erro) => {
         res.send("erro ao cadastrar ficha: " + erro)
     })
 })
+
+
 
 //porta
 app.listen(8081, () => {

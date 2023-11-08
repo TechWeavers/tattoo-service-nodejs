@@ -33,6 +33,7 @@ const FichaAnamnese = db.sequelize.define("fichaAnamnese", {
 })
 
 //FichaAnamnese.sync({ force: true });
+//FichaAnamnese.belongsTo(Cliente);
 
 
 module.exports = FichaAnamnese;
