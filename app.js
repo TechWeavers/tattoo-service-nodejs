@@ -233,6 +233,7 @@ app.get("/listar-usuarios", eAdmin, async(req, res) => {
         console.log("Erro ao carregar os dados " + erro)
     })
 })
+console.log("hello")
 
 //exclusão do colaborador selecionado, através de um botão de delete, na página de edição dos usuários
 app.get("/excluir-usuario/:id", function(req, res) {
