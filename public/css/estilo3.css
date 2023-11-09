@@ -187,7 +187,7 @@ box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.25) inset;
 .card-pasta{
   border-radius: 0px 12px 12px 12px;
   background-color: #F09000;
-box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.25) inset;
+box-shadow: 0px -10px 30px 0px rgba(0, 0, 0, 0.25) inset;
 }
 .pasta-ordem{
   background-color: #875101;
@@ -212,6 +212,7 @@ gap: 10px;
 
 #ordem-ativo{
   background-color: #F09000;
+  box-shadow: inset 8px 0px 8px -3px rgba(0, 0, 0, 0.25), inset -3px 0px 8px -3px rgba(0, 0, 0, 0.25);
 }
 
 #ordem:active #ordem-ativo {
