@@ -1,14 +1,15 @@
 const Cliente = require("./models/Cliente");
 const FichaAnamnese = require("./models/FichaAnamnese");
+const ClienteFicha = require("./models/ClienteFicha");
 
 class Controller_Cliente {
     static visualizarCliente() {
-        const view = Cliente.findAll();
+        const view = ClienteFicha.findAll();
         return view;
     }
 
     static cadastrarCliente(nome, cpf, telefone, email, redeSocial) {
-        const create = Cliente.create({
+        const create = ClienteFicha.create({
             nome: nome,
             cpf: cpf,
             telefone: telefone,
@@ -19,18 +20,18 @@ class Controller_Cliente {
     }
 
     static excluirCliente(id_cliente) {
-        const deleta = Cliente.destroy({ where: { 'id_cliente': id_cliente } });
+        const deleta = ClienteFicha.destroy({ where: { 'id_cliente': id_cliente } });
         return deleta;
     }
 
     // procura o cliente especificado para editar os dados
     static procurarCliente(id_cliente) {
-        const procura = Cliente.findAll({ where: { 'id_cliente': id_cliente } });
+        const procura = ClienteFicha.findAll({ where: { 'id_cliente': id_cliente } });
         return procura;
     }
 
     static atualizarCliente(id_cliente, nome, cpf, telefone, email, redeSocial) {
-        const atualiza = Cliente.update({
+        const atualiza = ClienteFicha.update({
             nome: nome,
             cpf: cpf,
             telefone: telefone,

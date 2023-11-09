@@ -26,6 +26,7 @@ app.use(bodyParser.json())
 const { Controller_Colaborador_Usuario } = require("./Controller_Colaborador_Usuario")
 const { Controller_Estoque } = require("./Controller_Estoque");
 const { Controller_Cliente } = require("./Controller_Cliente");
+const ClienteFicha = require("./models/ClienteFicha");
 
 // Página que renderiza a tela de login (handlebars)
 app.get("/", async(req, res) => {
@@ -389,7 +390,7 @@ app.post("/consumir-estoque", eAdmin, async(req, res) => {
     Controller_Estoque.diminuirQuantidade(
         req.body.id_material,
         req.body.id_colaborador,
-        req.body.quantidade,        
+        req.body.quantidade,
         req.body.data_consumo
     ).then(function() {
         res.redirect("/listar-estoque")
@@ -504,14 +505,47 @@ app.get("/nova-ficha", async(req, res) => {
     })
 })
 
-app.post("/cadastrar-ficha", async(req, res) => {
-    Controller_Cliente.cadastrarFicha(req.body.alergia1, req.body.fk_cliente).then(() => {
-        res.send("dados cadastrados com sucesso")
+/*app.post("/cadastrar-ficha", async(req, res) => {
+Controller_Cliente.cadastrarFicha(req.body.alergia1, req.body.fk_cliente).then(() => {
+res.send("dados cadastrados com sucesso")
+}).catch((erro) => {
+res.send("erro ao cadastrar ficha: " + erro)
+})
+})*/
+
+//-------------------------- Teste do CRUD da entidade ClienteFicha ------------------------
+// esta rota é acessada através de um botão editar ficha, na página de listar clientes
+app.get("/listar-ficha/:id", async(req, res) => {
+    ClienteFicha.findAll({ where: { 'id_cliente_ficha': req.params.id } }).then((cliente) => {
+        res.render("listar-ficha", {
+            cliente,
+            style: `<link rel="stylesheet" href="/css/style.css">`,
+        })
     }).catch((erro) => {
-        res.send("erro ao cadastrar ficha: " + erro)
+        res.send("erro ao carregar os dados. Volte para a página anterior. <br> Erro: " + erro)
     })
 })
 
+app.get("/nova-ficha/:id", async(req, res) => {
+    ClienteFicha.findAll({ where: { 'id_cliente_ficha': req.params.id } }).then((cliente) => {
+        res.render("nova-ficha", {
+            cliente,
+            style: `<link rel="stylesheet" href="/css/style.css">`,
+        })
+    })
+})
+
+app.post("/cadastrar-ficha", async(req, res) => {
+    ClienteFicha.update({
+        alergia1: req.body.alergia1,
+        medicacao1: req.body.medicacao1,
+        doenca1: req.body.doenca1,
+    }, { where: { 'id_cliente_ficha': req.body.id_cliente_ficha } }).then(() => {
+        res.redirect("listar-cliente")
+    }).catch((erro) => {
+        res.send("erro ao carregar os dados. Volte para a página anterior. <br> Erro: " + erro)
+    })
+})
 
 
 //porta
