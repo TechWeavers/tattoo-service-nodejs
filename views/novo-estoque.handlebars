@@ -9,22 +9,23 @@
                         <p class="card-description">
                         Cadastro de materiais
                         </p>
+                         <p class="card-description">Coloque "N/A", caso algum dado seja inexistente.</p>
                         <form class="forms-sample" action="/cadastrar-estoque" method="POST">
                             <div class="form-group">
                                 <label class="form-label">Nome do material:</label>
-                                <input type="name" name="nome" class="form-control" id="nome-material">
+                                <input type="name" name="nome" class="form-control" id="nome-material" required=" Dado Obrigatório!" >
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Quantidade:</label>
-                                <input type="number" name="quantidade" class="form-control" id="quantidade">
+                                <input type="number" name="quantidade" class="form-control" id="quantidade" required=" Dado Obrigatório!" >
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Valor Unidade:</label>
-                                <input type="number" name="valor_unidade" class="form-control" id="valor-unidade">
+                                <input type="number" step="0.01" name="valor_unidade" class="form-control" id="valor-unidade" required=" Dado Obrigatório!" >
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Data de compra:</label>
-                                <input type="date" name="data_compra" class="form-control" id="data-compra">
+                                <input type="date" name="data_compra" class="form-control" id="data-compra" required=" Dado Obrigatório!" >
                             </div>
                             <button type="submit" class="btn btn-primary mr-2">Cadastrar</button>
                             <button class="btn btn-secondary ml-2"><a href="/listar-estoque">Cancelar</a></button>

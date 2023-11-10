@@ -17,26 +17,29 @@
                     <th>CPF</th>
                     <th>Telefone</th>
                     <th>Email</th>
-                    <th>Rede</th>
+                    <th>Rede Social</th>
                     <th></th>
                   </tr>
                 </thead>
-                {{#each clientes}} {{#dataValues}} 
+                {{#each clientes}} 
+                {{#dataValues}} 
                 <tbody>
                   <tr>
-                    <td class="py-1">{{id_cliente}}</td>
+                    <td class="py-1">{{id_cliente_ficha}}</td>
                     <td>{{nome}}</td>
                     <td>{{cpf}}</td>
                     <td>{{telefone}}</td>
                     <td>{{email}}</td>
                     <td>{{redeSocial}}</td>
                     <td>
-                      <button class="btn btn-secondary"><a href="/editarcliente/{{id_cliente}}" style="color:inherit">Edit</a></button>
-                      <button type="button" class="btn btn-primary" id="confirmDelete"><a href="/excluir-cliente/{{id_cliente}}" style="color:inherit">Delete</a></button>
+                      <button class="btn btn-secondary"><a href="/editar-cliente/{{id_cliente_ficha}}" style="color:inherit">Edit</a></button>
+                      <button type="button" class="btn btn-primary" id="confirmDelete"><a href="/excluir-cliente/{{id_cliente_ficha}}" style="color:inherit">Delete</a></button>
+                      <button type="button" class="btn btn-primary" id="confirmEdit"><a href="/listar-ficha/{{id_cliente_ficha}}" style="color:inherit">Ver Ficha</a></button>
                     </td>
                   </tr>
                 </tbody>
-                {{/dataValues}} {{/each}}
+                {{/dataValues}} 
+                {{/each}}
               </table>
             </div>
           </div>

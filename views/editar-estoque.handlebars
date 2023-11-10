@@ -8,25 +8,28 @@
             <p class="card-description">
               Atualização de Material
             </p>
+             <p class="card-description">Coloque "N/A", caso algum dado seja inexistente.</p>
             {{#each materiais}} 
             {{#dataValues}} 
             <form action="/atualizar-estoque" method="POST">
               <input type="hidden" name="id_material" class="form-control" id="id_material" value="{{id_material}}"> 
               <div class="mb-3 text-start">
                 <label class="form-label">Nome:</label>
-                <input type="text" name="nome" class="form-control" id="nome" value="{{nome}}">
+                <input type="text" name="nome" class="form-control" id="nome" required=" Dado Obrigatório!" value="{{nome}}">
               </div>
               <div class="mb-3 text-start">
                 <label class="form-label">Quantidade:</label>
-                <input type="number" name="quantidade" class="form-control" id="quantidade" value="{{quantidade}}">
+                <input type="number" name="quantidade" class="form-control" id="quantidade" 
+                required=" Dado Obrigatório!"value="{{quantidade}}">
               </div>
               <div class="mb-3 text-start">
                 <label class="form-label">Valor por unidade:</label>
-                <input type="number" name="valor_unidade" class="form-control" id="valor_unidade" value="{{valor_unidade}}">
+                <input type="number" step="0.01" name="valor_unidade" class="form-control" id="valor_unidade" required=" Dado Obrigatório!" value="{{valor_unidade}}">
               </div>
               <div class="mb-3 text-start">
                 <label class="form-label">Data de compra:</label>
-                <input type="date" name="data_compra" class="form-control" id="data_compra" value="{{data_compra}}">
+                <input type="date" name="data_compra" class="form-control" id="data_compra" 
+                required=" Dado Obrigatório!" value="{{data_compra}}">
               </div>
               <div class="mb-3 text-start">
                 <button type="submit" class="btn btn-primary mr-2">Atualizar</button>

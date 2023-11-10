@@ -8,33 +8,39 @@
             <p class="card-description">
               Atualização de clientes
             </p>
-            {{#each clientes}} 
+             <p class="card-description">Coloque "N/A", caso algum dado seja inexistente.</p>
+            {{#each cliente}} 
             {{#dataValues}} 
             <form action="/atualizar-cliente" method="POST">
-              <input type="hidden" name="id_cliente" class="form-control" id="id_cliente" value="{{id_cliente}}"> 
+              <input type="hidden" name="id_cliente" class="form-control" id="id_cliente" value="{{id_cliente_ficha}}"> 
               <div class="mb-3 text-start">
                 <label class="form-label">Nome:</label>
-                <input type="text" name="nome" class="form-control" id="nome" value="{{nome}}">
+                <input type="text" name="nome" class="form-control" id="nome" required=" Dado Obrigatório!" value="{{nome}}">
               </div>
               <div class="mb-3 text-start">
                 <label class="form-label">CPF:</label>
-                <input type="number" name="cpf" class="form-control" id="cpf" value="{{cpf}}">
+                <input type="number" name="cpf" class="form-control" id="cpf" required=" Dado Obrigatório!" value="{{cpf}}">
               </div>
               <div class="mb-3 text-start">
                 <label class="form-label">Telefone:</label>
-                <input type="number" name="telefone" class="form-control" id="telefone" value="{{telefone}}">
+                <input type="number" name="telefone" class="form-control" id="telefone" required=" Dado Obrigatório!" value="{{telefone}}">
               </div>
               <div class="mb-3 text-start">
                 <label class="form-label">Email:</label>
-                <input type="email" name="email" class="form-control" id="email" value="{{email}}">
+                <input type="email" name="email" class="form-control" id="email" required=" Dado Obrigatório!" value="{{email}}">
               </div>
               <div class="mb-3 text-start">
                 <label class="form-label">Rede social:</label>
-                <input type="text" name="redeSocial" class="form-control" id="redeSocial" value="{{redeSocial}}">
+                <input type="text" name="redeSocial" class="form-control" id="redeSocial" required=" Dado Obrigatório!" value="{{redeSocial}}">
               </div>
+              <!-- envia um arquivo da ficha
               <div class="mb-3 text-start">
                 <label class="form-label">Ficha Anamnese</label>
                 <input type="file" name="fichaAnamnese" class="form-control" id="fichaAnamnese" value="{{fichaAnamnese}}">
+              </div>-->
+              <div class="mb-3 text-start">
+                <button type="submit" class="btn btn-primary mr-2">Atualizar</button>
+                <button class="btn btn-secondary ml-2"><a href="/listar-cliente">Cancelar</a></button>
               </div>
             </form>
             {{/dataValues}}
