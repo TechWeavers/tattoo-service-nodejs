@@ -64,18 +64,19 @@
                         <p class="card-description">
                         Cadastro de Usuários do Sistema
                         </p>
+                         <p class="card-description">Coloque "N/A", caso algum dado seja inexistente.</p>
                        <form action="/novo-usuario" method="POST">
                 <div class="mb-3 text-start">
                     <label class="form-label">Usuario:</label>
-                    <input type="text" name="usuario" class="form-control" id="usuario">
+                    <input type="text" name="usuario" class="form-control" id="usuario"required=" Dado Obrigatório!">
                 </div>
                 <div class="mb-3 text-start">
                     <label class="form-label">ID Colaborador:</label>
-                    <input type="text" name="fk_colaborador" class="form-control" id="fk_colaborador">
+                    <input type="text" name="fk_colaborador" class="form-control" id="fk_colaborador" required=" Dado Obrigatório!">
                 </div>
                 <div class="mb-3 text-start">
                     <label class="form-label">Senha:</label>
-                    <input type="text" name="senha" class="form-control" id="senha">
+                    <input type="text" name="senha" class="form-control" id="senha" required=" Dado Obrigatório!">
                 </div>
                 <div class="mb-3 text-start">
                     <button type="submit" class="btn btn-primary">Cadastrar</button>

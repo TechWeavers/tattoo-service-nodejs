@@ -7,26 +7,27 @@
           <div class="card-body">
           <h4 class="card-title">Cliente</h4>
           <p class="card-description"> Cadastro de Clientes</p>
+          <p class="card-description">Coloque "N/A", caso algum dado seja inexistente.</p>
             <form class="forms-sample" action="/cadastrar-cliente" method="POST">
               <div class="form-group">
                 <label class="form-label">Nome:</label>
-                <input type="name" name="nome" class="form-control" id="nome-material">
+                <input type="name" name="nome" required=" Dado Obrigatório!" class="form-control" id="nome-material">
               </div>
               <div class="form-group">
                 <label class="form-label">CPF:</label>
-                <input type="number" name="cpf" class="form-control" id="cpf">
+                <input type="number" name="cpf" required=" Dado Obrigatório!"  class="form-control" id="cpf">
               </div>
               <div class="form-group">
                 <label class="form-label">Telefone:</label>
-                <input type="number" name="telefone" class="form-control" id="telefone">
+                <input type="number" name="telefone" class="form-control" id="telefone" required=" Dado Obrigatório!" >
               </div>
               <div class="form-group">
                 <label class="form-label">Email:</label>
-                <input type="email" name="email" class="form-control" id="email">
+                <input type="email" name="email" class="form-control" id="email" required=" Dado Obrigatório!" >
               </div>
               <div class="form-group">
                 <label class="form-label">Rede Social:</label>
-                <input type="text" name="redeSocial" class="form-control" id="redeSocial">
+                <input type="text" name="redeSocial" class="form-control" id="redeSocial" required=" Dado Obrigatório!" >
               </div>
               <!-- envia um arquivo da ficha
               <div class="form-group">
