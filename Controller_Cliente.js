@@ -19,25 +19,25 @@ class Controller_Cliente {
         return create;
     }
 
-    static excluirCliente(id_cliente) {
-        const deleta = ClienteFicha.destroy({ where: { 'id_cliente': id_cliente } });
+    static excluirCliente(id_cliente_ficha) {
+        const deleta = ClienteFicha.destroy({ where: { 'id_cliente_ficha': id_cliente_ficha } });
         return deleta;
     }
 
     // procura o cliente especificado para editar os dados
-    static procurarCliente(id_cliente) {
-        const procura = ClienteFicha.findAll({ where: { 'id_cliente': id_cliente } });
+    static procurarCliente(id_cliente_ficha) {
+        const procura = ClienteFicha.findAll({ where: { 'id_cliente_ficha': id_cliente_ficha } });
         return procura;
     }
 
-    static atualizarCliente(id_cliente, nome, cpf, telefone, email, redeSocial) {
+    static atualizarCliente(id_cliente_ficha, nome, cpf, telefone, email, redeSocial) {
         const atualiza = ClienteFicha.update({
             nome: nome,
             cpf: cpf,
             telefone: telefone,
             email: email,
             redeSocial: redeSocial
-        }, { where: { 'id_cliente': id_cliente } })
+        }, { where: { 'id_cliente_ficha': id_cliente_ficha } })
         return atualiza;
     }
 

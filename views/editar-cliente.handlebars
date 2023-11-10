@@ -11,7 +11,7 @@
             {{#each cliente}} 
             {{#dataValues}} 
             <form action="/atualizar-cliente" method="POST">
-              <input type="hidden" name="id_cliente" class="form-control" id="id_cliente" value="{{id_cliente}}"> 
+              <input type="hidden" name="id_cliente" class="form-control" id="id_cliente" value="{{id_cliente_ficha}}"> 
               <div class="mb-3 text-start">
                 <label class="form-label">Nome:</label>
                 <input type="text" name="nome" class="form-control" id="nome" value="{{nome}}">
