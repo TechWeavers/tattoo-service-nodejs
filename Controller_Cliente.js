@@ -62,6 +62,19 @@ class Controller_Cliente {
         const view = ClienteFicha.findAll({ where: { 'id_cliente_ficha': id_cliente_ficha } });
         return view;
     }
+
+    static excluirDadosFicha(id_cliente_ficha) {
+        const deleta = ClienteFicha.update({
+            alergia1: null,
+            alergia2: null,
+            medicacao1: null,
+            medicacao2: null,
+            doenca1: null,
+            doenca2: null
+        }, { where: { 'id_cliente_ficha': id_cliente_ficha } })
+
+        return deleta;
+    }
 }
 
 module.exports = { Controller_Cliente };

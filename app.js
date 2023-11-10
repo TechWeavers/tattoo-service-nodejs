@@ -542,19 +542,15 @@ app.post("/cadastrar-ficha", async(req, res) => {
 })
 
 app.get("/excluir-dados-ficha/:id", async(req, res) => {
-    ClienteFicha.update({
-        alergia1: null,
-        alergia2: null,
-        medicacao1: null,
-        medicacao2: null,
-        doenca1: null,
-        doenca2: null
-    }, { where: { 'id_cliente_ficha': req.params.id } }).then(() => {
+    Controller_Cliente.excluirDadosFicha(req.params.id).then(() => {
         res.redirect("/listar-cliente")
     }).catch((erro) => {
         res.send("Houve um erro. Volte a página anterior.<br> Erro: " + erro)
     })
 })
+
+// rota teste para gerar pdf
+app.get("/gerar-pdf/:id", async(req, res) => {})
 
 
 //porta principal
