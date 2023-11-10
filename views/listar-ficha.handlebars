@@ -14,8 +14,11 @@
                   <tr>
                     <th>ID Cliente</th>
                     <th>1º Alergia</th>
+                    <th>2º Alergia</th>
                     <th>1º Medicação</th>
+                    <th>2º Medicação</th>
                     <th>1ºDoença</th>
+                    <th>2º Doença</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -25,12 +28,15 @@
                   <tr>
                     <td class="py-1">{{id_cliente_ficha}}</td>
                     <td>{{alergia1}}</td>
+                    <td>{{alergia2}}</td>
                     <td>{{medicacao1}}</td>
+                    <td>{{medicacao2}}</td>
                     <td>{{doenca1}}</td>
+                    <td>{{doenca2}}</td>
                    
                     <td>
                       <button class="btn btn-secondary"><a href="/nova-ficha/{{id_cliente_ficha}}" style="color:inherit">Editar ficha</a></button>
-                      <button type="button" class="btn btn-primary" id="confirmDelete"><a href="/excluir-cliente/{{id_cliente}}" style="color:inherit">Delete</a></button>
+                      <button type="button" class="btn btn-primary" id="confirmDelete"><a href="/excluir-dados-ficha/{{id_cliente_ficha}}" style="color:inherit">Delete</a></button>
                     </td>
                   </tr>
                 </tbody>

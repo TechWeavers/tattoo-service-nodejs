@@ -41,12 +41,26 @@ class Controller_Cliente {
         return atualiza;
     }
 
-    static cadastrarFicha(alergia1, fk_cliente) {
-        const cad = FichaAnamnese.create({
+    // funções da ficha de anamnese
+
+    static cadastrarFicha(id_cliente_ficha, alergia1, alergia2, medicacao1, medicacao2, doenca1, doenca2) {
+        const cadFicha = ClienteFicha.update({
             alergia1: alergia1,
-            fk_cliente: fk_cliente
+            alergia2: alergia2,
+            medicacao1: medicacao1,
+            medicacao2: medicacao2,
+            doenca1: doenca1,
+            doenca2: doenca2
+        }, {
+            where: { 'id_cliente_ficha': id_cliente_ficha }
         })
-        return cad;
+
+        return cadFicha;
+    }
+
+    static visualizarFicha(id_cliente_ficha) {
+        const view = ClienteFicha.findAll({ where: { 'id_cliente_ficha': id_cliente_ficha } });
+        return view;
     }
 }
 

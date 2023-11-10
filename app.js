@@ -497,26 +497,14 @@ app.post("/atualizar-cliente", async(req, res) => {
     })
 })
 
-// ------------------------------ CRUD Ficha que será relacionada com cliente -----------------
-app.get("/nova-ficha", async(req, res) => {
-    res.render("nova-ficha", {
-        title: "Nova ficha",
-        style: `<link rel="stylesheet" href="/css/style.css">`,
-    })
-})
 
-/*app.post("/cadastrar-ficha", async(req, res) => {
-Controller_Cliente.cadastrarFicha(req.body.alergia1, req.body.fk_cliente).then(() => {
-res.send("dados cadastrados com sucesso")
-}).catch((erro) => {
-res.send("erro ao cadastrar ficha: " + erro)
-})
-})*/
 
-//-------------------------- Teste do CRUD da entidade ClienteFicha ------------------------
-// esta rota é acessada através de um botão editar ficha, na página de listar clientes
+
+//--------------------------  CRUD da Ficha de Anamnese que pertence a um único cliente -------
+
+// esta rota é acessada através de um botão editar ficha, na página de listar clientes, ela renderiza os dados de uma ficha pertencente a um cliente
 app.get("/listar-ficha/:id", async(req, res) => {
-    ClienteFicha.findAll({ where: { 'id_cliente_ficha': req.params.id } }).then((cliente) => {
+    Controller_Cliente.visualizarFicha(req.params.id).then((cliente) => {
         res.render("listar-ficha", {
             cliente,
             style: `<link rel="stylesheet" href="/css/style.css">`,
@@ -526,8 +514,9 @@ app.get("/listar-ficha/:id", async(req, res) => {
     })
 })
 
+//esta rota renderiza o formulário de cadastro dos dados da ficha, que também é o mesmo de edição
 app.get("/nova-ficha/:id", async(req, res) => {
-    ClienteFicha.findAll({ where: { 'id_cliente_ficha': req.params.id } }).then((cliente) => {
+    Controller_Cliente.visualizarFicha(req.params.id).then((cliente) => {
         res.render("nova-ficha", {
             cliente,
             style: `<link rel="stylesheet" href="/css/style.css">`,
@@ -535,20 +524,40 @@ app.get("/nova-ficha/:id", async(req, res) => {
     })
 })
 
+// rota interna que atualiza o cliente, com os dados da ficha
 app.post("/cadastrar-ficha", async(req, res) => {
-    ClienteFicha.update({
-        alergia1: req.body.alergia1,
-        medicacao1: req.body.medicacao1,
-        doenca1: req.body.doenca1,
-    }, { where: { 'id_cliente_ficha': req.body.id_cliente_ficha } }).then(() => {
+    Controller_Cliente.cadastrarFicha(
+        req.body.id_cliente_ficha,
+        req.body.alergia1,
+        req.body.alergia2,
+        req.body.medicacao1,
+        req.body.medicacao2,
+        req.body.doenca1,
+        req.body.doenca2
+    ).then(() => {
         res.redirect("listar-cliente")
     }).catch((erro) => {
         res.send("erro ao carregar os dados. Volte para a página anterior. <br> Erro: " + erro)
     })
 })
 
+app.get("/excluir-dados-ficha/:id", async(req, res) => {
+    ClienteFicha.update({
+        alergia1: null,
+        alergia2: null,
+        medicacao1: null,
+        medicacao2: null,
+        doenca1: null,
+        doenca2: null
+    }, { where: { 'id_cliente_ficha': req.params.id } }).then(() => {
+        res.redirect("/listar-cliente")
+    }).catch((erro) => {
+        res.send("Houve um erro. Volte a página anterior.<br> Erro: " + erro)
+    })
+})
 
-//porta
+
+//porta principal
 app.listen(8081, () => {
     console.log("Servidor iniciado na porta 8080: http://localhost:8080")
 })
@@ -569,4 +578,5 @@ app.listen(8081, () => {
 // res.send("Erro ao cadastrar " + erro)
 //}).catch(function(erro) {
 // res.send("Erro ao cadastrar " + erro)
+//})es.send("Erro ao cadastrar " + erro)
 //})

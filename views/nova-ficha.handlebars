@@ -11,11 +11,15 @@
           {{#dataValues}}
             <form class="forms-sample" action="/cadastrar-ficha" method="POST">
               <div class="form-group">
-                <label class="form-label">ID Cliente:</label>
+                
                 <input type="hidden" name="id_cliente_ficha" class="form-control" id="id_cliente_ficha" value="{{id_cliente_ficha}}"> 
-
                 <label class="form-label">1º Alergia:</label>
                 <input type="text" name="alergia1" class="form-control" id="alergia1" value="{{alergia1}}">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">2º Alergia:</label>
+                <input type="text" name="alergia2" class="form-control" id="alergia2" value="{{alergia2}}">
               </div>
 
               <div class="form-group">
@@ -24,12 +28,22 @@
               </div>
 
               <div class="form-group">
+                <label class="form-label">2º Medicação:</label>
+                <input type="text" name="medicacao2" class="form-control" id="medicacao2" value="{{medicacao2}}">
+              </div>
+
+              <div class="form-group">
                 <label class="form-label">1º Doença:</label>
                 <input type="text" name="doenca1" class="form-control" id="doenca1" value="{{doenca1}}">
               </div>
 
-              
-              
+              <div class="form-group">
+                <label class="form-label">2º Doença:</label>
+                <input type="text" name="doenca2" class="form-control" id="doenca2" value="{{doenca2}}">
+              </div>
+
+
+
               <button type="submit" class="btn btn-primary mr-2">Cadastrar</button>
               <button class="btn btn-secondary ml-2"><a href="/listar-cliente">Cancelar</a></button>
             </form>
