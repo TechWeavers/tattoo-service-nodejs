@@ -500,6 +500,30 @@ app.post("/atualizar-cliente", async(req, res) => {
     })
 })
 
+//-------------------- teste funcionalidade de busca por CPF -----------------------------------
+app.get("/buscar-cliente/:cpf", async(req, res) => {
+    /*ClienteFicha.findAll({ where: { cpf: req.body.cpf } }).then((cliente) => {
+        res.render("listar-cliente", {
+            cliente,
+            style: `<link rel="stylesheet" href="/css/style.css">`,
+        })
+    })*/
+
+    const { Op } = require("sequelize");
+    ClienteFicha.findAll({
+        where: {
+            cpf: {
+                [Op.eq]: req.body.cpf
+            }
+        }
+    }).then((clientes) => {
+        res.render("listar-cliente", {
+            clientes,
+            style: `<link rel="stylesheet" href="/css/style.css">`,
+        })
+    })
+})
+
 
 
 
