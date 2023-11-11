@@ -9,6 +9,7 @@ const { eAdmin } = require('./middlewares/auth')
 const Colaborador = require("./models/Colaborador");
 const Usuario = require("./models/Usuario");
 const FichaAnamnese = require("./models/FichaAnamnese");
+const pdf = require("html-pdf")
 
 
 // configurações handlebars
@@ -19,6 +20,7 @@ app.use(express.static('public'));
 //configurações bodyParser
 app.use(bodyParser.urlencoded({ extended: "main" }))
 app.use(bodyParser.json())
+
 
 //importando as classes de controle
 
@@ -54,10 +56,24 @@ app.get("/", async(req, res) => {
 })
 
 // rota html pdf
-app.get("/pdf", async (req, res) => {
+app.get("/pdf", async (req, res, html) => {
     res.render("pdf-html", {
         style: `<link rel="stylesheet" href="/css/pdf-html.css">`
-    });
+    }, (err, html) => {
+        if(!err){            
+            //configuraçõoes html-pdf
+
+            pdf.create(html, {}).toFile("./pdf/saida.pdf", (err, res) => {
+                if(err){
+                    console.log("Erro: " + err);
+                } else {
+                    console.log(res);
+                }
+            });
+        } else {
+            console.log("Erro: " + err);
+        }
+    }) 
 });
 
 //rota interna de validação do login
