@@ -206,7 +206,8 @@ app.post("/atualizar-colaborador", eAdmin, function(req, res) {
 app.get("/novo-usuario", eAdmin, async(req, res) => {
     res.render("novo-usuario", {
         title: "Cadastro de Usuario",
-        style: `<link rel="stylesheet" href="/css/style.css">`,
+        style: `<link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="../../css/fileStyle.css">`,
     });
 })
 
@@ -254,6 +255,8 @@ app.get("/editar-usuario/:id", eAdmin, function(req, res) {
             <link rel="stylesheet" href="/css/sidebar.css">
             <link rel="stylesheet" href="/css/header.css">
             <link rel="stylesheet" href="../../css/style.css">
+            
+            <link rel="stylesheet" href="../../css/fileStyle.css">
             <link rel="stylesheet" href="https://unpkg.com/mdi@latest/css/materialdesignicons.min.css">
             <link rel="stylesheet" href="https://unpkg.com/feather-icons@latest/dist/feather.css">
             <link rel="stylesheet" href="https://unpkg.com/vendors-base@latest/vendor.bundle.base.css">
