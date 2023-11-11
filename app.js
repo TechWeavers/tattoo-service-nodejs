@@ -294,7 +294,8 @@ app.get("/listar-estoque", eAdmin, function(req, res) {
         res.render("listar-estoque", {
             materiais,
             title: "Listagem de estoque",
-            style: `<link rel="stylesheet" href="/css/style.css">`,
+            style: `<link rel="stylesheet" href="/css/style.css">
+            <link rel="stylesheet" href="../../css/fileStyle.css">`,
         })
     })
 })
@@ -303,7 +304,8 @@ app.get("/listar-estoque", eAdmin, function(req, res) {
 app.get("/novo-estoque", eAdmin, function(req, res) {
     res.render("novo-estoque", {
         title: "Cadastrar estoque",
-        style: `<link rel="stylesheet" href="/css/style.css">`,
+        style: `<link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="../../css/fileStyle.css">`,
     })
 })
 
