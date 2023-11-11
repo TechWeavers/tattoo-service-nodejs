@@ -53,6 +53,13 @@ app.get("/", async(req, res) => {
     });
 })
 
+// rota html pdf
+app.get("/pdf", async (req, res) => {
+    res.render("pdf-html", {
+        style: `<link rel="stylesheet" href="/css/pdf-html.css">`
+    });
+});
+
 //rota interna de validação do login
 app.post("/login", async(req, res) => {
     const usuarioLogin = req.body.usuarioLogin;
