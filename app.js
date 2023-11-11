@@ -10,6 +10,7 @@ const Colaborador = require("./models/Colaborador");
 const Usuario = require("./models/Usuario");
 const FichaAnamnese = require("./models/FichaAnamnese");
 const pdf = require("html-pdf")
+const fs = require("fs")
 
 
 // configurações handlebars
@@ -56,10 +57,10 @@ app.get("/", async(req, res) => {
 })
 
 // rota html pdf
-app.get("/pdf", async (req, res, html) => {
-    res.render("pdf-html", {
-        style: `<link rel="stylesheet" href="/css/pdf-html.css">`
-    }, (err, html) => {
+app.get("/pdf", async (req, res) => {
+    let html = fs.readFileSync("../views/pdf-html.handlebars", "utf8");
+    let options = {format: 'A4'}
+    res.render("pdf-html", { layout: false }/*, (err, html) => {
         if(!err){            
             //configuraçõoes html-pdf
 
@@ -73,7 +74,7 @@ app.get("/pdf", async (req, res, html) => {
         } else {
             console.log("Erro: " + err);
         }
-    }) 
+    }*/) 
 });
 
 //rota interna de validação do login
