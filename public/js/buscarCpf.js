@@ -5,5 +5,5 @@ document.getElementById('btnBuscar').addEventListener('click', function() {
     var url = '/buscar-cliente/' + cpfValue;
 
     // Redireciona para o URL desejado
-    window.location.href = url;
+    window.location.href = '/buscar-cliente/' + cpfValue;
 });

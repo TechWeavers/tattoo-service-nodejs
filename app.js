@@ -513,7 +513,7 @@ app.get("/buscar-cliente/:cpf", async(req, res) => {
     ClienteFicha.findAll({
         where: {
             cpf: {
-                [Op.eq]: req.body.cpf
+                [Op.eq]: req.params.cpf
             }
         }
     }).then((clientes) => {
