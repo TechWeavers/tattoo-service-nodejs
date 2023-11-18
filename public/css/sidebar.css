@@ -1,3 +1,4 @@
+
 .bi{
   font-size: 20px;
 }
@@ -22,7 +23,7 @@
   display: flex;
   flex-direction: column;
   background-color: #F49200;
-  width: 150px;
+  width: 180px;
   transition: 0.8s;
   z-index: 999;
   top: 0;
@@ -32,7 +33,7 @@
 
 .option-container {
   align-items: center;
-  margin: 20px 24px 50px 24px;
+  margin: 20px 40px 30px 40px;
 }
 
 .option-flex {

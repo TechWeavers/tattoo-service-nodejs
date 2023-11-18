@@ -1,0 +1,39 @@
+.card-pasta {
+  border-radius: 0px 12px 12px 12px;
+  background-color: #F09000;
+  box-shadow: 0px -10px 30px 0px rgba(0, 0, 0, 0.25) inset;
+}
+
+.pasta-ordem {
+  background-color: #875101;
+  border-radius: 6px 20px 0px 0px;
+}
+
+.pasta-ordem a {
+  text-decoration: none;
+  color: #000000;
+}
+
+.pasta-ordem a:ho {
+  text-decoration: none;
+}
+
+.teste {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+#ordem-ativo {
+  background-color: #F09000;
+  box-shadow: inset 8px 0px 8px -3px rgba(0, 0, 0, 0.25), inset -3px 0px 8px -3px rgba(0, 0, 0, 0.25);
+}
+
+#ordem:active #ordem-ativo {
+  background-color: #875101;
+}
+
+#ordem:active {
+  background-color: #F09000;
+}

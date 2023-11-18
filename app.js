@@ -206,7 +206,8 @@ app.post("/atualizar-colaborador", eAdmin, function(req, res) {
 app.get("/novo-usuario", eAdmin, async(req, res) => {
     res.render("novo-usuario", {
         title: "Cadastro de Usuario",
-        style: `<link rel="stylesheet" href="/css/style.css">`,
+        style: `<link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="../../css/fileStyle.css">`,
     });
 })
 
@@ -254,6 +255,8 @@ app.get("/editar-usuario/:id", eAdmin, function(req, res) {
             <link rel="stylesheet" href="/css/sidebar.css">
             <link rel="stylesheet" href="/css/header.css">
             <link rel="stylesheet" href="../../css/style.css">
+            
+            <link rel="stylesheet" href="../../css/fileStyle.css">
             <link rel="stylesheet" href="https://unpkg.com/mdi@latest/css/materialdesignicons.min.css">
             <link rel="stylesheet" href="https://unpkg.com/feather-icons@latest/dist/feather.css">
             <link rel="stylesheet" href="https://unpkg.com/vendors-base@latest/vendor.bundle.base.css">
@@ -291,7 +294,8 @@ app.get("/listar-estoque", eAdmin, function(req, res) {
         res.render("listar-estoque", {
             materiais,
             title: "Listagem de estoque",
-            style: `<link rel="stylesheet" href="/css/style.css">`,
+            style: `<link rel="stylesheet" href="/css/style.css">
+            <link rel="stylesheet" href="../../css/fileStyle.css">`,
         })
     })
 })
@@ -300,7 +304,8 @@ app.get("/listar-estoque", eAdmin, function(req, res) {
 app.get("/novo-estoque", eAdmin, function(req, res) {
     res.render("novo-estoque", {
         title: "Cadastrar estoque",
-        style: `<link rel="stylesheet" href="/css/style.css">`,
+        style: `<link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="../../css/fileStyle.css">`,
     })
 })
 
@@ -494,6 +499,30 @@ app.post("/atualizar-cliente", async(req, res) => {
         console.log("Dados atualizados com sucesso")
     }).catch((erro) => {
         res.send("Erro ao atualizar os dados. <br> Erro: " + erro)
+    })
+})
+
+//-------------------- teste funcionalidade de busca por CPF -----------------------------------
+app.get("/buscar-cliente/:cpf", async(req, res) => {
+    /*ClienteFicha.findAll({ where: { cpf: req.body.cpf } }).then((cliente) => {
+        res.render("listar-cliente", {
+            cliente,
+            style: `<link rel="stylesheet" href="/css/style.css">`,
+        })
+    })*/
+
+    const { Op } = require("sequelize");
+    ClienteFicha.findAll({
+        where: {
+            cpf: {
+                [Op.eq]: req.params.cpf
+            }
+        }
+    }).then((clientes) => {
+        res.render("listar-cliente", {
+            clientes,
+            style: `<link rel="stylesheet" href="/css/style.css">`,
+        })
     })
 })
 

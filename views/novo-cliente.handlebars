@@ -2,43 +2,54 @@
 <div class="main-panel">        
   <div class="content-wrapper">
     <div class="row">
-      <div class="col-md-6 grid-margin stretch-card">
-        <div class="card">
-          <div class="card-body">
-          <h4 class="card-title">Cliente</h4>
-          <p class="card-description"> Cadastro de Clientes</p>
-          <p class="card-description">Coloque "N/A", caso algum dado seja inexistente.</p>
-            <form class="forms-sample" action="/cadastrar-cliente" method="POST">
-              <div class="form-group">
-                <label class="form-label">Nome:</label>
-                <input type="name" name="nome" required=" Dado Obrigatório!" class="form-control" id="nome-material">
-              </div>
-              <div class="form-group">
-                <label class="form-label">CPF:</label>
-                <input type="number" name="cpf" required=" Dado Obrigatório!"  class="form-control" id="cpf">
-              </div>
-              <div class="form-group">
-                <label class="form-label">Telefone:</label>
-                <input type="number" name="telefone" class="form-control" id="telefone" required=" Dado Obrigatório!" >
-              </div>
-              <div class="form-group">
-                <label class="form-label">Email:</label>
-                <input type="email" name="email" class="form-control" id="email" required=" Dado Obrigatório!" >
-              </div>
-              <div class="form-group">
-                <label class="form-label">Rede Social:</label>
-                <input type="text" name="redeSocial" class="form-control" id="redeSocial" required=" Dado Obrigatório!" >
-              </div>
-              <!-- envia um arquivo da ficha
-              <div class="form-group">
-                <label class="form-label">Ficha Anamnese:</label>
-                <input type="number" name="idFichaAnamnese" class="form-control" id="fichaAnamnese">
-              </div>-->
-              <button type="submit" class="btn btn-primary mr-2">Cadastrar</button>
-              <button class="btn btn-secondary ml-2"><a href="/listar-cliente">Cancelar</a></button>
-            </form>
+      <div class="col-lg-12 grid-margin stretch-card">
+        <div class="row col-sm">
+          <div id="ordem" class="col-auto pasta-ordem">
+            <a href="/listar-cliente">Listar clientes</a>
+          </div>
+          <div id="ordem-ativo" class="col-auto  pasta-ordem">
+            <a href="/novo-cliente">Cadastrar novo cliente</a>
           </div>
         </div>
+        <div class="card-body card-pasta">
+          <div class="table-responsive ">
+            <table class="table table-striped ">
+              <h4 class="card-title">Cliente</h4>
+              <p class="card-description"> Cadastro de Clientes</p>
+              <p class="card-description">Coloque "N/A", caso algum dado seja inexistente.</p>
+                <form class="forms-sample" action="/cadastrar-cliente" method="POST">
+                  <div class="form-group">
+                    <label class="form-label">Nome:</label>
+                    <input type="name" name="nome" required=" Dado Obrigatório!" class="form-control" id="nome-material">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">CPF:</label>
+                    <input type="number" name="cpf" required=" Dado Obrigatório!"  class="form-control" id="cpf">
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Telefone:</label>
+                    <input type="number" name="telefone" class="form-control" id="telefone" required=" Dado Obrigatório!" >
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Email:</label>
+                    <input type="email" name="email" class="form-control" id="email" required=" Dado Obrigatório!" >
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label">Rede Social:</label>
+                    <input type="text" name="redeSocial" class="form-control" id="redeSocial" required=" Dado Obrigatório!" >
+                  </div>
+                  <!-- envia um arquivo da ficha
+                  <div class="form-group">
+                    <label class="form-label">Ficha Anamnese:</label>
+                    <input type="number" name="idFichaAnamnese" class="form-control" id="fichaAnamnese">
+                  </div>-->
+                  <button type="submit" class="btn btn-primary mr-2">Cadastrar</button>
+                  
+                </form>
+              </div>
+            </table>
+          </div>
+        </div>  
       </div>
     </div>
   </div>

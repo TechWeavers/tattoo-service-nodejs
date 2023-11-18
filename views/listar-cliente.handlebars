@@ -1,50 +1,71 @@
 <div class="main-panel">
   <div class="content-wrapper">
     <div class="row">
-      <button class="btn btn-primary col-2 m-3"><a href="/novo-cliente" style="color:inherit">Novo Cliente</a></button>
-    </div>
-    <div class="row">
       <div class="col-lg-12 grid-margin stretch-card">
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title">Lista de Cliente</h4>
-            <div class="table-responsive">
-              <table class="table table-striped">
-                <thead>
-                  <tr>
-                    <th>ID Cliente</th>
-                    <th>Nome</th>
-                    <th>CPF</th>
-                    <th>Telefone</th>
-                    <th>Email</th>
-                    <th>Rede Social</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                {{#each clientes}} 
-                {{#dataValues}} 
-                <tbody>
-                  <tr>
-                    <td class="py-1">{{id_cliente_ficha}}</td>
-                    <td>{{nome}}</td>
-                    <td>{{cpf}}</td>
-                    <td>{{telefone}}</td>
-                    <td>{{email}}</td>
-                    <td>{{redeSocial}}</td>
-                    <td>
-                      <button class="btn btn-secondary"><a href="/editar-cliente/{{id_cliente_ficha}}" style="color:inherit">Edit</a></button>
-                      <button type="button" class="btn btn-primary" id="confirmDelete"><a href="/excluir-cliente/{{id_cliente_ficha}}" style="color:inherit">Delete</a></button>
-                      <button type="button" class="btn btn-primary" id="confirmEdit"><a href="/listar-ficha/{{id_cliente_ficha}}" style="color:inherit">Ver Ficha</a></button>
-                    </td>
-                  </tr>
-                </tbody>
-                {{/dataValues}} 
-                {{/each}}
-              </table>
-            </div>
+        
+        <div class="row col-sm">
+          <div id="ordem-ativo" class="col-auto pasta-ordem">
+            <a href="/listar-cliente">Listar clientes</a>
+          </div>
+          <div id="ordem" class="col-auto  pasta-ordem">
+            <a href="/novo-cliente">Cadastrar novo cliente</a>
           </div>
         </div>
-      </div>
+
+        <div class="card-body card-pasta bg-orange">
+          <div class="table-responsive ">
+            <table class="table table-striped">
+              <h4 class="card-title">Lista de Cliente</h4>
+              <!--
+              <div class="form-group">
+                <label class="form-label">Buscar CPF:</label>
+                <input type="text" name="cpf" id="cpf" >
+                <button id="btnBuscar" class="btn btn-secondary">Buscar</button>
+              </div>-->
+              <thead>
+                <tr>
+                  <th>ID Cliente</th>
+                  <th>Nome</th>
+                  <th>CPF</th>
+                  <th>Telefone</th>
+                  <th>Email</th>
+                  <th>Rede Social</th>
+                  <th></th>
+                </tr>
+              </thead>
+              {{#each clientes}} 
+              {{#dataValues}} 
+              <tbody>
+                <tr>
+                  <td class="py-1">{{id_cliente_ficha}}</td>
+                  <td>{{nome}}</td>
+                  <td>{{cpf}}</td>
+                  <td>{{telefone}}</td>
+                  <td>{{email}}</td>
+                  <td>{{redeSocial}}</td>
+                  <td>
+                  <a href="/editar-cliente/{{id_cliente_ficha}}" style="color:inherit">           
+                    <button class="btn btn-secondary">
+                      Editar
+                    </button>
+                  </a>  
+                  <a href="/excluir-cliente/{{id_cliente_ficha}}" style="color:inherit">
+                    <button type="button" class="btn btn-primary" id="confirmDelete">
+                      Deletar
+                    </button>
+                  </a>
+                  <a href="/listar-ficha/{{id_cliente_ficha}}" style="color:inherit">
+                    <button type="button" class="btn btn-primary" id="confirmEdit">Ver ficha</button>
+                  </a>
+                  </td>
+                </tr>
+              </tbody>
+              {{/dataValues}} 
+              {{/each}}
+            </table>
+          </div>
+        </div>
+      </div> 
     </div>
   </div>
 </div>

@@ -5,11 +5,23 @@
     </div>
     <div class="row">
       <div class="col-lg-12 grid-margin stretch-card">
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title">Dados da ficha</h4>
+
+        <div class="row col-sm">
+          <div id="ordem" class="col-auto pasta-ordem">
+            <a href="/listar-cliente">Listar clientes</a>
+          </div>
+          <div id="ordem" class="col-auto  pasta-ordem">
+            <a href="/novo-cliente">Cadastrar novo cliente</a>
+          </div>
+          <div id="ordem-ativo" class="col-auto  pasta-ordem">
+            <a href="/listar-ficha">Listar ficha</a>
+          </div>
+        </div>
+
+          <div class="card-body card-pasta bg-orange">
             <div class="table-responsive">
               <table class="table table-striped">
+                <h4 class="card-title">Dados da ficha</h4>
                 <thead>
                   <tr>
                     <th>ID Cliente</th>
@@ -36,7 +48,7 @@
                    
                     <td>
                       <button class="btn btn-secondary"><a href="/nova-ficha/{{id_cliente_ficha}}" style="color:inherit">Editar ficha</a></button>
-                      <button type="button" class="btn btn-primary" id="confirmDelete"><a href="/excluir-dados-ficha/{{id_cliente_ficha}}" style="color:inherit">Delete</a></button>
+                      <button type="button" class="btn btn-primary" id="confirmDelete"><a href="/excluir-dados-ficha/{{id_cliente_ficha}}" style="color:inherit">Deletar</a></button>
                     </td>
                   </tr>
                 </tbody>
