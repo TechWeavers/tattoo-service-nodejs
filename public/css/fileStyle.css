@@ -14,8 +14,9 @@
   color: #000000;
 }
 
-.pasta-ordem a:ho {
+.pasta-ordem a:hover .pas {
   text-decoration: none;
+  background-color: #F09000;
 }
 
 .teste {
@@ -35,5 +36,10 @@
 }
 
 #ordem:active {
+  background-color: #F09000;
+}
+
+#ordem:hover{
+  text-decoration: none;
   background-color: #F09000;
 }

@@ -11,6 +11,8 @@ const Usuario = require("./models/Usuario");
 const FichaAnamnese = require("./models/FichaAnamnese");
 
 
+
+
 // configurações handlebars
 app.engine("handlebars", handlebars({ defaultLayout: "main" }))
 app.set("view engine", "handlebars")

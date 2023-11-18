@@ -114,3 +114,7 @@
   color: #fefefe;
   display: inline-block;
 }
+
+.nav-item:active{
+  background-color: black;
+}
