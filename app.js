@@ -615,7 +615,7 @@ app.get("/agenda", async(req, res) => {
     })
 })
 app.get("/teste", async(req, res) => {
-        res.render("nova-evento", {
+        res.render("novo-evento", {
             cliente,
             style: `<link rel="stylesheet" href="/css/style.css">`,
         })
