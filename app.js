@@ -586,11 +586,11 @@ app.get("/gerar-pdf/:id", async(req, res) => {})
 //------------------------------------ Google agenda --------------------------------------
 
 app.get("/teste", async(req,res) => {
-    res.render("nova-evento", {
-        cliente,
+    res.render("novo-evento", {
         style: `<link rel="stylesheet" href="/css/style.css">`,
     })
-})    
+})  
+
 /*app.get("/teste/:nome", async(req, res) => {
     googleCalendar.createEvent(req.params.nome).then(() => {
         res.send("<h1> Deu tudo certo</h1>")
