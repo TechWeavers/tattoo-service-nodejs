@@ -585,11 +585,18 @@ app.get("/gerar-pdf/:id", async(req, res) => {})
 
 //------------------------------------ Google agenda --------------------------------------
 
-app.get("/teste/:nome", async(req, res) => {
+app.get("/teste", async(req,res) => {
+    res.render("nova-evento", {
+        cliente,
+        style: `<link rel="stylesheet" href="/css/style.css">`,
+    })
+})    
+/*app.get("/teste/:nome", async(req, res) => {
     googleCalendar.createEvent(req.params.nome).then(() => {
         res.send("<h1> Deu tudo certo</h1>")
+>>>>>>> 622bbd2023aae4218537ff936e817eea554f7178
     })
-})
+})*/
 
 app.post("/criarEvento", async(req, res) => {
 

@@ -142,6 +142,7 @@ class googleCalendar {
 
 
 
+
 authorize().then(listEvents).catch(console.error);
 
 module.exports = { googleCalendar };
