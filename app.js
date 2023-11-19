@@ -591,6 +591,10 @@ app.get("/teste/:nome", async(req, res) => {
     })
 })
 
+app.post("/criarEvento", async(req, res) => {
+
+})
+
 
 
 //porta principal
