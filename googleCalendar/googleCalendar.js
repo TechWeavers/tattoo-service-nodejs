@@ -106,14 +106,14 @@ async function listEvents() {
 class googleCalendar {
 
 
-    static async createEvent(nome) {
+    static async createEvent(nome_evento, local_evento, descricao_evento) {
         const auth = await authorize();
         const calendar = google.calendar({ version: 'v3', auth });
 
         const event = {
-            summary: nome,
-            location: 'Fatec ZL',
-            description: 'vamo come um cuzinho',
+            summary: nome_evento,
+            location: local_evento,
+            description: descricao_evento,
             start: {
                 dateTime: '2023-11-22T06:00:00',
                 timeZone: 'America/Sao_Paulo',
