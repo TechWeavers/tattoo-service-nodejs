@@ -115,11 +115,11 @@ class googleCalendar {
             location: local_evento,
             description: descricao_evento,
             start: {
-                dateTime: '2023-11-22T06:00:00',
+                dateTime: '2023-11-23T06:00:00',
                 timeZone: 'America/Sao_Paulo',
             },
             end: {
-                dateTime: '2023-11-22T18:00:00',
+                dateTime: '2023-11-23T18:00:00',
                 timeZone: 'America/Sao_Paulo',
             },
         };
