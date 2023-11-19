@@ -65,16 +65,16 @@ const compiledTemplate = hdCompile.compile(template);
 const content = compiledTemplate({});
 const outputPath = path.resolve(__dirname, './public/saida.html');
 
-app.get("/pdf", async (req, res) => {
-    fs.writeFile(outputPath, content, async () => {
-        const pdfContent = compiledTemplate({layout: false});
+app.get("/pdf", async(req, res) => {
+    fs.writeFile(outputPath, content, async() => {
+        const pdfContent = compiledTemplate({ layout: false });
         const options = { format: 'A4', path: './public/pdf/output.pdf' };
         const file = { content: pdfContent };
         await pdf.generatePdf(file, options);
         console.log("PDF gerado")
-    
+
     })
-    res.render("pdf-html", {layout: false})
+    res.render("pdf-html", { layout: false })
 
 });
 
@@ -609,8 +609,14 @@ app.get("/gerar-pdf/:id", async(req, res) => {})
 
 //------------------------------------ Google agenda --------------------------------------
 
+app.get("/agenda", async(req, res) => {
+    res.render("agenda", {
+        style: `<link rel="stylesheet" href="/css/style.css">`
+    })
+})
 app.get("/teste", async(req, res) => {
-        res.render("novo-evento", {
+        res.render("nova-evento", {
+            cliente,
             style: `<link rel="stylesheet" href="/css/style.css">`,
         })
     })
