@@ -590,13 +590,19 @@ app.get("/teste", async(req,res) => {
         cliente,
         style: `<link rel="stylesheet" href="/css/style.css">`,
     })
-})
+})    
+/*app.get("/teste/:nome", async(req, res) => {
+    googleCalendar.createEvent(req.params.nome).then(() => {
+        res.send("<h1> Deu tudo certo</h1>")
+>>>>>>> 622bbd2023aae4218537ff936e817eea554f7178
+    })
+})*/
 
 
 
 //porta principal
 app.listen(8081, () => {
-    console.log("Servidor iniciado na porta 8080: http://localhost:8080")
+    console.log("Servidor iniciado na porta 8081: http://localhost:8080")
 })
 
 
