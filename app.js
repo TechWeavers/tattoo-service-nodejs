@@ -585,15 +585,17 @@ app.get("/gerar-pdf/:id", async(req, res) => {})
 
 //------------------------------------ Google agenda --------------------------------------
 
-app.get("/teste", async(req,res) => {
-    googleCalendar.createEvent()
+app.get("/teste/:nome", async(req, res) => {
+    googleCalendar.createEvent(req.params.nome).then(() => {
+        res.send("<h1> Deu tudo certo</h1>")
+    })
 })
 
 
 
 //porta principal
 app.listen(8081, () => {
-    console.log("Servidor iniciado na porta 8080: http://localhost:8080")
+    console.log("Servidor iniciado na porta 8081: http://localhost:8080")
 })
 
 

@@ -76,49 +76,51 @@ async function authorize() {
 // Change the scope to 'https://www.googleapis.com/auth/calendar' and delete any
 // stored credentials.
 
+async function listEvents() {
+    const auth = await authorize();
+    const calendar = google.calendar({ version: 'v3', auth });
+    const res = await calendar.events.list({
+        calendarId: 'primary',
+        timeMin: new Date().toISOString(),
+        maxResults: 10,
+        singleEvents: true,
+        orderBy: 'startTime',
+    });
+
+
+    const events = res.data.items;
+    if (!events || events.length === 0) {
+        console.log('No upcoming events found.');
+        return;
+    }
+    console.log('Upcoming 10 events:');
+    events.map((event, i) => {
+        const start = event.start.dateTime || event.start.date;
+        console.log(`${start} - ${event.summary}`);
+    });
+
+
+}
+
+
 class googleCalendar {
 
-    static async  listEvents() {
-        const auth = await authorize();
-        const calendar = google.calendar({ version: 'v3', auth });
-        const res = await calendar.events.list({
-            calendarId: 'primary',
-            timeMin: new Date().toISOString(),
-            maxResults: 10,
-            singleEvents: true,
-            orderBy: 'startTime',
-        });
-    
-    
-        const events = res.data.items;
-        if (!events || events.length === 0) {
-            console.log('No upcoming events found.');
-            return;
-        }
-        console.log('Upcoming 10 events:');
-        events.map((event, i) => {
-            const start = event.start.dateTime || event.start.date;
-            console.log(`${start} - ${event.summary}`);
-        });
-    
-    
-    }
 
-    static async createEvent() {
+    static async createEvent(nome) {
         const auth = await authorize();
         const calendar = google.calendar({ version: 'v3', auth });
 
         const event = {
-            summary: 'vamo bate no jeferson',
+            summary: nome,
             location: 'Fatec ZL',
             description: 'vamo come um cuzinho',
             start: {
-                dateTime: '2023-11-19T10:00:00',
-                timeZone: 'America/New_York',
+                dateTime: '2023-11-22T06:00:00',
+                timeZone: 'America/Sao_Paulo',
             },
             end: {
-                dateTime: '2023-11-19T12:00:00',
-                timeZone: 'America/New_York',
+                dateTime: '2023-11-22T18:00:00',
+                timeZone: 'America/Sao_Paulo',
             },
         };
 
@@ -134,7 +136,7 @@ class googleCalendar {
 }
 
 
-console.log(listEvents());
+
 
 
 
