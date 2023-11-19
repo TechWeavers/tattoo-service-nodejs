@@ -19,25 +19,24 @@
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th>ID Material</th>
-                  <th>Nome</th>
+                  <th>Material</th>
                   <th>Quantidade</th>
                   <th>Valor Unidade</th>
                   <th>Data de compra</th>
+                  <th></th>
                 </tr>
               </thead>
               {{#each materiais}}
               {{#dataValues}}
               <tbody>
                 <tr>
-                  <td class="py-1">{{id_material}}</td>
                   <td>{{nome}}</td>
                   <td>{{quantidade}}</td>
                   <td>{{valor_unidade}}</td>
                   <td>{{data_compra}}</td>
                   <td>
-                    <button class="btn btn-secondary"><a href="/editar-estoque/{{id_material}}" style="color:inherit">Editar</a></button>
-                    <button type="button" class="btn btn-primary" id="confirmDelete"><a href="/excluir-estoque/{{id_material}}" style="color:inherit">Delete</a></button>
+                    <a href="/editar-estoque/{{id_material}}" style="color:inherit"><i class="bi bi-pencil"></i></a>
+                    <a href="/excluir-estoque/{{id_material}}" style="color:inherit"><i class="bi bi-trash-fill"></i></a>
                     <button class="btn btn-secondary"><a href="/consumir-estoque/{{id_material}}" style="color:inherit">Utilizar</a></button>
                   </td>
                 </tr>

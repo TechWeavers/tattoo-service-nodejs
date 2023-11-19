@@ -586,8 +586,7 @@ app.get("/gerar-pdf/:id", async(req, res) => {})
 //------------------------------------ Google agenda --------------------------------------
 
 app.get("/teste", async(req, res) => {
-        res.render("nova-evento", {
-            cliente,
+        res.render("novo-evento", {
             style: `<link rel="stylesheet" href="/css/style.css">`,
         })
     })
