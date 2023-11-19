@@ -1,8 +1,12 @@
 
 
-.header, .sidebar, #caixa {
-    display: none;
-  }
+* {
+  font-size: 12px;
+}
+
+span {
+  padding: 1.5px;
+}
 
 .a4 {
   width: 210mm;
@@ -25,4 +29,5 @@ p {
 .form-horizontal .control-label {
   color: #8e959e;
 }
+
 
