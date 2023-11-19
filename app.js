@@ -25,8 +25,6 @@ app.use(bodyParser.json())
 
 
 //importando as classes de controle
-
-
 const { Controller_Colaborador_Usuario } = require("./Controller_Colaborador_Usuario")
 const { Controller_Estoque } = require("./Controller_Estoque");
 const { Controller_Cliente } = require("./Controller_Cliente");
@@ -59,7 +57,7 @@ app.get("/", async(req, res) => {
     });
 })
 
-// rota html pdf
+//--------------------------------- rota html pdf-----------------------------------
 const template = fs.readFileSync(path.resolve(__dirname, "./views/pdf-html.handlebars"), 'utf8')
 const compiledTemplate = hdCompile.compile(template);
 const content = compiledTemplate({});
@@ -603,32 +601,33 @@ app.get("/excluir-dados-ficha/:id", async(req, res) => {
     })
 })
 
-// rota teste para gerar pdf
-app.get("/gerar-pdf/:id", async(req, res) => {})
 
 
 //------------------------------------ Google agenda --------------------------------------
 
+// renderiza a agenda com todos os agendamentos até agora
 app.get("/agenda", async(req, res) => {
     res.render("agenda", {
         style: `<link rel="stylesheet" href="/css/style.css">`
     })
 })
-app.get("/teste", async(req, res) => {
-        res.render("novo-evento", {
-            cliente,
-            style: `<link rel="stylesheet" href="/css/style.css">`,
-        })
+
+// renderiza formulário de captação dos dados para agendamento
+app.get("/agendar", async(req, res) => {
+    res.render("novo-evento", {
+        style: `<link rel="stylesheet" href="/css/style.css">`,
     })
-    /*app.get("/teste/:nome", async(req, res) => {
-        googleCalendar.createEvent(req.params.nome).then(() => {
-            res.send("<h1> Deu tudo certo</h1>")
-    >>>>>>> 622bbd2023aae4218537ff936e817eea554f7178
-        })
-    })*/
+})
 
-app.post("/criarEvento", async(req, res) => {
-
+// rota interna que chama a API e insere um procedimento na agenda
+app.post("/criarAgendamento", async(req, res) => {
+    googleCalendar.createEvent(
+        req.body.nome_evento,
+        req.body.local_evento,
+        req.body.descricao_evento
+    ).then(() => {
+        res.redirect("/agenda")
+    })
 })
 
 
