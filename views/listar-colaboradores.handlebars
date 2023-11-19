@@ -24,7 +24,7 @@
                                     <th>Email</th>
                                     <th>Rede</th>
                                     <th>Tipo</th>
-                                    <th>Editar</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             {{#each colaboradores}} {{#dataValues}} 
@@ -38,8 +38,8 @@
                                     <td>{{redeSocial}}</td>
                                     <td>{{tipo}}</td>
                                     <td>
-                                        <button class="btn btn-secondary"><a href="/editar-colaborador/{{id_colaborador}}" style="color:inherit">Editar</a></button>
-                                        <button type="button" class="btn btn-primary" id="confirmDelete"><a href="/excluir-colaborador/{{id_colaborador}}" style="color:inherit">Deletar</a></button>
+                                        <a href="/editar-colaborador/{{id_colaborador}}" style="color:inherit"><i class="bi bi-pencil"></i></a>
+                                        <a href="/excluir-colaborador/{{id_colaborador}}" style="color:inherit"><i class="bi bi-trash-fill"></i></a>
                                     </td>
                                 </tr>
                             </tbody>

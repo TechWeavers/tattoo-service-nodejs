@@ -133,6 +133,7 @@
                                     <th>ID Colaborador</th>
                                     <th>Usuário</th>
                                     <th>Senha</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             {{#each usuarios}} {{#dataValues}}
@@ -142,11 +143,9 @@
                                     <td>{{usuario}}</td>
                                     <td>*****</td>
                                     <td>
-                                        <button class="btn btn-secondary"><a href="/editar-usuario/{{id_usuario}}"
-                                                style="color:inherit">Editar</a></button>
-                                        <button type="button" class="btn btn-primary" id="confirmDelete"><a
-                                                href="/excluir-usuario/{{id_usuario}}"
-                                                style="color:inherit">Deletar</a></button>
+                                        <a href="/editar-usuario/{{id_usuario}}" style="color:inherit"><i class="bi bi-pencil"></i></a>
+
+                                        <a href="/excluir-usuario/{{id_usuario}}" style="color:inherit"><i class="bi bi-trash-fill"></i></a>
                                     </td>
                                 </tr>
                             </tbody>

@@ -9,6 +9,9 @@ const { eAdmin } = require('./middlewares/auth')
 const Colaborador = require("./models/Colaborador");
 const Usuario = require("./models/Usuario");
 const FichaAnamnese = require("./models/FichaAnamnese");
+const hdCompile = require("handlebars")
+const fs = require("fs");
+const pdf = require("html-pdf-node");
 
 
 // configurações handlebars
@@ -20,6 +23,7 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: "main" }))
 app.use(bodyParser.json())
 
+
 //importando as classes de controle
 
 
@@ -28,6 +32,7 @@ const { Controller_Estoque } = require("./Controller_Estoque");
 const { Controller_Cliente } = require("./Controller_Cliente");
 const ClienteFicha = require("./models/ClienteFicha");
 const { googleCalendar } = require("./googleCalendar/googleCalendar");
+const path = require("path");
 
 // Página que renderiza a tela de login (handlebars)
 app.get("/", async(req, res) => {
@@ -53,6 +58,25 @@ app.get("/", async(req, res) => {
         title: "Tela de Login"
     });
 })
+
+// rota html pdf
+const template = fs.readFileSync(path.resolve(__dirname, "./views/pdf-html.handlebars"), 'utf8')
+const compiledTemplate = hdCompile.compile(template);
+const content = compiledTemplate({});
+const outputPath = path.resolve(__dirname, './public/saida.html');
+
+app.get("/pdf", async(req, res) => {
+    fs.writeFile(outputPath, content, async() => {
+        const pdfContent = compiledTemplate({ layout: false });
+        const options = { format: 'A4', path: './public/pdf/output.pdf' };
+        const file = { content: pdfContent };
+        await pdf.generatePdf(file, options);
+        console.log("PDF gerado")
+
+    })
+    res.render("pdf-html", { layout: false })
+
+});
 
 //rota interna de validação do login
 app.post("/login", async(req, res) => {
@@ -591,21 +615,20 @@ app.get("/agenda", async(req, res) => {
     })
 })
 app.get("/teste", async(req, res) => {
-    res.render("novo-evento", {
-
-        style: `<link rel="stylesheet" href="/css/style.css">`,
+        res.render("nova-evento", {
+            cliente,
+            style: `<link rel="stylesheet" href="/css/style.css">`,
+        })
     })
-})
+    /*app.get("/teste/:nome", async(req, res) => {
+        googleCalendar.createEvent(req.params.nome).then(() => {
+            res.send("<h1> Deu tudo certo</h1>")
+    >>>>>>> 622bbd2023aae4218537ff936e817eea554f7178
+        })
+    })*/
 
+app.post("/criarEvento", async(req, res) => {
 
-app.post("/novo-evento", async(req, res) => {
-    googleCalendar.createEvent(
-        req.body.nome_evento,
-        req.body.local_evento,
-        req.body.descricao_evento
-    ).then(() => {
-        res.send("<h1> Agendado com sucesso! </h1>")
-    })
 })
 
 
