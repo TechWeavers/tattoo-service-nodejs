@@ -9,8 +9,9 @@ const { eAdmin } = require('./middlewares/auth')
 const Colaborador = require("./models/Colaborador");
 const Usuario = require("./models/Usuario");
 const FichaAnamnese = require("./models/FichaAnamnese");
-const pdf = require("html-pdf")
-const fs = require("fs")
+const hdCompile = require("handlebars")
+const fs = require("fs");
+const pdf = require("html-pdf-node");
 
 
 // configurações handlebars
@@ -30,6 +31,7 @@ const { Controller_Colaborador_Usuario } = require("./Controller_Colaborador_Usu
 const { Controller_Estoque } = require("./Controller_Estoque");
 const { Controller_Cliente } = require("./Controller_Cliente");
 const ClienteFicha = require("./models/ClienteFicha");
+const path = require("path");
 
 // Página que renderiza a tela de login (handlebars)
 app.get("/", async(req, res) => {
@@ -57,24 +59,22 @@ app.get("/", async(req, res) => {
 })
 
 // rota html pdf
-app.get("/pdf", async (req, res) => {
-    let html = fs.readFileSync("../views/pdf-html.handlebars", "utf8");
-    let options = {format: 'A4'}
-    res.render("pdf-html", { layout: false }/*, (err, html) => {
-        if(!err){            
-            //configuraçõoes html-pdf
+const template = fs.readFileSync(path.resolve(__dirname, "./views/pdf-html.handlebars"), 'utf8')
+const compiledTemplate = hdCompile.compile(template);
+const content = compiledTemplate({});
+const outputPath = path.resolve(__dirname, './public/saida.html');
 
-            pdf.create(html, {}).toFile("./pdf/saida.pdf", (err, res) => {
-                if(err){
-                    console.log("Erro: " + err);
-                } else {
-                    console.log(res);
-                }
-            });
-        } else {
-            console.log("Erro: " + err);
-        }
-    }*/) 
+app.get("/pdf", async (req, res) => {
+    fs.writeFile(outputPath, content, async () => {
+        const pdfContent = compiledTemplate({layout: false});
+        const options = { format: 'A4', path: './public/pdf/output.pdf' };
+        const file = { content: pdfContent };
+        await pdf.generatePdf(file, options);
+        console.log("PDF gerado")
+    
+    })
+    res.render("pdf-html", {layout: false})
+
 });
 
 //rota interna de validação do login
