@@ -78,7 +78,7 @@ async function authorize() {
 
 class googleCalendar {
 
-    static async  listEvents() {
+    static async  listEvents(auth) {
         const auth = await authorize();
         const calendar = google.calendar({ version: 'v3', auth });
         const res = await calendar.events.list({
