@@ -27,6 +27,7 @@ const { Controller_Colaborador_Usuario } = require("./Controller_Colaborador_Usu
 const { Controller_Estoque } = require("./Controller_Estoque");
 const { Controller_Cliente } = require("./Controller_Cliente");
 const ClienteFicha = require("./models/ClienteFicha");
+const { googleCalendar } = require("./googleCalendar/googleCalendar");
 
 // Página que renderiza a tela de login (handlebars)
 app.get("/", async(req, res) => {
@@ -580,6 +581,14 @@ app.get("/excluir-dados-ficha/:id", async(req, res) => {
 
 // rota teste para gerar pdf
 app.get("/gerar-pdf/:id", async(req, res) => {})
+
+
+//------------------------------------ Google agenda --------------------------------------
+
+app.get("/teste", async(req,res) => {
+    googleCalendar.createEvent()
+})
+
 
 
 //porta principal
