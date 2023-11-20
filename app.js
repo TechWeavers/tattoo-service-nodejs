@@ -521,7 +521,7 @@ app.post("/atualizar-cliente", async(req, res) => {
         res.redirect("/listar-cliente");
         console.log("Dados atualizados com sucesso")
     }).catch((erro) => {
-        res.send("Erro ao atualizar os dados. <br> Erro: " + erro)
+        res.render("refresh")
     })
 })
 
@@ -573,6 +573,8 @@ app.get("/nova-ficha/:id", async(req, res) => {
             cliente,
             style: `<link rel="stylesheet" href="/css/style.css">`,
         })
+    }).catch(() => {
+        res.render("refresh")
     })
 })
 
