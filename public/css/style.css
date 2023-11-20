@@ -198,3 +198,12 @@ a.btn.disabled {
 .show > .btn-secondary.dropdown-toggle:focus {
   box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.5);
 }
+
+.iframe{
+    border: darkgoldenrod;
+    box-shadow: 2px 2px 0 0;
+    width: 100vh;
+    height: 100vh;
+    display: block;
+    margin: auto;
+}
