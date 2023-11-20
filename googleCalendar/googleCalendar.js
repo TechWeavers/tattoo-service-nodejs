@@ -106,32 +106,66 @@ async function listEvents() {
 class googleCalendar {
 
 
-    static async createEvent(nome_evento, local_evento, descricao_evento) {
-        const auth = await authorize();
-        const calendar = google.calendar({ version: 'v3', auth });
+    static async createEvent(nome_evento, local_evento, descricao_evento, data_evento, hora_inicio, hora_termino, id_cliente) {
 
-        const event = {
-            summary: nome_evento,
-            location: local_evento,
-            description: descricao_evento,
-            start: {
-                dateTime: '2023-11-23T06:00:00',
-                timeZone: 'America/Sao_Paulo',
-            },
-            end: {
-                dateTime: '2023-11-23T18:00:00',
-                timeZone: 'America/Sao_Paulo',
-            },
-        };
+        // validação de dados do cliente
+        const Cliente = require("../models/ClienteFicha")
 
-        calendar.events.insert({
-            calendarId: 'sixdevsfatec@gmail.com',
-            resource: event,
-        }, (err, res) => {
-            if (err) return console.error('Erro ao inserir evento:', err);
+        const id = id_cliente;
+        const cliente = await Cliente.findByPk(id);
 
-            console.log('Evento inserido:', res.data);
-        });
+        //obter o valor do campo "email" do cliente e armazenar na variável email_cliente
+        if (cliente) {
+            const { email } = cliente
+            const { nome } = cliente
+            const email_cliente = email;
+            const nome_cliente = nome;
+
+            const auth = await authorize();
+            const calendar = google.calendar({ version: 'v3', auth });
+
+            const event = {
+                summary: nome_evento,
+                location: local_evento,
+                description: descricao_evento,
+                start: {
+                    dateTime: data_evento + "T" + hora_inicio
+                        /*formato de data e horário '2023-11-23T06:00:00'*/
+                        ,
+                    timeZone: 'America/Sao_Paulo',
+                },
+                end: {
+                    dateTime: data_evento + "T" + hora_termino,
+                    timeZone: 'America/Sao_Paulo',
+                },
+                attendees: [{
+                    email: email_cliente,
+                    displayName: nome_cliente,
+                    responseStatus: "needsAction"
+                }],
+                reminders: {
+                    useDefault: false,
+                    overrides: [{
+                        method: "email",
+                        "minutes": 24 * 60
+                    }],
+                    sendUpdates: "all"
+                }
+
+
+            };
+
+            calendar.events.insert({
+                calendarId: 'sixdevsfatec@gmail.com',
+                resource: event,
+            }, (err, res) => {
+                if (err) return console.error('Erro ao inserir evento:', err);
+
+                console.log('Evento inserido:', res.data);
+            });
+
+
+        }
     }
 }
 

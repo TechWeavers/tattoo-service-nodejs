@@ -613,28 +613,37 @@ app.get("/agenda", async(req, res) => {
 })
 
 // renderiza formulário de captação dos dados para agendamento
-app.get("/agendar", async(req, res) => {
+app.get("/novo-agendamento", async(req, res) => {
     res.render("novo-evento", {
-        style: `<link rel="stylesheet" href="/css/style.css">`,
+        style: `<link rel="stylesheet" href="/css/style.css">`
     })
 })
 
 // rota interna que chama a API e insere um procedimento na agenda
+
 app.post("/criarAgendamento", async(req, res) => {
     googleCalendar.createEvent(
         req.body.nome_evento,
         req.body.local_evento,
-        req.body.descricao_evento
+        req.body.descricao_evento,
+        req.body.data_evento,
+        req.body.hora_inicio,
+        req.body.hora_termino,
+        req.body.id_cliente,
+
     ).then(() => {
         res.redirect("/agenda")
     })
 })
 
+// deletando agendamentos
+
+
 
 
 //porta principal
-app.listen(8081, () => {
-    console.log("Servidor iniciado na porta 8081: http://localhost:8080")
+app.listen(8080, () => {
+    console.log("Servidor iniciado na porta 8080: http://localhost:8080")
 })
 
 
