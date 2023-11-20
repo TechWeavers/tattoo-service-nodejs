@@ -633,6 +633,9 @@ app.post("/criarAgendamento", async(req, res) => {
 
     ).then(() => {
         res.redirect("/agenda")
+    }).catch((error) => {
+        console.log("Dados incorretos ou não encontrados ao cadastrar agendamento <br> Retorne a página anterior!" + error)
+        res.send("Dados incorretos ou não encontrados ao cadastrar agendamento <br> Retorne a página anterior!" + error)
     })
 })
 
