@@ -425,13 +425,13 @@ app.post("/consumir-estoque", eAdmin, async(req, res) => {
     })
 })
 
-app.get("/excluir-estoque/:id", eAdmin, async(req, res) => {
+/*app.get("/excluir-estoque/:id", eAdmin, async(req, res) => {
     Controller_Estoque.excluirMaterial(req.params.id).then(function() {
         res.redirect("/listar-estoque")
     }).catch(function(erro) {
         res.send("Erro ao deletar os dados: " + erro)
     })
-})
+})*/
 
 // ------------------------------------ CRUD Cliente -------------------------------------------
 
