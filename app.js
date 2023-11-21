@@ -643,6 +643,16 @@ app.post("/criarAgendamento", async(req, res) => {
 
 // deletando agendamentos
 
+app.get("/error", async(req, res) => {
+    res.render("refresh.handlebars", {
+        style: `<link rel="stylesheet" href="/css/">`
+    })
+})
+
+app.use(function(req, res, next) {
+    res.render("refresh.handlebars")
+});
+
 
 
 
