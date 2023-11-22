@@ -223,6 +223,27 @@ app.post("/atualizar-colaborador", eAdmin, function(req, res) {
     })
 })
 
+//buscar colaborador pelo CPF
+app.post("/buscar-colaborador", async(req, res) => {
+    const cpf = req.body.cpf;
+
+    if (!cpf) {
+        return res.status(400).send('CPF não encontrado na base de dados ');
+    }
+
+    try {
+        Controller_Colaborador_Usuario.buscarCPF(cpf).then((colaboradores) => {
+            res.render("listar-colaboradores", {
+                colaboradores,
+                style: `<link rel="stylesheet" href="/css/style.css">`,
+            })
+        })
+    } catch (error) {
+        console.error('Erro ao consultar o banco de dados:', error);
+        res.status(500).send('Erro interno do servidor');
+    }
+})
+
 //------------------------------------ CRUD Usuários --------------------------------------
 
 //renderiza a formulário de cadastro de novos usuários
@@ -415,23 +436,25 @@ app.post("/atualizar-estoque", eAdmin, async(req, res) => {
 })
 
 app.post("/consumir-estoque", eAdmin, async(req, res) => {
+    const dataAtual = new Date();
+    console.log(dataAtual);
     Controller_Estoque.diminuirQuantidade(
         req.body.id_material,
         req.body.id_colaborador,
         req.body.quantidade,
-        req.body.data_consumo
+        dataAtual
     ).then(function() {
         res.redirect("/listar-estoque")
     })
 })
 
-app.get("/excluir-estoque/:id", eAdmin, async(req, res) => {
+/*app.get("/excluir-estoque/:id", eAdmin, async(req, res) => {
     Controller_Estoque.excluirMaterial(req.params.id).then(function() {
         res.redirect("/listar-estoque")
     }).catch(function(erro) {
         res.send("Erro ao deletar os dados: " + erro)
     })
-})
+})*/
 
 // ------------------------------------ CRUD Cliente -------------------------------------------
 
@@ -521,32 +544,29 @@ app.post("/atualizar-cliente", async(req, res) => {
         res.redirect("/listar-cliente");
         console.log("Dados atualizados com sucesso")
     }).catch((erro) => {
-        res.send("Erro ao atualizar os dados. <br> Erro: " + erro)
+        res.render("refresh")
     })
 })
 
-//-------------------- teste funcionalidade de busca por CPF -----------------------------------
-app.get("/buscar-cliente/:cpf", async(req, res) => {
-    /*ClienteFicha.findAll({ where: { cpf: req.body.cpf } }).then((cliente) => {
-        res.render("listar-cliente", {
-            cliente,
-            style: `<link rel="stylesheet" href="/css/style.css">`,
-        })
-    })*/
+// funcionalidade de busca por CPF
+app.post("/buscar-cliente", async(req, res) => {
+    const cpf = req.body.cpf;
 
-    const { Op } = require("sequelize");
-    ClienteFicha.findAll({
-        where: {
-            cpf: {
-                [Op.eq]: req.params.cpf
-            }
-        }
-    }).then((clientes) => {
-        res.render("listar-cliente", {
-            clientes,
-            style: `<link rel="stylesheet" href="/css/style.css">`,
+    if (!cpf) {
+        return res.status(400).send('CPF não encontrado na base de dados ');
+    }
+
+    try {
+        Controller_Cliente.buscarCPF(cpf).then((clientes) => {
+            res.render("listar-cliente", {
+                clientes,
+                style: `<link rel="stylesheet" href="/css/style.css">`,
+            })
         })
-    })
+    } catch (error) {
+        console.error('Erro ao consultar o banco de dados:', error);
+        res.status(500).send('Erro interno do servidor');
+    }
 })
 
 
@@ -573,6 +593,8 @@ app.get("/nova-ficha/:id", async(req, res) => {
             cliente,
             style: `<link rel="stylesheet" href="/css/style.css">`,
         })
+    }).catch(() => {
+        res.render("refresh")
     })
 })
 
@@ -633,10 +655,23 @@ app.post("/criarAgendamento", async(req, res) => {
 
     ).then(() => {
         res.redirect("/agenda")
+    }).catch((error) => {
+        console.log("Dados incorretos ou não encontrados ao cadastrar agendamento <br> Retorne a página anterior!" + error)
+        res.send("Dados incorretos ou não encontrados ao cadastrar agendamento <br> Retorne a página anterior!" + error)
     })
 })
 
 // deletando agendamentos
+
+app.get("/error", async(req, res) => {
+    res.render("refresh.handlebars", {
+        style: `<link rel="stylesheet" href="/css/">`
+    })
+})
+
+app.use(function(req, res, next) {
+    res.render("refresh.handlebars")
+});
 
 
 

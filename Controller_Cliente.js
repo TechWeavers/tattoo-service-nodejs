@@ -41,6 +41,11 @@ class Controller_Cliente {
         return atualiza;
     }
 
+    static buscarCPF(cpf) {
+        const busca = ClienteFicha.findAll({ where: { cpf: cpf } });
+        return busca;
+    }
+
     // funções da ficha de anamnese
 
     static cadastrarFicha(id_cliente_ficha, alergia1, alergia2, medicacao1, medicacao2, doenca1, doenca2) {

@@ -16,12 +16,14 @@
           <div class="table-responsive ">
             <table class="table table-striped">
               <h4 class="card-title">Lista de Cliente</h4>
-              <!--
-              <div class="form-group">
-                <label class="form-label">Buscar CPF:</label>
-                <input type="text" name="cpf" id="cpf" >
-                <button id="btnBuscar" class="btn btn-secondary">Buscar</button>
-              </div>-->
+              
+              <form class="forms-sample" action="/buscar-cliente" method="POST" >
+               <div class="form-group">
+                    <label class="form-label"><strong>Buscar Cliente pelo CPF:</strong></label>
+                    <input type="text" name="cpf" class="form-control busca-cpf" col="30" id="cpf">
+                  </div>
+                   <button type="submit" class="btn btn-primary mr-2 ">Buscar</button>
+              </form>
               <thead>
                 <tr>
                   <th>ID Cliente</th>
