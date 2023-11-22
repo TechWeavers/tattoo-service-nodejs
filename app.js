@@ -415,11 +415,13 @@ app.post("/atualizar-estoque", eAdmin, async(req, res) => {
 })
 
 app.post("/consumir-estoque", eAdmin, async(req, res) => {
+    const dataAtual = new Date();
+    console.log(dataAtual);
     Controller_Estoque.diminuirQuantidade(
         req.body.id_material,
         req.body.id_colaborador,
         req.body.quantidade,
-        req.body.data_consumo
+        dataAtual
     ).then(function() {
         res.redirect("/listar-estoque")
     })
