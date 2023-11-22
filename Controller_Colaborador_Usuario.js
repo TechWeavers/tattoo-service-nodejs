@@ -46,6 +46,11 @@ class Controller_Colaborador_Usuario {
         return atualiza;
     }
 
+    static buscarCPF(cpf) {
+        const busca = Colaborador.findAll({ where: { cpf: cpf } });
+        return busca;
+    }
+
 
     static cadastrarUsuario(usuario, senha, fk_colaborador) {
         Usuario.create({

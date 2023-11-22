@@ -223,6 +223,27 @@ app.post("/atualizar-colaborador", eAdmin, function(req, res) {
     })
 })
 
+//buscar colaborador pelo CPF
+app.post("/buscar-colaborador", async(req, res) => {
+    const cpf = req.body.cpf;
+
+    if (!cpf) {
+        return res.status(400).send('CPF não encontrado na base de dados ');
+    }
+
+    try {
+        Controller_Colaborador_Usuario.buscarCPF(cpf).then((colaboradores) => {
+            res.render("listar-colaboradores", {
+                colaboradores,
+                style: `<link rel="stylesheet" href="/css/style.css">`,
+            })
+        })
+    } catch (error) {
+        console.error('Erro ao consultar o banco de dados:', error);
+        res.status(500).send('Erro interno do servidor');
+    }
+})
+
 //------------------------------------ CRUD Usuários --------------------------------------
 
 //renderiza a formulário de cadastro de novos usuários
@@ -527,28 +548,25 @@ app.post("/atualizar-cliente", async(req, res) => {
     })
 })
 
-//-------------------- teste funcionalidade de busca por CPF -----------------------------------
-app.get("/buscar-cliente/:cpf", async(req, res) => {
-    /*ClienteFicha.findAll({ where: { cpf: req.body.cpf } }).then((cliente) => {
-        res.render("listar-cliente", {
-            cliente,
-            style: `<link rel="stylesheet" href="/css/style.css">`,
-        })
-    })*/
+// funcionalidade de busca por CPF
+app.post("/buscar-cliente", async(req, res) => {
+    const cpf = req.body.cpf;
 
-    const { Op } = require("sequelize");
-    ClienteFicha.findAll({
-        where: {
-            cpf: {
-                [Op.eq]: req.params.cpf
-            }
-        }
-    }).then((clientes) => {
-        res.render("listar-cliente", {
-            clientes,
-            style: `<link rel="stylesheet" href="/css/style.css">`,
+    if (!cpf) {
+        return res.status(400).send('CPF não encontrado na base de dados ');
+    }
+
+    try {
+        Controller_Cliente.buscarCPF(cpf).then((clientes) => {
+            res.render("listar-cliente", {
+                clientes,
+                style: `<link rel="stylesheet" href="/css/style.css">`,
+            })
         })
-    })
+    } catch (error) {
+        console.error('Erro ao consultar o banco de dados:', error);
+        res.status(500).send('Erro interno do servidor');
+    }
 })
 
 

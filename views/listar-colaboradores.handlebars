@@ -15,6 +15,14 @@
                     <div class="table-responsive ">
                         <table class="table table-striped ">
                             <h4 class="card-title">Lista de Colaboradores</h4>
+                              <!--Formulário de busca de colaboradores--->
+                             <form class="forms-sample" action="/buscar-colaborador" method="POST" >
+                                 <div class="form-group">
+                                <label class="form-label"><strong>Buscar Colaborador pelo CPF:</strong></label>
+                                 <input type="text" name="cpf" class="form-control busca-cpf" col="30" id="cpf">
+                                </div>
+                                <button type="submit" class="btn btn-primary mr-2">Buscar</button>
+                                 </form>
                             <thead>
                                 <tr>
                                     <th>ID</th>
