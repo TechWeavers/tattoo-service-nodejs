@@ -43,3 +43,15 @@
   text-decoration: none;
   background-color: #F09000;
 }
+
+
+/*--------------------form--------------------------*/
+
+.bg-orange{
+  border-radius: 0px 12px 12px 12px;
+  background-color: #F09000;
+}
+
+.borda-redonda{
+  border-radius: 12px 12px 12px 12px;
+}
