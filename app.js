@@ -497,8 +497,7 @@ app.get("/listar-cliente", function(req, res) {
 // renderiza o formulário de cadastro de clientes
 app.get("/novo-cliente", function(req, res) {
     res.render("novo-cliente", {
-        title: "Novo cliente",
-        style: `<link rel="stylesheet" href="/css/style.css">`,
+        title: "Novo cliente"
     })
 })
 
