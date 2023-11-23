@@ -8,7 +8,7 @@
     "fs": "^0.0.1-security",
     "googleapis": "^105.0.0",
     "handlebars": "^4.7.8",
-    "html-pdf-node": "^1.0.8",
+    "html-pdf-node": "^1.0.7",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.6.1",
     "nodemailer": "^6.9.7",

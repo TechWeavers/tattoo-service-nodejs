@@ -727,7 +727,7 @@ app.use(function(req, res, next) {
 
 
 //porta principal
-app.listen(8080, () => {
+app.listen(8083, () => {
     console.log("Servidor iniciado na porta 8080: http://localhost:8080")
 })
 
