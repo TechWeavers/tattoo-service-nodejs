@@ -55,3 +55,7 @@
 .borda-redonda{
   border-radius: 12px 12px 12px 12px;
 }
+
+th{
+  background-color: #F09000;
+}
