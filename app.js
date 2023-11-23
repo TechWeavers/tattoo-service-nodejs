@@ -9,6 +9,10 @@ const { eAdmin } = require('./middlewares/auth')
 const Colaborador = require("./models/Colaborador");
 const Usuario = require("./models/Usuario");
 const FichaAnamnese = require("./models/FichaAnamnese");
+const hdCompile = require("handlebars")
+const fs = require("fs");
+const pdf = require("html-pdf-node");
+const nodemailer = require("nodemailer");
 
 
 
@@ -22,13 +26,14 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: "main" }))
 app.use(bodyParser.json())
 
+
 //importando as classes de controle
-
-
 const { Controller_Colaborador_Usuario } = require("./Controller_Colaborador_Usuario")
 const { Controller_Estoque } = require("./Controller_Estoque");
 const { Controller_Cliente } = require("./Controller_Cliente");
 const ClienteFicha = require("./models/ClienteFicha");
+const { googleCalendar } = require("./googleCalendar/googleCalendar");
+const path = require("path");
 
 // Página que renderiza a tela de login (handlebars)
 app.get("/", async(req, res) => {
@@ -54,6 +59,25 @@ app.get("/", async(req, res) => {
         title: "Tela de Login"
     });
 })
+
+//--------------------------------- rota html pdf-----------------------------------
+const template = fs.readFileSync(path.resolve(__dirname, "./views/pdf-html.handlebars"), 'utf8')
+const compiledTemplate = hdCompile.compile(template);
+const content = compiledTemplate({});
+const outputPath = path.resolve(__dirname, './public/saida.html');
+
+app.get("/pdf", async(req, res) => {
+    fs.writeFile(outputPath, content, async() => {
+        const pdfContent = compiledTemplate({ layout: false });
+        const options = { format: 'A4', path: './public/pdf/output.pdf' };
+        const file = { content: pdfContent };
+        await pdf.generatePdf(file, options);
+        console.log("PDF gerado")
+
+    })
+    res.render("pdf-html", { layout: false })
+
+});
 
 //rota interna de validação do login
 app.post("/login", async(req, res) => {
@@ -219,6 +243,29 @@ app.post("/atualizar-colaborador", eAdmin, function(req, res) {
         res.redirect("/listar-colaboradores")
     })
 })
+
+//buscar colaborador pelo CPF
+app.post("/buscar-colaborador", async(req, res) => {
+    const cpf = req.body.cpf;
+
+    if (!cpf) {
+        return res.status(400).send('CPF não encontrado na base de dados ');
+    }
+
+    try {
+        Controller_Colaborador_Usuario.buscarCPF(cpf).then((colaboradores) => {
+            res.render("listar-colaboradores", {
+                colaboradores,
+                style: `<link rel="stylesheet" href="/css/style.css">`,
+            })
+        })
+    } catch (error) {
+        console.error('Erro ao consultar o banco de dados:', error);
+        res.status(500).send('Erro interno do servidor');
+    }
+})
+
+
 
 //------------------------------------ CRUD Usuários --------------------------------------
 
@@ -412,23 +459,25 @@ app.post("/atualizar-estoque", eAdmin, async(req, res) => {
 })
 
 app.post("/consumir-estoque", eAdmin, async(req, res) => {
+    const dataAtual = new Date();
+    console.log(dataAtual);
     Controller_Estoque.diminuirQuantidade(
         req.body.id_material,
         req.body.id_colaborador,
         req.body.quantidade,
-        req.body.data_consumo
+        dataAtual
     ).then(function() {
         res.redirect("/listar-estoque")
     })
 })
 
-app.get("/excluir-estoque/:id", eAdmin, async(req, res) => {
+/*app.get("/excluir-estoque/:id", eAdmin, async(req, res) => {
     Controller_Estoque.excluirMaterial(req.params.id).then(function() {
         res.redirect("/listar-estoque")
     }).catch(function(erro) {
         res.send("Erro ao deletar os dados: " + erro)
     })
-})
+})*/
 
 // ------------------------------------ CRUD Cliente -------------------------------------------
 
@@ -518,32 +567,29 @@ app.post("/atualizar-cliente", async(req, res) => {
         res.redirect("/listar-cliente");
         console.log("Dados atualizados com sucesso")
     }).catch((erro) => {
-        res.send("Erro ao atualizar os dados. <br> Erro: " + erro)
+        res.render("refresh")
     })
 })
 
-//-------------------- teste funcionalidade de busca por CPF -----------------------------------
-app.get("/buscar-cliente/:cpf", async(req, res) => {
-    /*ClienteFicha.findAll({ where: { cpf: req.body.cpf } }).then((cliente) => {
-        res.render("listar-cliente", {
-            cliente,
-            style: `<link rel="stylesheet" href="/css/style.css">`,
-        })
-    })*/
+// funcionalidade de busca por CPF
+app.post("/buscar-cliente", async(req, res) => {
+    const cpf = req.body.cpf;
 
-    const { Op } = require("sequelize");
-    ClienteFicha.findAll({
-        where: {
-            cpf: {
-                [Op.eq]: req.params.cpf
-            }
-        }
-    }).then((clientes) => {
-        res.render("listar-cliente", {
-            clientes,
-            style: `<link rel="stylesheet" href="/css/style.css">`,
+    if (!cpf) {
+        return res.status(400).send('CPF não encontrado na base de dados ');
+    }
+
+    try {
+        Controller_Cliente.buscarCPF(cpf).then((clientes) => {
+            res.render("listar-cliente", {
+                clientes,
+                style: `<link rel="stylesheet" href="/css/style.css">`,
+            })
         })
-    })
+    } catch (error) {
+        console.error('Erro ao consultar o banco de dados:', error);
+        res.status(500).send('Erro interno do servidor');
+    }
 })
 
 
@@ -570,6 +616,8 @@ app.get("/nova-ficha/:id", async(req, res) => {
             cliente,
             style: `<link rel="stylesheet" href="/css/style.css">`,
         })
+    }).catch(() => {
+        res.render("refresh")
     })
 })
 
@@ -598,12 +646,88 @@ app.get("/excluir-dados-ficha/:id", async(req, res) => {
     })
 })
 
-// rota teste para gerar pdf
-app.get("/gerar-pdf/:id", async(req, res) => {})
+
+
+//------------------------------------ Google agenda --------------------------------------
+
+// renderiza a agenda com todos os agendamentos até agora
+app.get("/agenda", async(req, res) => {
+    res.render("agenda", {
+        style: `<link rel="stylesheet" href="/css/style.css">`
+    })
+})
+
+// renderiza formulário de captação dos dados para agendamento
+app.get("/novo-agendamento", async(req, res) => {
+    res.render("novo-evento", {
+        style: `<link rel="stylesheet" href="/css/style.css">`
+    })
+})
+
+// rota interna que chama a API e insere um procedimento na agenda
+
+app.post("/criarAgendamento", async(req, res) => {
+    googleCalendar.createEvent(
+        req.body.nome_evento,
+        req.body.local_evento,
+        req.body.descricao_evento,
+        req.body.data_evento,
+        req.body.hora_inicio,
+        req.body.hora_termino,
+        req.body.id_cliente,
+
+    ).then(() => {
+        res.redirect("/agenda")
+    }).catch((error) => {
+        console.log("Dados incorretos ou não encontrados ao cadastrar agendamento <br> Retorne a página anterior!" + error)
+        res.send("Dados incorretos ou não encontrados ao cadastrar agendamento <br> Retorne a página anterior!" + error)
+    })
+})
+
+// teste Enviar email pro cliente
+app.get("/email", async(req, res) => {
+    const transport = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
+        auth: {
+            user: "sixdevsfatec@gmail.com",
+            pass: "bdsx clop ykqi thaw"
+        }
+    })
+
+    transport.sendMail({
+        from: "sixdevsfatec@gmail.com",
+        to: "jplima.dev@outlook.com",
+        subject: "Enviando email com Nodemailer",
+        html: "<h1> Olá João Pedro!</h1> <p> Este email foi enviado usando o NodeMailer</p>",
+        text: "Este email foi enviado usando o NodeMailer"
+    }).then(() => {
+        console.log("email enviado com sucesso!")
+    }).catch((error) => {
+        console.log("falha ao enviar email")
+    })
+
+
+})
+
+// deletando agendamentos
+
+app.get("/error", async(req, res) => {
+    res.render("refresh.handlebars", {
+        style: `<link rel="stylesheet" href="/css/">`
+    })
+})
+
+app.use(function(req, res, next) {
+    res.render("refresh.handlebars")
+});
+
+
 
 
 //porta principal
-app.listen(8081, () => {
+app.listen(8080, () => {
     console.log("Servidor iniciado na porta 8080: http://localhost:8080")
 })
 

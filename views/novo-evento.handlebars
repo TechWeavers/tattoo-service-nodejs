@@ -1,0 +1,79 @@
+
+<div class="main-panel">        
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-lg-12  grid-margin stretch-card">
+                <div class="row col-sm">
+                    <div id="ordem-ativo" class="col-auto pasta-ordem">
+                        <a href="/agenda">Agenda</a>
+                    </div>
+                    <div id="ordem" class="col-auto  pasta-ordem">
+                        <a href="/novo-agendamento">Novo Agendamento</a>
+                    </div>
+                </div>
+                <div class="card-body card-pasta">
+                    <div class="table-responsive ">
+                        <table class="table table-striped ">
+                            <h4 class="card-title">Agendamentos</h4>
+                            <p class="card-description text-white">
+                                Novo Agendamento
+                            </p>
+                            <form action="/criarAgendamento" method="POST">
+                                <div class="form-group">
+                                    <label class="form-label"><h5>Nome do procedimento:</h5></label>
+                                    <input type="name" name="nome_evento" class="form-control" id="nome-evento" required=" Dado Obrigatório!" >
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label"><h5>Local:</h5></label>
+                                    <input type="name" name="local_evento" class="form-control" id="local-evento" required=" Dado Obrigatório!" >
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label"><h5>Descrição:</h5></label>
+                                    <input type="name" name="descricao_evento" class="form-control" id="descricao-evento" required=" Dado Obrigatório!">
+                                </div>
+
+                                <div class="form-group">
+                                    
+                                    <label class="form-label"><h5>Data de Início:</h5></label>
+                                    <p>Por favor informe a data no padrão yyyy-mm-dd</p>
+                                    <input type="text" name="data_evento" class="form-control" id="data_evento" required=" Dado Obrigatório!" >
+                                </div>
+
+                                 <div class="form-group">
+                                    <label class="form-label"><h5>Horário de Início:</h5></label>
+                                     <p>Por favor informe o horário no padrão hh:mm:ss</p>
+                                    <input type="text" name="hora_inicio" class="form-control" id="hora_inicio" required=" Dado Obrigatório!" >
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label"><h5>Horário de Término:</h5></label>
+                                     <p>Por favor informe o horário no padrão hh:mm:ss</p>
+                                    <input type="text" name="hora_termino" class="form-control" id="hora_termino" required=" Dado Obrigatório!" >
+                                </div>
+
+                                <!--<div class="form-group">
+                                    <label class="form-label"><h5>Email do cliente:</h5></label>
+                                    <input type="email" name="email_cliente" class="form-control" id="email_cliente" required=" Dado Obrigatório!">
+                                </div>-->
+
+                                 <div class="form-group">
+                                    <label class="form-label"><h5>Id do cliente:</h5></label>
+                                    <input type="Integer" name="id_cliente" class="form-control" id="id_cliente" required=" Dado Obrigatório!">
+                                </div>
+
+
+                                
+                               
+                                <button type="submit" class="btn btn-primary mr-2">Cadastrar</button>
+
+                                <button type="submit" class="btn btn-primary mr-2"><a href="https://calendar.google.com/calendar/embed?src=sixdevsfatec%40gmail.com&ctz=America%2FSao_Paulo">Ver Agenda</a></button>
+                              <iframe src="https://calendar.google.com/calendar/embed?height=842&wkst=1&bgcolor=%23F09300&ctz=America%2FSao_Paulo&showNav=1&showTitle=0&mode=WEEK&hl=pt_BR&showPrint=0&showTabs=1&showCalendars=0&showTz=1&title=Street%20Wise%20Agenda&src=c2l4ZGV2c2ZhdGVjQGdtYWlsLmNvbQ&color=%23039BE5" style="border:solid 1px #777" width="1000" height="842" frameborder="0" scrolling="no"></iframe>
+                            </form>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
