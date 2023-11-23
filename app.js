@@ -107,8 +107,7 @@ app.post("/login", async(req, res) => {
         res.redirect("/dashboard");
 
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Erro interno do servidor: " + usuarioLogin + " " + senhaLogin });
+        
     }
 })
 
@@ -714,12 +713,12 @@ app.get("/email", async(req, res) => {
 
 app.get("/error", async(req, res) => {
     res.render("refresh.handlebars", {
-        style: `<link rel="stylesheet" href="/css/">`
+        style: `<link rel="stylesheet" href="/css/error.css">`
     })
 })
 
 app.use(function(req, res, next) {
-    res.render("refresh.handlebars")
+    res.redirect("/error")
 });
 
 
