@@ -12,6 +12,7 @@ const FichaAnamnese = require("./models/FichaAnamnese");
 const hdCompile = require("handlebars")
 const fs = require("fs");
 const pdf = require("html-pdf-node");
+const nodemailer = require("nodemailer");
 
 
 // configurações handlebars
@@ -243,6 +244,8 @@ app.post("/buscar-colaborador", async(req, res) => {
         res.status(500).send('Erro interno do servidor');
     }
 })
+
+
 
 //------------------------------------ CRUD Usuários --------------------------------------
 
@@ -659,6 +662,33 @@ app.post("/criarAgendamento", async(req, res) => {
         console.log("Dados incorretos ou não encontrados ao cadastrar agendamento <br> Retorne a página anterior!" + error)
         res.send("Dados incorretos ou não encontrados ao cadastrar agendamento <br> Retorne a página anterior!" + error)
     })
+})
+
+// teste Enviar email pro cliente
+app.get("/email", async(req, res) => {
+    const transport = nodemailer.createTransport({
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
+        auth: {
+            user: "sixdevsfatec@gmail.com",
+            pass: "bdsx clop ykqi thaw"
+        }
+    })
+
+    transport.sendMail({
+        from: "sixdevsfatec@gmail.com",
+        to: "jplima.dev@outlook.com",
+        subject: "Enviando email com Nodemailer",
+        html: "<h1> Olá João Pedro!</h1> <p> Este email foi enviado usando o NodeMailer</p>",
+        text: "Este email foi enviado usando o NodeMailer"
+    }).then(() => {
+        console.log("email enviado com sucesso!")
+    }).catch((error) => {
+        console.log("falha ao enviar email")
+    })
+
+
 })
 
 // deletando agendamentos
