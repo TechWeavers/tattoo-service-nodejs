@@ -1,0 +1,35 @@
+.profile-img {
+  display: none;
+} 
+
+.profile-nome, .profile-cargo{
+  color: transparent;
+}
+
+.sidebar {
+  display: none;
+}
+
+.logo-error{
+  margin-top: 250px;
+}
+
+.text-error {
+  font-family: 'Inter', sans-serif;
+  font-size: 30px;
+  margin-top: 25px;
+}
+
+.botao {
+  font-family: 'Inter', sans-serif;
+  font-size: 30px;
+  color: white;
+  background-color: #333232;
+  border: #333232;
+  transition: 0.2s;
+  margin-top: 15px;
+}
+
+.botao:hover {
+  background-color: #616161;
+}
