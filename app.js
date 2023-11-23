@@ -370,9 +370,7 @@ app.get("/listar-estoque", eAdmin, function(req, res) {
 // renderiza o formulário de cadastro do material
 app.get("/novo-estoque", eAdmin, function(req, res) {
     res.render("novo-estoque", {
-        title: "Cadastrar estoque",
-        style: `<link rel="stylesheet" href="/css/style.css">
-        <link rel="stylesheet" href="../../css/fileStyle.css">`,
+        title: "Cadastrar estoque"
     })
 })
 
@@ -394,25 +392,7 @@ app.post("/cadastrar-estoque", eAdmin, async(req, res) => {
 app.get("/editar-estoque/:id", eAdmin, async(req, res) => {
     Controller_Estoque.procurarMaterial(req.params.id).then(function(materiais) {
         res.render("editar-estoque", {
-            materiais,
-            style: `<link rel="stylesheet" href="/css/estilos3.css">
-            <link rel="stylesheet" href="/css/sidebar.css">
-            <link rel="stylesheet" href="/css/header.css">
-            <link rel="stylesheet" href="../../css/style.css">
-            <link rel="stylesheet" href="https://unpkg.com/mdi@latest/css/materialdesignicons.min.css">
-            <link rel="stylesheet" href="https://unpkg.com/feather-icons@latest/dist/feather.css">
-            <link rel="stylesheet" href="https://unpkg.com/vendors-base@latest/vendor.bundle.base.css">
-            <link rel="stylesheet" href="https://unpkg.com/select2@latest/dist/css/select2.min.css">
-            <link rel="stylesheet" href="https://unpkg.com/select2@latest/dist/css/select2-bootstrap.min.css">`,
-            script: `<script src="https://unpkg.com/vendors-base@latest/vendor.bundle.base.js"></script>
-            <script src="https://unpkg.com/@vx/off-canvas@^latest/dist/off-canvas.js"></script>
-            <script src="https://unpkg.com/@vx/hoverable-collapse@^latest/dist/hoverable-collapse.js"></script>
-            <script src="https://unpkg.com/@vx/template@^latest/dist/template.js"></script>
-            <script src="https://unpkg.com/typeahead.js@latest/dist/typeahead.bundle.min.js"></script>
-            <script src="https://unpkg.com/select2@latest/dist/js/select2.min.js"></script>
-            <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
-            <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
-            <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`,
+            materiais
         })
     }).catch(function(erro) {
         console.log("erro ao carregar os dados: " + erro)
@@ -422,25 +402,7 @@ app.get("/editar-estoque/:id", eAdmin, async(req, res) => {
 app.get("/consumir-estoque/:id", eAdmin, async(req, res) => {
     Controller_Estoque.procurarMaterial(req.params.id).then(function(materiais) {
         res.render("consumir-estoque", {
-            materiais,
-            style: `<link rel="stylesheet" href="/css/estilos3.css">
-            <link rel="stylesheet" href="/css/sidebar.css">
-            <link rel="stylesheet" href="/css/header.css">
-            <link rel="stylesheet" href="../../css/style.css">
-            <link rel="stylesheet" href="https://unpkg.com/mdi@latest/css/materialdesignicons.min.css">
-            <link rel="stylesheet" href="https://unpkg.com/feather-icons@latest/dist/feather.css">
-            <link rel="stylesheet" href="https://unpkg.com/vendors-base@latest/vendor.bundle.base.css">
-            <link rel="stylesheet" href="https://unpkg.com/select2@latest/dist/css/select2.min.css">
-            <link rel="stylesheet" href="https://unpkg.com/select2@latest/dist/css/select2-bootstrap.min.css">`,
-            script: `<script src="https://unpkg.com/vendors-base@latest/vendor.bundle.base.js"></script>
-            <script src="https://unpkg.com/@vx/off-canvas@^latest/dist/off-canvas.js"></script>
-            <script src="https://unpkg.com/@vx/hoverable-collapse@^latest/dist/hoverable-collapse.js"></script>
-            <script src="https://unpkg.com/@vx/template@^latest/dist/template.js"></script>
-            <script src="https://unpkg.com/typeahead.js@latest/dist/typeahead.bundle.min.js"></script>
-            <script src="https://unpkg.com/select2@latest/dist/js/select2.min.js"></script>
-            <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
-            <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
-            <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`,
+            materiais
         })
     }).catch(function(erro) {
         console.log("erro ao carregar os dados: " + erro)
@@ -486,8 +448,7 @@ app.get("/listar-cliente", function(req, res) {
     Controller_Cliente.visualizarCliente().then((clientes) => {
         res.render("listar-cliente", {
             clientes,
-            title: "Listar cliente",
-            style: `<link rel="stylesheet" href="/css/style.css">`,
+            title: "Listar cliente"
         })
     }).catch((erro) => {
         res.send("Erro ao carregar os dados. Volte a página anterior! <br> Erro: " + erro)
@@ -530,25 +491,7 @@ app.get("/editar-cliente/:id", async(req, res) => {
     Controller_Cliente.procurarCliente(req.params.id).then((cliente) => {
         res.render("editar-cliente", {
             cliente,
-            title: "Editar cliente",
-            style: `<link rel="stylesheet" href="/css/estilos3.css">
-                    <link rel="stylesheet" href="/css/sidebar.css">
-                    <link rel="stylesheet" href="/css/header.css">
-                    <link rel="stylesheet" href="../../css/style.css">
-                    <link rel="stylesheet" href="https://unpkg.com/mdi@latest/css/materialdesignicons.min.css">
-                    <link rel="stylesheet" href="https://unpkg.com/feather-icons@latest/dist/feather.css">
-                    <link rel="stylesheet" href="https://unpkg.com/vendors-base@latest/vendor.bundle.base.css">
-                    <link rel="stylesheet" href="https://unpkg.com/select2@latest/dist/css/select2.min.css">
-                    <link rel="stylesheet" href="https://unpkg.com/select2@latest/dist/css/select2-bootstrap.min.css">`,
-            script: `<script src="https://unpkg.com/vendors-base@latest/vendor.bundle.base.js"></script>
-                    <script src="https://unpkg.com/@vx/off-canvas@^latest/dist/off-canvas.js"></script>
-                    <script src="https://unpkg.com/@vx/hoverable-collapse@^latest/dist/hoverable-collapse.js"></script>
-                    <script src="https://unpkg.com/@vx/template@^latest/dist/template.js"></script>
-                    <script src="https://unpkg.com/typeahead.js@latest/dist/typeahead.bundle.min.js"></script>
-                    <script src="https://unpkg.com/select2@latest/dist/js/select2.min.js"></script>
-                    <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
-                    <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
-                    <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`,
+            title: "Editar cliente"
         })
     })
 })
@@ -581,8 +524,7 @@ app.post("/buscar-cliente", async(req, res) => {
     try {
         Controller_Cliente.buscarCPF(cpf).then((clientes) => {
             res.render("listar-cliente", {
-                clientes,
-                style: `<link rel="stylesheet" href="/css/style.css">`,
+                clientes
             })
         })
     } catch (error) {
@@ -600,8 +542,7 @@ app.post("/buscar-cliente", async(req, res) => {
 app.get("/listar-ficha/:id", async(req, res) => {
     Controller_Cliente.visualizarFicha(req.params.id).then((cliente) => {
         res.render("listar-ficha", {
-            cliente,
-            style: `<link rel="stylesheet" href="/css/style.css">`,
+            cliente
         })
     }).catch((erro) => {
         res.send("erro ao carregar os dados. Volte para a página anterior. <br> Erro: " + erro)
@@ -612,8 +553,7 @@ app.get("/listar-ficha/:id", async(req, res) => {
 app.get("/nova-ficha/:id", async(req, res) => {
     Controller_Cliente.visualizarFicha(req.params.id).then((cliente) => {
         res.render("nova-ficha", {
-            cliente,
-            style: `<link rel="stylesheet" href="/css/style.css">`,
+            cliente
         })
     }).catch(() => {
         res.render("refresh")
