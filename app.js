@@ -13,6 +13,7 @@ const hdCompile = require("handlebars")
 const fs = require("fs");
 const pdf = require("html-pdf-node");
 const nodemailer = require("./Nodemailer");
+var alert = require('alert');
 
 
 
@@ -88,9 +89,12 @@ app.post("/login", async(req, res) => {
         const usuarioEncontrado = await Usuario.findOne({
             where: { usuario: usuarioLogin },
         });
+        
+        
 
         if (!usuarioEncontrado) {
-            return res.status(404).json({ message: "Usuário não encontrado" });
+            return alert('Hello');
+
         }
 
         if (!(await bcrypt.compare(senhaLogin, usuarioEncontrado.senha))) {

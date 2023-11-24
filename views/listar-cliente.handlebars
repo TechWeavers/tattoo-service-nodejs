@@ -14,14 +14,17 @@
 
         <div class="card-body card-pasta bg-orange">
           <div class="table-responsive ">
-            <table class="table table-striped">
+            <table class="table table-striped text-center">
               <h4 class="card-title">Lista de Cliente</h4>
               
-              <form class="forms-sample" action="/buscar-cliente" method="POST" >
+              <form class="forms-sample " action="/buscar-cliente" method="POST" >
                <div class="form-group ">
                   <label class="form-label"><strong>Buscar Cliente pelo CPF:</strong></label>
-                  <input type="text" name="cpf" class="form-control busca-cpf" col="30" id="cpf">
-                  <button type="submit" class="butn butn-primary mr-2 ">Buscar</button>                  
+                  <div class="row col-sm">
+                    <input type="text" name="cpf" class="form-control busca-cpf col-2" col="30" id="cpf">
+                    <button type="submit" class="butn butn-primary col-1">Buscar</button>     
+                  </div>
+                                 
                 </div>
                    
               </form>
@@ -47,24 +50,11 @@
                   <td>{{email}}</td>
                   <td>{{redeSocial}}</td>
                   <td>
-                  <a href="/editar-cliente/{{id_cliente_ficha}}" style="color:inherit">           
-                    <i class="bi bi-pencil"></i>
-                  </a>  
-                  <a href="/excluir-cliente/{{id_cliente_ficha}}" style="color:inherit">
-                    <i class="bi bi-trash-fill"></i>
-                  </a>
-                  <a href="/listar-ficha/{{id_cliente_ficha}}" style="color:inherit">
-                    <button type="button" class="butn butn-primary" id="confirmEdit">Ver ficha</button>
-                  </a>
-                    <a href="/editar-cliente/{{id_cliente_ficha}}" style="color:inherit">
-                      <button class="butn butn-secondary">
-                        Editar
-                      </button>
-                    </a>
+                    <a href="/editar-cliente/{{id_cliente_ficha}}" style="color:inherit">           
+                      <i class="bi bi-pencil"></i>
+                    </a>  
                     <a href="/excluir-cliente/{{id_cliente_ficha}}" style="color:inherit">
-                      <button type="button" class="butn butn-primary" id="confirmDelete">
-                        Deletar
-                      </button>
+                      <i class="bi bi-trash-fill"></i>
                     </a>
                     <a href="/listar-ficha/{{id_cliente_ficha}}" style="color:inherit">
                       <button type="button" class="butn butn-primary" id="confirmEdit">Ver ficha</button>
