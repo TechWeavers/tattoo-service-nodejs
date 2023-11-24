@@ -13,7 +13,6 @@ const hdCompile = require("handlebars")
 const fs = require("fs");
 const pdf = require("html-pdf-node");
 const nodemailer = require("./Nodemailer");
-var alert = require('alert');
 
 
 
@@ -93,7 +92,7 @@ app.post("/login", async(req, res) => {
         
 
         if (!usuarioEncontrado) {
-            return alert('Hello');
+            return 
 
         }
 
@@ -741,7 +740,7 @@ app.get("/email", async(req, res) => {
 
 app.get("/error", async(req, res) => {
     res.render("refresh.handlebars", {
-        text: "A página em que você tentou<br>acessar não existe",
+        text: "A página em que você tentou acessar não existe",
         rota_nome: "Voltar para dashboard",
         rota: "login",
         style: `<link rel="stylesheet" href="/css/error.css">`
