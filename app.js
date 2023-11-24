@@ -12,7 +12,7 @@ const FichaAnamnese = require("./models/FichaAnamnese");
 const hdCompile = require("handlebars")
 const fs = require("fs");
 const pdf = require("html-pdf-node");
-const nodemailer = require("nodemailer");
+const nodemailer = require("./Nodemailer");
 
 
 
@@ -107,6 +107,7 @@ app.post("/login", async(req, res) => {
         res.redirect("/dashboard");
 
     } catch (error) {
+
     }
 })
 
@@ -664,6 +665,7 @@ app.get("/novo-agendamento", async(req, res) => {
 // rota interna que chama a API e insere um procedimento na agenda
 
 app.post("/criarAgendamento", async(req, res) => {
+
     googleCalendar.createEvent(
         req.body.nome_evento,
         req.body.local_evento,
@@ -673,7 +675,19 @@ app.post("/criarAgendamento", async(req, res) => {
         req.body.hora_termino,
         req.body.id_cliente,
 
-    ).then(() => {
+    ).then(async() => {
+        const id = req.body.id_cliente;
+        const cliente = await ClienteFicha.findByPk(id);
+        if (cliente) {
+            const { email } = cliente;
+            const { nome } = cliente;
+            const email_cliente = email;
+            const nome_cliente = nome;
+            nodemailer.email.enviarEmail(email_cliente, nome_cliente);
+            console.log("email enviado com sucesso")
+        } else {
+            console.log("falha ao enviar email")
+        }
         res.redirect("/agenda")
     }).catch((error) => {
         console.log("Dados incorretos ou não encontrados ao cadastrar agendamento <br> Retorne a página anterior!" + error)
