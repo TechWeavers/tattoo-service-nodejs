@@ -663,36 +663,47 @@ app.get("/novo-agendamento", async(req, res) => {
 })
 
 // rota interna que chama a API e insere um procedimento na agenda
+// ao inserir um procedimento, ele chama o módulo da biblioteca de enviar o email de confirmação, e envia pro email do cliente.
 
 app.post("/criarAgendamento", async(req, res) => {
+    const id_colab = req.body.id_colaborador;
+    const colaborador = await Colaborador.findByPk(id_colab);
+    if (colaborador) {
+        const { email } = colaborador;
+        const { nome } = colaborador;
+        const email_colaborador = email;
+        const nome_colaborador = nome;
+        googleCalendar.createEvent(
+            req.body.nome_evento,
+            req.body.local_evento,
+            req.body.descricao_evento,
+            req.body.data_evento,
+            req.body.hora_inicio,
+            req.body.hora_termino,
+            req.body.id_cliente,
+            email_colaborador,
+            nome_colaborador
 
-    googleCalendar.createEvent(
-        req.body.nome_evento,
-        req.body.local_evento,
-        req.body.descricao_evento,
-        req.body.data_evento,
-        req.body.hora_inicio,
-        req.body.hora_termino,
-        req.body.id_cliente,
+        ).then(async() => {
+            const id = req.body.id_cliente;
+            const cliente = await ClienteFicha.findByPk(id);
+            if (cliente) {
+                const { email } = cliente;
+                const { nome } = cliente;
+                const email_cliente = email;
+                const nome_cliente = nome;
+                nodemailer.email.enviarEmail(email_cliente, nome_cliente);
+                console.log("email enviado com sucesso")
+            } else {
+                console.log("falha ao enviar email")
+            }
+            res.redirect("/agenda")
+        }).catch((error) => {
+            console.log("Dados incorretos ou não encontrados ao cadastrar agendamento <br> Retorne a página anterior!" + error)
+            res.send("Dados incorretos ou não encontrados ao cadastrar agendamento <br> Retorne a página anterior!" + error)
+        })
+    }
 
-    ).then(async() => {
-        const id = req.body.id_cliente;
-        const cliente = await ClienteFicha.findByPk(id);
-        if (cliente) {
-            const { email } = cliente;
-            const { nome } = cliente;
-            const email_cliente = email;
-            const nome_cliente = nome;
-            nodemailer.email.enviarEmail(email_cliente, nome_cliente);
-            console.log("email enviado com sucesso")
-        } else {
-            console.log("falha ao enviar email")
-        }
-        res.redirect("/agenda")
-    }).catch((error) => {
-        console.log("Dados incorretos ou não encontrados ao cadastrar agendamento <br> Retorne a página anterior!" + error)
-        res.send("Dados incorretos ou não encontrados ao cadastrar agendamento <br> Retorne a página anterior!" + error)
-    })
 })
 
 // teste Enviar email pro cliente

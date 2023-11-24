@@ -17,7 +17,7 @@ class email {
             from: "sixdevsfatec@gmail.com",
             to: email,
             subject: "Enviando email com Nodemailer teste com express",
-            html: "<h1> Olá" + nome + " João Pedro!</h1> <p> Este email foi enviado usando o NodeMailer</p>",
+            html: "<h1> Olá" + nome + "!</h1> <p> Só passando aqui para avisar que a sua tatuagem esá confirmada!</p> <p> Agradecemos pela preferência! </p>",
             text: "Este email foi enviado usando o NodeMailer"
         })
     }

@@ -106,7 +106,7 @@ async function listEvents() {
 class googleCalendar {
 
 
-    static async createEvent(nome_evento, local_evento, descricao_evento, data_evento, hora_inicio, hora_termino, id_cliente) {
+    static async createEvent(nome_evento, local_evento, descricao_evento, data_evento, hora_inicio, hora_termino, id_cliente, email_colaborador, nome_colaborador) {
 
         // validação de dados do cliente
         const Cliente = require("../models/ClienteFicha")
@@ -139,10 +139,16 @@ class googleCalendar {
                     timeZone: 'America/Sao_Paulo',
                 },
                 attendees: [{
-                    email: email_cliente,
-                    displayName: nome_cliente,
-                    responseStatus: "needsAction"
-                }],
+                        email: email_cliente,
+                        displayName: nome_cliente,
+                        responseStatus: "needsAction"
+                    },
+                    {
+                        email: email_colaborador,
+                        displayName: nome_colaborador,
+                        responseStatus: "needsAction"
+                    }
+                ],
                 reminders: {
                     useDefault: false,
                     overrides: [{
