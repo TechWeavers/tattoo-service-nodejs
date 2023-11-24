@@ -726,6 +726,15 @@ app.get("/email", async(req, res) => {
 
 app.get("/error", async(req, res) => {
     res.render("refresh.handlebars", {
+        text: "A página em que você tentou<br>acessar não existe",
+        rota_nome: "Voltar para dashboard",
+        rota: "login",
+        style: `<link rel="stylesheet" href="/css/error.css">`
+    })
+})
+
+app.get("/error", async(req, res) => {
+    res.render("refresh.handlebars", {
         style: `<link rel="stylesheet" href="/css/error.css">`
     })
 })
@@ -734,6 +743,11 @@ app.use(function(req, res, next) {
     res.redirect("/error")
 });
 
+app.get("/negado", async(req, res) => {
+    res.render("negado.handlebars", {
+        style: `<link rel="stylesheet" href="/css/error.css">`
+    })
+})
 
 
 
