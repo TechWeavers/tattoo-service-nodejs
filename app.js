@@ -10,7 +10,6 @@ const Usuario = require("./models/Usuario");
 const Evento = require("./models/Evento");
 const nodemailer = require("./Nodemailer");
 const copiaEventos = require("./models/copiaEventos")
-const nodemailer = require("nodemailer");
 const puppeteer = require("puppeteer");
 
 
