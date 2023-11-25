@@ -8,9 +8,8 @@ const tokenModule = require('./modules/token');
 const { eAdmin } = require('./middlewares/auth')
 const Usuario = require("./models/Usuario");
 const Evento = require("./models/Evento");
-const nodemailer = require("./Nodemailer");
 const copiaEventos = require("./models/copiaEventos")
-const nodemailer = require("nodemailer");
+const nodemailer = require("./Nodemailer")
 const puppeteer = require("puppeteer");
 
 
@@ -63,55 +62,55 @@ app.get("/", async(req, res) => {
 //--------------------------------- rota html pdf-----------------------------------
 
 // Rota para gerar o PDF
-app.get("/pdf/:id", async (req, res) => {
+app.get("/pdf/:id", async(req, res) => {
     let responseSent = false;
-  
+
     try {
-      // Busca informações do cliente e da ficha
-      const [cliente, ficha] = await Promise.all([
-        Controller_Cliente.procurarCliente(req.params.id),
-        Controller_Cliente.procurarFicha(req.params.id)
-      ]);
-  
-      // Renderiza a view em HTML
-      const html = await new Promise((resolve, reject) => {
-        res.render("pdf-html", { cliente, ficha, layout: false }, (err, html) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(html);
-          }
+        // Busca informações do cliente e da ficha
+        const [cliente, ficha] = await Promise.all([
+            Controller_Cliente.procurarCliente(req.params.id),
+            Controller_Cliente.procurarFicha(req.params.id)
+        ]);
+
+        // Renderiza a view em HTML
+        const html = await new Promise((resolve, reject) => {
+            res.render("pdf-html", { cliente, ficha, layout: false }, (err, html) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(html);
+                }
+            });
         });
-      });
-  
-      // Configurações do Puppeteer
-      const browser = await puppeteer.launch({ headless: "new" });
-      const page = await browser.newPage();
-      await page.setContent(html);
-  
-      // Gera o PDF
-      const pdfBuffer = await page.pdf({ format: "A4" });
-  
-      await browser.close();
-  
-      // Envia o PDF como resposta, garantindo que seja enviado apenas uma vez
-      if (!responseSent) {
-        responseSent = true;
-        res.contentType("application/pdf");
-        res.send(pdfBuffer);
-        console.log("PDF GERADO");
-      }
+
+        // Configurações do Puppeteer
+        const browser = await puppeteer.launch({ headless: "new" });
+        const page = await browser.newPage();
+        await page.setContent(html);
+
+        // Gera o PDF
+        const pdfBuffer = await page.pdf({ format: "A4" });
+
+        await browser.close();
+
+        // Envia o PDF como resposta, garantindo que seja enviado apenas uma vez
+        if (!responseSent) {
+            responseSent = true;
+            res.contentType("application/pdf");
+            res.send(pdfBuffer);
+            console.log("PDF GERADO");
+        }
     } catch (error) {
-      // Verifica se a resposta já foi enviada para evitar headers duplicados
-      if (!responseSent) {
-        console.error("Erro ao gerar o PDF:", error);
-        res.status(500).send("Erro ao gerar o PDF");
-        responseSent = true;
-      }
+        // Verifica se a resposta já foi enviada para evitar headers duplicados
+        if (!responseSent) {
+            console.error("Erro ao gerar o PDF:", error);
+            res.status(500).send("Erro ao gerar o PDF");
+            responseSent = true;
+        }
     }
-  });
-  
-  
+});
+
+
 //rota interna de validação do login
 app.post("/login", async(req, res) => {
     const usuarioLogin = req.body.usuarioLogin;
@@ -681,7 +680,7 @@ app.get("/nova-ficha/:id", eAdmin, async(req, res) => {
 
 // rota interna que atualiza o cliente, com os dados da ficha
 app.post("/cadastrar-ficha", async(req, res) => {
-    Controller_Cliente.cadastrarFicha(      
+    Controller_Cliente.cadastrarFicha(
         req.body.nascimento,
         req.body.endereco,
         req.body.tratamento,
@@ -794,10 +793,11 @@ app.post("/criarAgendamento", eAdmin, async(req, res) => {
 
 //excluir agendamento
 app.get("/excluir-agendamento/:id_procedimento_API", eAdmin, async(req, res) => {
-    googleCalendar.delete(req.params.id_procedimento_API).then(() => {
+    googleCalendar.deleteEvent(req.params.id_procedimento_API).then(() => {
         res.redirect("/dashboard")
-    }).catch(() => {
-        res.redirect("erro")
+    }).catch((erro) => {
+        res.redirect("/erro")
+        console.log("erro" + erro)
     })
 })
 
@@ -828,7 +828,7 @@ app.get("/email", async(req, res) => {
 
 })
 
-// deletando agendamentos
+
 
 app.get("/erro404", eAdmin, async(req, res) => {
     res.render("refresh.handlebars", {
