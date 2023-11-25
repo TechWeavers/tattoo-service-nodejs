@@ -14,6 +14,7 @@ const hdCompile = require("handlebars")
 const fs = require("fs");
 const pdf = require("html-pdf-node");
 const nodemailer = require("./Nodemailer");
+const copiaEventos = require("./models/copiaEventos")
 
 
 
@@ -110,38 +111,41 @@ app.post("/login", async(req, res) => {
 
         res.redirect("/dashboard");
 
-    }catch(error){
+    } catch (error) {
 
-    } 
-        then => {
-        const  usuarioNome = req.body.usuarioLogin
-            
+    }
+    then => {
+        const usuarioNome = req.body.usuarioLogin
+
     }
 })
 
 // Tela principal do site, com todas as funcionalidades do sistema
 app.get("/dashboard", eAdmin, async(req, res) => {
-    res.render("dashboard", {
-        title: "Dashboard",
-        style: `<link rel="stylesheet" href="/css/estilos3.css">
-        <link rel="stylesheet" href="/css/sidebar.css">
-        <link rel="stylesheet" href="/css/header.css">
-        <link rel="stylesheet" href="../../css/style.css">
-        <link rel="stylesheet" href="https://unpkg.com/mdi@latest/css/materialdesignicons.min.css">
-        <link rel="stylesheet" href="https://unpkg.com/feather-icons@latest/dist/feather.css">
-        <link rel="stylesheet" href="https://unpkg.com/vendors-base@latest/vendor.bundle.base.css">
-        <link rel="stylesheet" href="https://unpkg.com/select2@latest/dist/css/select2.min.css">
-        <link rel="stylesheet" href="https://unpkg.com/select2@latest/dist/css/select2-bootstrap.min.css">`,
-        script: `<script src="https://unpkg.com/vendors-base@latest/vendor.bundle.base.js"></script>
-        <script src="https://unpkg.com/@vx/off-canvas@^latest/dist/off-canvas.js"></script>
-        <script src="https://unpkg.com/@vx/hoverable-collapse@^latest/dist/hoverable-collapse.js"></script>
-        <script src="https://unpkg.com/@vx/template@^latest/dist/template.js"></script>
-        <script src="https://unpkg.com/typeahead.js@latest/dist/typeahead.bundle.min.js"></script>
-        <script src="https://unpkg.com/select2@latest/dist/js/select2.min.js"></script>
-        <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
-        <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
-        <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`
-    });
+    copiaEventos.findAll().then((eventos) => {
+        res.render("dashboard", {
+            eventos,
+            title: "Dashboard",
+            style: `<link rel="stylesheet" href="/css/estilos3.css">
+            <link rel="stylesheet" href="/css/sidebar.css">
+            <link rel="stylesheet" href="/css/header.css">
+            <link rel="stylesheet" href="../../css/style.css">
+            <link rel="stylesheet" href="https://unpkg.com/mdi@latest/css/materialdesignicons.min.css">
+            <link rel="stylesheet" href="https://unpkg.com/feather-icons@latest/dist/feather.css">
+            <link rel="stylesheet" href="https://unpkg.com/vendors-base@latest/vendor.bundle.base.css">
+            <link rel="stylesheet" href="https://unpkg.com/select2@latest/dist/css/select2.min.css">
+            <link rel="stylesheet" href="https://unpkg.com/select2@latest/dist/css/select2-bootstrap.min.css">`,
+            script: `<script src="https://unpkg.com/vendors-base@latest/vendor.bundle.base.js"></script>
+            <script src="https://unpkg.com/@vx/off-canvas@^latest/dist/off-canvas.js"></script>
+            <script src="https://unpkg.com/@vx/hoverable-collapse@^latest/dist/hoverable-collapse.js"></script>
+            <script src="https://unpkg.com/@vx/template@^latest/dist/template.js"></script>
+            <script src="https://unpkg.com/typeahead.js@latest/dist/typeahead.bundle.min.js"></script>
+            <script src="https://unpkg.com/select2@latest/dist/js/select2.min.js"></script>
+            <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
+            <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
+            <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`
+        });
+    })
 })
 
 // criar um novo login para usuários do sistema
@@ -707,6 +711,16 @@ app.post("/criarAgendamento", async(req, res) => {
                 const email_cliente = email;
                 const nome_cliente = nome;
                 nodemailer.email.enviarEmail(email_cliente, nome_cliente);
+
+                //copiando os eventos
+                copiaEventos.create({
+                    nome_evento: req.body.nome_evento,
+                    nome_cliente: nome_cliente,
+                    nome_colaborador: nome_colaborador,
+                    data_evento: req.body.data_evento,
+                    hora_inicio: req.body.hora_inicio,
+                    hora_termino: req.body.hora_termino
+                })
                 console.log("email enviado com sucesso")
             } else {
                 console.log("falha ao enviar email")
@@ -720,32 +734,9 @@ app.post("/criarAgendamento", async(req, res) => {
 
 })
 
-// teste Enviar email pro cliente
-app.get("/email", async(req, res) => {
-    const transport = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: true,
-        auth: {
-            user: "sixdevsfatec@gmail.com",
-            pass: "bdsx clop ykqi thaw"
-        }
-    })
-
-    transport.sendMail({
-        from: "sixdevsfatec@gmail.com",
-        to: "jplima.dev@outlook.com",
-        subject: "Enviando email com Nodemailer",
-        html: "<h1> Olá João Pedro!</h1> <p> Este email foi enviado usando o NodeMailer</p>",
-        text: "Este email foi enviado usando o NodeMailer"
-    }).then(() => {
-        console.log("email enviado com sucesso!")
-    }).catch((error) => {
-        console.log("falha ao enviar email")
-    })
 
 
-})
+
 
 // deletando agendamentos
 

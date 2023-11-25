@@ -4,6 +4,7 @@ const CopiaEventos = db.sequelize.define("copiaEventos", {
     id_evento: {
         type: db.Sequelize.INTEGER,
         primaryKey: true,
+        autoIncrement: true
     },
     nome_evento: {
         type: db.Sequelize.STRING
@@ -26,6 +27,6 @@ const CopiaEventos = db.sequelize.define("copiaEventos", {
 
 })
 
-//CopiaEventos.sync({ force: true });
+CopiaEventos.sync({ force: true });
 
 module.exports = CopiaEventos;
