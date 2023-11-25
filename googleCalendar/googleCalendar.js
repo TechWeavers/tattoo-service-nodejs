@@ -197,32 +197,10 @@ class googleCalendar {
         const auth = await authorize();
         const calendar = google.calendar({ version: 'v3', auth });
 
-        const deleta = calendar.events.delete({
-            calendarId: "sixdevsfatec@gmail.com",
-            eventId: id_procedimento_API
-
-        })
+        const deleta = calendar.events.delete({ calendarId: "sixdevsfatec@gmail.com", eventId: id_procedimento_API });
         return deleta;
     }
 
-    static async delete(eventId) {
-        const auth = await authorize();
-        const calendar = google.calendar({ version: 'v3', auth })
-
-        const event = await calendar.events.get({
-            auth,
-            eventId,
-            calendarId: 'sixdevsfatec@gamil.com',
-        })
-
-        event = event.data
-
-        const res = await calendar.events.delete({
-            auth,
-            eventId,
-            calendarId: 'sixdevsfatec@gmail.com',
-        })
-    }
 
 
 }
