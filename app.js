@@ -11,6 +11,7 @@ const Evento = require("./models/Evento");
 const copiaEventos = require("./models/copiaEventos")
 const nodemailer = require("./Nodemailer")
 const puppeteer = require("puppeteer");
+const Colaborador = require("./models/Colaborador")
 
 
 
