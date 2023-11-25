@@ -5,8 +5,13 @@ const { authenticate } = require('@google-cloud/local-auth');
 const { google } = require('googleapis');
 const crypto = require("crypto");
 
+// validação de dados do cliente
+const Cliente = require("../models/Cliente")
+
+
 // importando a entidade cópiaEventos que vai copiar cada evento da API
-const copiaEventos = require("../models/copiaEventos")
+const copiaEventos = require("../models/copiaEventos");
+const { Controller_Cliente } = require('../Controller_Cliente');
 
 // If modifying these scopes, delete token.json.
 const SCOPES = ['https://www.googleapis.com/auth/calendar'];
@@ -110,24 +115,10 @@ async function listEvents() {
 class googleCalendar {
 
 
-    static async createEvent(nome_evento, local_evento, descricao_evento, data_evento, hora_inicio, hora_termino, id_cliente, email_colaborador, nome_colaborador) {
-
-        // validação de dados do cliente
-        const Cliente = require("../models/ClienteFicha")
-
-        const id = id_cliente;
-        const cliente = await Cliente.findByPk(id);
-
-
-
+    static async createEvent(nome_evento, local_evento, descricao_evento, data_evento, hora_inicio, hora_termino, email_cliente, nome_cliente, email_colaborador, nome_colaborador) {
 
         //obter o valor do campo "email" do cliente e armazenar na variável email_cliente
-        if (cliente) {
-            const { email } = cliente
-            const { nome } = cliente
-            const email_cliente = email;
-            const nome_cliente = nome;
-
+        if (nome_cliente && email_cliente) {
             const auth = await authorize();
             const calendar = google.calendar({ version: 'v3', auth });
             const randomUUID = crypto.randomUUID();
