@@ -248,7 +248,7 @@ app.post("/atualizar-colaborador", eAdmin, function(req, res) {
 })
 
 //buscar colaborador pelo CPF
-app.post("/buscar-colaborador", async(req, res) => {
+app.post("/buscar-colaborador", eAdmin, async(req, res) => {
     const cpf = req.body.cpf;
 
     if (!cpf) {
@@ -282,7 +282,7 @@ app.get("/novo-usuario", eAdmin, async(req, res) => {
 })
 
 // rota interna para criar um novo login para usuários do sistema, recebendo os dados do formulário de cadastro de usuários
-app.post("/novo-usuario", async(req, res) => {
+app.post("/novo-usuario", eAdmin, async(req, res) => {
     const senhaCript = await bcrypt.hash(req.body.senha, 8);
     Controller_Colaborador_Usuario.cadastrarUsuario(
         req.body.usuario,
@@ -308,7 +308,7 @@ app.get("/listar-usuarios", eAdmin, async(req, res) => {
 
 
 //exclusão do colaborador selecionado, através de um botão de delete, na página de edição dos usuários
-app.get("/excluir-usuario/:id", function(req, res) {
+app.get("/excluir-usuario/:id", eAdmin, function(req, res) {
     Controller_Colaborador_Usuario.excluirUsuario(req.params.id).then(function() {
         res.redirect("/listar-usuarios")
     }).catch(function(erro) {
@@ -485,7 +485,7 @@ app.post("/consumir-estoque", eAdmin, async(req, res) => {
 // ------------------------------------ CRUD Cliente -------------------------------------------
 
 //visualização de clientes cadastrados
-app.get("/listar-cliente", function(req, res) {
+app.get("/listar-cliente", eAdmin,function(req, res) {
     Controller_Cliente.visualizarCliente().then((clientes) => {
         res.render("listar-cliente", {
             clientes,
@@ -498,14 +498,14 @@ app.get("/listar-cliente", function(req, res) {
 })
 
 // renderiza o formulário de cadastro de clientes
-app.get("/novo-cliente", function(req, res) {
+app.get("/novo-cliente",eAdmin, function(req, res) {
     res.render("novo-cliente", {
         title: "Novo cliente"
     })
 })
 
 //rota interna de cadastro de clientes
-app.post("/cadastrar-cliente", async(req, res) => {
+app.post("/cadastrar-cliente",eAdmin, async(req, res) => {
     Controller_Cliente.cadastrarCliente(
         req.body.nome,
         req.body.cpf,
@@ -519,7 +519,7 @@ app.post("/cadastrar-cliente", async(req, res) => {
 })
 
 // rota de exclusão do cliente
-app.get("/excluir-cliente/:id", async(req, res) => {
+app.get("/excluir-cliente/:id",eAdmin, async(req, res) => {
     Controller_Cliente.excluirCliente(req.params.id).then(() => {
         res.redirect("/listar-cliente")
         console.log("dados excluídos com sucesso")
@@ -529,7 +529,7 @@ app.get("/excluir-cliente/:id", async(req, res) => {
 })
 
 // procura o cliente esepcificado ao apertar o botão de editar, e renderiza o formulário com os dados dele para editá-lo
-app.get("/editar-cliente/:id", async(req, res) => {
+app.get("/editar-cliente/:id",eAdmin, async(req, res) => {
     Controller_Cliente.procurarCliente(req.params.id).then((cliente) => {
         res.render("editar-cliente", {
             cliente,
@@ -557,7 +557,7 @@ app.get("/editar-cliente/:id", async(req, res) => {
 })
 
 // rota de atualização dos dados
-app.post("/atualizar-cliente", async(req, res) => {
+app.post("/atualizar-cliente", eAdmin, async(req, res) => {
     Controller_Cliente.atualizarCliente(
         req.body.id_cliente,
         req.body.nome,
@@ -574,7 +574,7 @@ app.post("/atualizar-cliente", async(req, res) => {
 })
 
 // funcionalidade de busca por CPF
-app.post("/buscar-cliente", async(req, res) => {
+app.post("/buscar-cliente",eAdmin, async(req, res) => {
     const cpf = req.body.cpf;
 
     if (!cpf) {
@@ -600,7 +600,7 @@ app.post("/buscar-cliente", async(req, res) => {
 //--------------------------  CRUD da Ficha de Anamnese que pertence a um único cliente -------
 
 // esta rota é acessada através de um botão editar ficha, na página de listar clientes, ela renderiza os dados de uma ficha pertencente a um cliente
-app.get("/listar-ficha/:id", async(req, res) => {
+app.get("/listar-ficha/:id",eAdmin, async(req, res) => {
     Controller_Cliente.visualizarFicha(req.params.id).then((cliente) => {
         res.render("listar-ficha", {
             cliente,
@@ -612,7 +612,7 @@ app.get("/listar-ficha/:id", async(req, res) => {
 })
 
 //esta rota renderiza o formulário de cadastro dos dados da ficha, que também é o mesmo de edição
-app.get("/nova-ficha/:id", async(req, res) => {
+app.get("/nova-ficha/:id",eAdmin, async(req, res) => {
     Controller_Cliente.visualizarFicha(req.params.id).then((cliente) => {
         res.render("nova-ficha", {
             cliente,
@@ -624,7 +624,7 @@ app.get("/nova-ficha/:id", async(req, res) => {
 })
 
 // rota interna que atualiza o cliente, com os dados da ficha
-app.post("/cadastrar-ficha", async(req, res) => {
+app.post("/cadastrar-ficha",eAdmin, async(req, res) => {
     Controller_Cliente.cadastrarFicha(
         req.body.id_cliente_ficha,
         req.body.alergia1,
@@ -640,7 +640,7 @@ app.post("/cadastrar-ficha", async(req, res) => {
     })
 })
 
-app.get("/excluir-dados-ficha/:id", async(req, res) => {
+app.get("/excluir-dados-ficha/:id",eAdmin, async(req, res) => {
     Controller_Cliente.excluirDadosFicha(req.params.id).then(() => {
         res.redirect("/listar-cliente")
     }).catch((erro) => {
@@ -652,18 +652,18 @@ app.get("/excluir-dados-ficha/:id", async(req, res) => {
 
 //------------------------------------ Google agenda --------------------------------------
 
-app.get("/listar-eventos", async(req, res) => {
+app.get("/listar-eventos", eAdmin,async(req, res) => {
         res.render("listar-eventos", { style: `<link rel="stylesheet" href="/css/style.css">`, })
     })
     // renderiza a agenda com todos os agendamentos até agora
-app.get("/agenda", async(req, res) => {
+app.get("/agenda",eAdmin, async(req, res) => {
     res.render("agenda", {
         style: `<link rel="stylesheet" href="/css/style.css">`
     })
 })
 
 // renderiza formulário de captação dos dados para agendamento
-app.get("/novo-agendamento", async(req, res) => {
+app.get("/novo-agendamento",eAdmin, async(req, res) => {
     res.render("novo-evento", {
         style: `<link rel="stylesheet" href="/css/style.css">`
     })
@@ -672,7 +672,7 @@ app.get("/novo-agendamento", async(req, res) => {
 // rota interna que chama a API e insere um procedimento na agenda
 // ao inserir um procedimento, ele chama o módulo da biblioteca de enviar o email de confirmação, e envia pro email do cliente.
 
-app.post("/criarAgendamento", async(req, res) => {
+app.post("/criarAgendamento",eAdmin, async(req, res) => {
     const id_colab = req.body.id_colaborador;
     const colaborador = await Colaborador.findByPk(id_colab);
     if (colaborador) {
@@ -714,7 +714,7 @@ app.post("/criarAgendamento", async(req, res) => {
 })
 
 // teste Enviar email pro cliente
-app.get("/email", async(req, res) => {
+app.get("/email",eAdmin, async(req, res) => {
     const transport = nodemailer.createTransport({
         host: "smtp.gmail.com",
         port: 465,
@@ -742,7 +742,7 @@ app.get("/email", async(req, res) => {
 
 // deletando agendamentos
 
-app.get("/error", async(req, res) => {
+app.get("/error",eAdmin, async(req, res) => {
     res.render("refresh.handlebars", {
         text: "A página em que você tentou acessar não existe",
         rota_nome: "Voltar para dashboard",
