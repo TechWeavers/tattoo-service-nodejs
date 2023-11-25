@@ -653,9 +653,10 @@ app.get("/excluir-dados-ficha/:id", async(req, res) => {
 //------------------------------------ Google agenda --------------------------------------
 
 app.get("/listar-eventos", async(req, res) => {
-        res.render("listar-eventos", { style: `<link rel="stylesheet" href="/css/style.css">`, })
-    })
-    // renderiza a agenda com todos os agendamentos até agora
+    res.render("listar-eventos", { style: `<link rel="stylesheet" href="/css/style.css">`, })
+})
+
+// renderiza a agenda com todos os agendamentos até agora
 app.get("/agenda", async(req, res) => {
     res.render("agenda", {
         style: `<link rel="stylesheet" href="/css/style.css">`

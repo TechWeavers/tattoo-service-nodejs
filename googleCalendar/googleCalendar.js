@@ -148,7 +148,7 @@ class googleCalendar {
                     },
                     {
                         email: email_colaborador,
-                        displayName: "Ttuador: " + nome_colaborador,
+                        displayName: "Tatuador: " + nome_colaborador,
                         responseStatus: "needsAction"
                     }
                 ],
@@ -172,19 +172,10 @@ class googleCalendar {
 
                 console.log('Evento inserido:', res.data);
             });
+
         }
 
-        //copiando o evento para a entidade no banco
-        const copia = copiaEventos.create({
-            id_evento: event.id,
-            nome_evento: nome_evento,
-            nome_cliente: nome_cliente,
-            nome_colaborador: nome_colaborador,
-            data_evento: data_evento,
-            hora_inicio: hora_inicio,
-            hora_termino: hora_termino
-        })
-        console.log("cópia do evento: ", copia)
+
 
 
     }
