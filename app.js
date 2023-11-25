@@ -320,8 +320,7 @@ app.post("/buscar-colaborador", eAdmin, async(req, res) => {
 app.get("/novo-usuario", eAdmin, async(req, res) => {
     res.render("novo-usuario", {
         title: "Cadastro de Usuario",
-        style: 
-        `<link rel="stylesheet" href="/css/style.css">`
+        style: `<link rel="stylesheet" href="/css/style.css">`
     });
 })
 
@@ -778,15 +777,7 @@ app.post("/criarAgendamento", eAdmin, async(req, res) => {
                 const nome_cliente = nome;
                 nodemailer.email.enviarEmail(email_cliente, nome_cliente);
 
-                //copiando os eventos
-                copiaEventos.create({
-                    nome_evento: req.body.nome_evento,
-                    nome_cliente: nome_cliente,
-                    nome_colaborador: nome_colaborador,
-                    data_evento: req.body.data_evento,
-                    hora_inicio: req.body.hora_inicio,
-                    hora_termino: req.body.hora_termino
-                })
+
                 console.log("email enviado com sucesso")
             } else {
                 console.log("falha ao enviar email")
@@ -798,7 +789,15 @@ app.post("/criarAgendamento", eAdmin, async(req, res) => {
             console.log("Dados incorretos ou não encontrados ao cadastrar agendamento <br> Retorne a página anterior!" + error)
         })
     }
+})
 
+//excluir agendamento
+app.get("/excluir-agendamento/:id_procedimento_API", eAdmin, async(req, res) => {
+    googleCalendar.delete(req.params.id_procedimento_API).then(() => {
+        res.redirect("/dashboard")
+    }).catch(() => {
+        res.redirect("erro")
+    })
 })
 
 // teste Enviar email pro cliente
