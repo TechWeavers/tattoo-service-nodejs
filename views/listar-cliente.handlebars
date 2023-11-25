@@ -43,22 +43,27 @@
               {{#dataValues}}
               <tbody>
                 <tr>
-                  <td class="py-1">{{id_cliente_ficha}}</td>
+                  <td class="py-1">{{id_cliente}}</td>
                   <td>{{nome}}</td>
                   <td>{{cpf}}</td>
                   <td>{{telefone}}</td>
                   <td>{{email}}</td>
                   <td>{{redeSocial}}</td>
                   <td>
-                    <a href="/editar-cliente/{{id_cliente_ficha}}" style="color:inherit">           
+                    <a href="/editar-cliente/{{id_cliente}}" style="color:inherit">           
                       <i class="bi bi-pencil"></i>
                     </a>  
-                    <a href="/excluir-cliente/{{id_cliente_ficha}}" style="color:inherit">
+                    <a href="/excluir-cliente/{{id_cliente}}" style="color:inherit">
                       <i class="bi bi-trash-fill"></i>
                     </a>
-                    <a href="/listar-ficha/{{id_cliente_ficha}}" style="color:inherit">
-                      <button type="button" class="butn butn-primary" id="confirmEdit">Ver ficha</button>
+                    <a href="/nova-ficha/{{id_cliente}}" style="color:inherit">
+                      <button type="button" class="butn butn-primary" id="confirmEdit">Nova Ficha</button>
                     </a>
+                    <a href="/pdf/{{id_cliente}}" style="color:inherit">
+                      <button type="button" class="butn butn-primary" id="confirmEdit">Ver Ficha</button>
+                    </a>
+
+
                   </td>
                 </tr>
               </tbody>

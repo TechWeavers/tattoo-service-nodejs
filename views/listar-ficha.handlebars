@@ -38,7 +38,7 @@
                 {{#dataValues}} 
                 <tbody>
                   <tr>
-                    <td class="py-1">{{id_cliente_ficha}}</td>
+                    <td class="py-1">{{fk_cliente}}</td>
                     <td>{{alergia1}}</td>
                     <td>{{alergia2}}</td>
                     <td>{{medicacao1}}</td>
@@ -47,8 +47,7 @@
                     <td>{{doenca2}}</td>
                    
                     <td>
-                      <a href="/nova-ficha/{{id_cliente_ficha}}" style="color:inherit"><i class="bi bi-pencil"></i></a>
-                      <a href="/excluir-dados-ficha/{{id_cliente_ficha}}" style="color:inherit"><i class="bi bi-trash-fill"></i></a>
+                      <a href="/excluir-dados-ficha/{{fk_cliente}}" style="color:inherit"><i class="bi bi-trash-fill"></i></a>
                     </td>
                   </tr>
                 </tbody>
