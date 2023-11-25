@@ -111,12 +111,15 @@ app.post("/login", async(req, res) => {
         res.redirect("/dashboard");
 
     }catch(error){
-
+        res.redirect("/erro", {
+        style:`
+        <style>
+            .botao {
+                display:none;
+            }
+        </style>`
+        })
     } 
-        then => {
-        const  usuarioNome = req.body.usuarioLogin
-            
-    }
 })
 
 // Tela principal do site, com todas as funcionalidades do sistema
@@ -155,7 +158,8 @@ app.post("/novo-usuario-login", eAdmin, async(req, res) => {
         res.redirect("/")
         console.log("Dados cadastrados com sucesso!")
     }).catch(function(erro) {
-        res.send("Erro ao cadastrar " + erro)
+        res.redirect("/erro")
+        console.log("Erro ao cadastrar " + erro)
     })
 })
 
@@ -195,6 +199,7 @@ app.get("/listar-colaboradores", eAdmin, async(req, res) => {
             style: `<link rel="stylesheet" href="/css/style.css">`
         })
     }).catch(function(erro) {
+        res.redirect("/erro")
         console.log("Erro ao carregar os dados " + erro)
     })
 })
@@ -204,6 +209,7 @@ app.get("/excluir-colaborador/:id", eAdmin, function(req, res) {
     Controller_Colaborador_Usuario.excluirColaborador(req.params.id).then(function() {
         res.redirect("/listar-colaboradores")
     }).catch(function(erro) {
+        res.redirect("/erro")
         console.log("Erro ao carregar os dados " + erro)
     })
 })
@@ -233,6 +239,7 @@ app.get("/editar-colaborador/:id", eAdmin, function(req, res) {
         <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`
         })
     }).catch(function(erro) {
+        res.redirect("/erro")
         console.log("Erro ao carregar os dados " + erro)
     })
 })
@@ -267,6 +274,7 @@ app.post("/buscar-colaborador", eAdmin, async(req, res) => {
             })
         })
     } catch (error) {
+        res.redirect("/erro")
         console.error('Erro ao consultar o banco de dados:', error);
         res.status(500).send('Erro interno do servidor');
     }
@@ -308,6 +316,7 @@ app.get("/listar-usuarios", eAdmin, async(req, res) => {
             style: `<link rel="stylesheet" href="/css/style.css">`
         })
     }).catch(function(erro) {
+        res.redirect("/erro")
         console.log("Erro ao carregar os dados " + erro)
     })
 })
@@ -318,6 +327,7 @@ app.get("/excluir-usuario/:id", eAdmin, function(req, res) {
     Controller_Colaborador_Usuario.excluirUsuario(req.params.id).then(function() {
         res.redirect("/listar-usuarios")
     }).catch(function(erro) {
+        res.redirect("/erro")
         console.log("Erro ao carregar os dados " + erro)
     })
 })
@@ -349,6 +359,7 @@ app.get("/editar-usuario/:id", eAdmin, function(req, res) {
             <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`
         })
     }).catch(function(erro) {
+        res.redirect("/erro")
         console.log("Erro ao carregar os dados " + erro)
     })
 })
@@ -424,6 +435,7 @@ app.get("/editar-estoque/:id", eAdmin, async(req, res) => {
             <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`,
         })
     }).catch(function(erro) {
+        res.redirect("/erro")
         console.log("erro ao carregar os dados: " + erro)
     })
 })
@@ -452,6 +464,7 @@ app.get("/consumir-estoque/:id", eAdmin, async(req, res) => {
             <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`,
         })
     }).catch(function(erro) {
+        res.redirect("/erro")
         console.log("erro ao carregar os dados: " + erro)
     })
 })
@@ -499,7 +512,8 @@ app.get("/listar-cliente", eAdmin,function(req, res) {
             style: `<link rel="stylesheet" href="/css/style.css">`,
         })
     }).catch((erro) => {
-        res.send("Erro ao carregar os dados. Volte a página anterior! <br> Erro: " + erro)
+        res.redirect("/erro")
+        console.log("Erro ao carregar os dados. Volte a página anterior! <br> Erro: " + erro)
     })
 })
 
@@ -530,7 +544,8 @@ app.get("/excluir-cliente/:id",eAdmin, async(req, res) => {
         res.redirect("/listar-cliente")
         console.log("dados excluídos com sucesso")
     }).catch((erro) => {
-        re.send("Erro ao excluir os dados: " + erro)
+        res.redirect("/erro")
+        console.log("Erro ao excluir os dados: " + erro)
     })
 })
 
@@ -575,7 +590,7 @@ app.post("/atualizar-cliente", eAdmin, async(req, res) => {
         res.redirect("/listar-cliente");
         console.log("Dados atualizados com sucesso")
     }).catch((erro) => {
-        res.render("refresh")
+        res.redirect("/erro")
     })
 })
 
@@ -597,6 +612,7 @@ app.post("/buscar-cliente",eAdmin, async(req, res) => {
     } catch (error) {
         console.error('Erro ao consultar o banco de dados:', error);
         res.status(500).send('Erro interno do servidor');
+        res.redirect("/erro")
     }
 })
 
@@ -613,7 +629,8 @@ app.get("/listar-ficha/:id",eAdmin, async(req, res) => {
             style: `<link rel="stylesheet" href="/css/style.css">`,
         })
     }).catch((erro) => {
-        res.send("erro ao carregar os dados. Volte para a página anterior. <br> Erro: " + erro)
+        res.redirect("/erro")
+        console.log("erro ao carregar os dados. Volte para a página anterior. <br> Erro: " + erro)
     })
 })
 
@@ -625,7 +642,7 @@ app.get("/nova-ficha/:id",eAdmin, async(req, res) => {
             style: `<link rel="stylesheet" href="/css/style.css">`,
         })
     }).catch(() => {
-        res.render("refresh")
+        res.redirect("/erro")
     })
 })
 
@@ -642,7 +659,8 @@ app.post("/cadastrar-ficha",eAdmin, async(req, res) => {
     ).then(() => {
         res.redirect("listar-cliente")
     }).catch((erro) => {
-        res.send("erro ao carregar os dados. Volte para a página anterior. <br> Erro: " + erro)
+        res.redirect("/erro")
+        console.log("erro ao carregar os dados. Volte para a página anterior. <br> Erro: " + erro)
     })
 })
 
@@ -650,7 +668,8 @@ app.get("/excluir-dados-ficha/:id",eAdmin, async(req, res) => {
     Controller_Cliente.excluirDadosFicha(req.params.id).then(() => {
         res.redirect("/listar-cliente")
     }).catch((erro) => {
-        res.send("Houve um erro. Volte a página anterior.<br> Erro: " + erro)
+        res.redirect("/erro")
+        console.log("Houve um erro. Volte a página anterior.<br> Erro: " + erro)
     })
 })
 
@@ -712,8 +731,9 @@ app.post("/criarAgendamento",eAdmin, async(req, res) => {
             }
             res.redirect("/agenda")
         }).catch((error) => {
+            res.redirect("/erro")
             console.log("Dados incorretos ou não encontrados ao cadastrar agendamento <br> Retorne a página anterior!" + error)
-            res.send("Dados incorretos ou não encontrados ao cadastrar agendamento <br> Retorne a página anterior!" + error)
+            console.log("Dados incorretos ou não encontrados ao cadastrar agendamento <br> Retorne a página anterior!" + error)
         })
     }
 
@@ -740,6 +760,7 @@ app.get("/email",eAdmin, async(req, res) => {
     }).then(() => {
         console.log("email enviado com sucesso!")
     }).catch((error) => {
+        res.redirect("/erro")
         console.log("falha ao enviar email")
     })
 
@@ -748,27 +769,22 @@ app.get("/email",eAdmin, async(req, res) => {
 
 // deletando agendamentos
 
-app.get("/error",eAdmin, async(req, res) => {
+app.get("/erro404",eAdmin, async(req, res) => {
     res.render("refresh.handlebars", {
         text: "A página em que você tentou acessar não existe",
         rota_nome: "Voltar para dashboard",
-        rota: "login",
+        rota: "dashboard",
         style: `<link rel="stylesheet" href="/css/error.css">`
     })
 })
 
-app.get("/error", async(req, res) => {
-    res.render("refresh.handlebars", {
-        style: `<link rel="stylesheet" href="/css/error.css">`
-    })
-})
 
 app.use(function(req, res, next) {
-    res.redirect("/error")
+    res.redirect("/erro404")
 });
 
-app.get("/negado", async(req, res) => {
-    res.render("negado.handlebars", {
+app.get("/erro", async(req, res) => {
+    res.render("error.handlebars", {
         style: `<link rel="stylesheet" href="/css/error.css">`
     })
 })
