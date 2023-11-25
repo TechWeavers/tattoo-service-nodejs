@@ -1,5 +1,5 @@
 const Sequelize = require("sequelize")
-const sequelize = new Sequelize('DBTattooService', 'root', '', {
+const sequelize = new Sequelize('DBTattooService', 'root', 'devsolitario18', {
     host: 'localhost',
     dialect: 'mysql',
     define: {
@@ -7,6 +7,7 @@ const sequelize = new Sequelize('DBTattooService', 'root', '', {
         freezeTableName: true,
     },
 });
+
 
 // Sincronize os modelos com o banco de dados
 sequelize.sync().then(() => {

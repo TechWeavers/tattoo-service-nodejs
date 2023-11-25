@@ -89,11 +89,11 @@ app.post("/login", async(req, res) => {
         const usuarioEncontrado = await Usuario.findOne({
             where: { usuario: usuarioLogin },
         });
-        
-        
+
+
 
         if (!usuarioEncontrado) {
-            return 
+            return
 
         }
 
@@ -658,7 +658,10 @@ app.get("/excluir-dados-ficha/:id", async(req, res) => {
 
 //------------------------------------ Google agenda --------------------------------------
 
-// renderiza a agenda com todos os agendamentos até agora
+app.get("/listar-eventos", async(req, res) => {
+        res.render("listar-eventos", { style: `<link rel="stylesheet" href="/css/style.css">`, })
+    })
+    // renderiza a agenda com todos os agendamentos até agora
 app.get("/agenda", async(req, res) => {
     res.render("agenda", {
         style: `<link rel="stylesheet" href="/css/style.css">`
