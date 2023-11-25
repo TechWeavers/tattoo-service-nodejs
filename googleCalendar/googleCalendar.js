@@ -3,6 +3,7 @@ const path = require('path');
 const process = require('process');
 const { authenticate } = require('@google-cloud/local-auth');
 const { google } = require('googleapis');
+const crypto = require("crypto");
 
 // importando a entidade cópiaEventos que vai copiar cada evento da API
 const copiaEventos = require("../models/copiaEventos")
@@ -117,6 +118,9 @@ class googleCalendar {
         const id = id_cliente;
         const cliente = await Cliente.findByPk(id);
 
+
+
+
         //obter o valor do campo "email" do cliente e armazenar na variável email_cliente
         if (cliente) {
             const { email } = cliente
@@ -126,7 +130,7 @@ class googleCalendar {
 
             const auth = await authorize();
             const calendar = google.calendar({ version: 'v3', auth });
-
+            const randomUUID = crypto.randomUUID();
             const event = {
                 summary: nome_evento,
                 location: local_evento,
@@ -141,6 +145,7 @@ class googleCalendar {
                     dateTime: data_evento + "T" + hora_termino,
                     timeZone: 'America/Sao_Paulo',
                 },
+                iCalUID: randomUUID,
                 attendees: [{
                         email: email_cliente,
                         displayName: "Cliente: " + nome_cliente,
@@ -158,8 +163,10 @@ class googleCalendar {
                         method: "email",
                         "minutes": 24 * 60
                     }],
-                    sendUpdates: "all"
+                    sendUpdates: "all",
+
                 }
+
 
 
             };

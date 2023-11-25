@@ -19,6 +19,9 @@ const copiaEventos = require("./models/copiaEventos")
 
 
 
+
+
+
 // configurações handlebars
 app.engine("handlebars", handlebars({ defaultLayout: "main" }))
 app.set("view engine", "handlebars")
@@ -145,6 +148,7 @@ app.get("/dashboard", eAdmin, async(req, res) => {
             <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
             <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`
         });
+
     })
 })
 
@@ -802,7 +806,7 @@ app.get("/erro", async(req, res) => {
 
 
 //porta principal
-app.listen(8083, () => {
+app.listen(8081, () => {
     console.log("Servidor iniciado na porta 8080: http://localhost:8080")
 })
 

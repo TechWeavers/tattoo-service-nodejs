@@ -23,10 +23,13 @@ const CopiaEventos = db.sequelize.define("copiaEventos", {
     },
     hora_termino: {
         type: db.Sequelize.STRING
+    },
+    id_procedimento_API: {
+        type: db.Sequelize.STRING
     }
 
 })
 
-CopiaEventos.sync({ force: true });
+//CopiaEventos.sync({ force: true });
 
 module.exports = CopiaEventos;
