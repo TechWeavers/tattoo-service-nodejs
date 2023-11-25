@@ -5,41 +5,80 @@ const ClienteFicha = db.sequelize.define('ClienteFicha', {
         primaryKey: true,
         autoIncrement: true,
     },
-    nome: {
+    nascimento: {
+        type: db.Sequelize.DATE,
+    },
+    endereco: {
         type: db.Sequelize.STRING,
     },
-    cpf: {
+    tratamento: {
+        type: db.Sequelize.BOOLEAN,
+    },
+    tratamentoDesc: {
         type: db.Sequelize.STRING,
     },
-    telefone: {
+    cirurgia: {
+        type: db.Sequelize.BOOLEAN,
+    },
+    cirurgiaDesc: {
         type: db.Sequelize.STRING,
     },
-    email: {
+    alergia: {
+        type: db.Sequelize.BOOLEAN,
+    },
+    alergiaDesc: {
         type: db.Sequelize.STRING,
     },
-    redeSocial: {
+    problemaCardiaco: {
+        type: db.Sequelize.BOOLEAN,
+    },
+    cancer: {
+        type: db.Sequelize.BOOLEAN,
+    },
+    drogas: {
+        type: db.Sequelize.BOOLEAN,
+    },
+    cicatrizacao: {
+        type: db.Sequelize.BOOLEAN,
+    },
+    diabetes: {
+        type: db.Sequelize.BOOLEAN,
+    },
+    diabetesDesc: {
         type: db.Sequelize.STRING,
     },
-    assinatura: {
-        type: db.Sequelize.BOOLEAN
+    convulsao: {
+        type: db.Sequelize.BOOLEAN,
     },
-    doenca1: {
-        type: db.Sequelize.TEXT
+    convulsaoDesc: {
+        type: db.Sequelize.STRING,
     },
-    doenca2: {
-        type: db.Sequelize.TEXT
+    doencasTransmissiveis: {
+        type: db.Sequelize.BOOLEAN,
     },
-    alergia1: {
-        type: db.Sequelize.TEXT
+    doencasTransmissiveisDesc: {
+        type: db.Sequelize.STRING,
     },
-    alergia2: {
-        type: db.Sequelize.TEXT
+    pressao: {
+        type: db.Sequelize.BOOLEAN,
     },
-    medicacao1: {
-        type: db.Sequelize.TEXT
+    anemia: {
+        type: db.Sequelize.BOOLEAN,
     },
-    medicacao2: {
-        type: db.Sequelize.TEXT
+    hemofilia: {
+        type: db.Sequelize.BOOLEAN,
+    },
+    hepatite: {
+        type: db.Sequelize.BOOLEAN,
+    },
+    outro: {
+        type: db.Sequelize.BOOLEAN,
+    },
+    outroDesc: {
+        type: db.Sequelize.STRING,
+    },
+    dataAtual: {
+        type: db.Sequelize.DATE,
     }
 
 });

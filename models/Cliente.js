@@ -1,6 +1,6 @@
 const Procedimento = require("./Procedimento");
-const FichaAnamnese = require("./FichaAnamnese");
-const db = require("./db")
+const db = require("./db");
+const ClienteFicha = require("./ClienteFicha");
 
 const Cliente = db.sequelize.define('Cliente', {
     id_cliente: {
@@ -26,8 +26,8 @@ const Cliente = db.sequelize.define('Cliente', {
 
 });
 
-//Cliente.hasOne(Procedimento, { foreignKey: 'fk_cliente' });
-//Cliente.hasOne(FichaAnamnese, { foreignKey: 'fk_cliente' });
+Cliente.hasOne(Procedimento, { foreignKey: 'fk_cliente' });
+Cliente.hasOne(ClienteFicha, { foreignKey: 'fk_cliente' });
 
 //Cliente.sync({ force: true });
 

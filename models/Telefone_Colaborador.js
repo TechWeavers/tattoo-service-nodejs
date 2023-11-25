@@ -10,10 +10,6 @@ const Telefone_Colaborador = db.sequelize.define("telefone_colaborador", {
     telefone: {
         type: db.Sequelize.INTEGER,
 
-    },
-    fk_colaborador: {
-        type: db.Sequelize.INTEGER,
-
     }
 })
 

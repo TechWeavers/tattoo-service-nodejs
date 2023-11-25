@@ -6,17 +6,12 @@ const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 const tokenModule = require('./modules/token');
 const { eAdmin } = require('./middlewares/auth')
-const Colaborador = require("./models/Colaborador");
 const Usuario = require("./models/Usuario");
-const FichaAnamnese = require("./models/FichaAnamnese");
 const Evento = require("./models/Evento");
-const hdCompile = require("handlebars")
-const fs = require("fs");
-const pdf = require("html-pdf-node");
 const nodemailer = require("./Nodemailer");
 const copiaEventos = require("./models/copiaEventos")
-
-
+const nodemailer = require("nodemailer");
+const puppeteer = require("puppeteer");
 
 
 
@@ -66,24 +61,57 @@ app.get("/", async(req, res) => {
 })
 
 //--------------------------------- rota html pdf-----------------------------------
-const template = fs.readFileSync(path.resolve(__dirname, "./views/pdf-html.handlebars"), 'utf8')
-const compiledTemplate = hdCompile.compile(template);
-const content = compiledTemplate({});
-const outputPath = path.resolve(__dirname, './public/saida.html');
 
-app.get("/pdf", async(req, res) => {
-    fs.writeFile(outputPath, content, async() => {
-        const pdfContent = compiledTemplate({ layout: false });
-        const options = { format: 'A4', path: './public/pdf/output.pdf' };
-        const file = { content: pdfContent };
-        await pdf.generatePdf(file, options);
-        console.log("PDF gerado")
-
-    })
-    res.render("pdf-html", { layout: false })
-
-});
-
+// Rota para gerar o PDF
+app.get("/pdf/:id", async (req, res) => {
+    let responseSent = false;
+  
+    try {
+      // Busca informações do cliente e da ficha
+      const [cliente, ficha] = await Promise.all([
+        Controller_Cliente.procurarCliente(req.params.id),
+        Controller_Cliente.procurarFicha(req.params.id)
+      ]);
+  
+      // Renderiza a view em HTML
+      const html = await new Promise((resolve, reject) => {
+        res.render("pdf-html", { cliente, ficha, layout: false }, (err, html) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(html);
+          }
+        });
+      });
+  
+      // Configurações do Puppeteer
+      const browser = await puppeteer.launch({ headless: "new" });
+      const page = await browser.newPage();
+      await page.setContent(html);
+  
+      // Gera o PDF
+      const pdfBuffer = await page.pdf({ format: "A4" });
+  
+      await browser.close();
+  
+      // Envia o PDF como resposta, garantindo que seja enviado apenas uma vez
+      if (!responseSent) {
+        responseSent = true;
+        res.contentType("application/pdf");
+        res.send(pdfBuffer);
+        console.log("PDF GERADO");
+      }
+    } catch (error) {
+      // Verifica se a resposta já foi enviada para evitar headers duplicados
+      if (!responseSent) {
+        console.error("Erro ao gerar o PDF:", error);
+        res.status(500).send("Erro ao gerar o PDF");
+        responseSent = true;
+      }
+    }
+  });
+  
+  
 //rota interna de validação do login
 app.post("/login", async(req, res) => {
     const usuarioLogin = req.body.usuarioLogin;
@@ -641,7 +669,7 @@ app.get("/listar-ficha/:id", eAdmin, async(req, res) => {
 
 //esta rota renderiza o formulário de cadastro dos dados da ficha, que também é o mesmo de edição
 app.get("/nova-ficha/:id", eAdmin, async(req, res) => {
-    Controller_Cliente.visualizarFicha(req.params.id).then((cliente) => {
+    Controller_Cliente.procurarCliente(req.params.id).then((cliente) => {
         res.render("nova-ficha", {
             cliente,
             style: `<link rel="stylesheet" href="/css/style.css">`,
@@ -652,15 +680,34 @@ app.get("/nova-ficha/:id", eAdmin, async(req, res) => {
 })
 
 // rota interna que atualiza o cliente, com os dados da ficha
-app.post("/cadastrar-ficha", eAdmin, async(req, res) => {
-    Controller_Cliente.cadastrarFicha(
-        req.body.id_cliente_ficha,
-        req.body.alergia1,
-        req.body.alergia2,
-        req.body.medicacao1,
-        req.body.medicacao2,
-        req.body.doenca1,
-        req.body.doenca2
+app.post("/cadastrar-ficha", async(req, res) => {
+    Controller_Cliente.cadastrarFicha(      
+        req.body.nascimento,
+        req.body.endereco,
+        req.body.tratamento,
+        req.body.tratamentoDesc,
+        req.body.cirurgia,
+        req.body.cirurgiaDesc,
+        req.body.alergia,
+        req.body.alergiaDesc,
+        req.body.problemaCardiaco,
+        req.body.cancer,
+        req.body.drogas,
+        req.body.cicatrizacao,
+        req.body.diabetes,
+        req.body.diabetesDesc,
+        req.body.convulsao,
+        req.body.convulsaoDesc,
+        req.body.doencasTransmissiveis,
+        req.body.doencasTransmissiveisDesc,
+        req.body.pressao,
+        req.body.anemia,
+        req.body.hemofilia,
+        req.body.hepatite,
+        req.body.outro,
+        req.body.outroDesc,
+        req.body.dataAtual,
+        req.body.fk_cliente
     ).then(() => {
         res.redirect("listar-cliente")
     }).catch((erro) => {
@@ -807,7 +854,7 @@ app.get("/erro", async(req, res) => {
 
 //porta principal
 app.listen(8081, () => {
-    console.log("Servidor iniciado na porta 8080: http://localhost:8080")
+    console.log("Servidor iniciado na porta 8080: http://localhost:8081")
 })
 
 
