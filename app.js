@@ -110,8 +110,12 @@ app.post("/login", async(req, res) => {
 
         res.redirect("/dashboard");
 
-    } catch (error) {
+    }catch(error){
 
+    } 
+        then => {
+        const  usuarioNome = req.body.usuarioLogin
+            
     }
 })
 
@@ -280,6 +284,8 @@ app.get("/novo-usuario", eAdmin, async(req, res) => {
         <link rel="stylesheet" href="../../css/fileStyle.css">`,
     });
 })
+
+
 
 // rota interna para criar um novo login para usuários do sistema, recebendo os dados do formulário de cadastro de usuários
 app.post("/novo-usuario", eAdmin, async(req, res) => {

@@ -1,5 +1,4 @@
-
-<div class="main-panel">        
+<div class="main-panel">
     <div class="content-wrapper">
         <div class="row">
             <div class="col-lg-12  grid-margin stretch-card">
@@ -20,32 +19,53 @@
                             </p>
                             <form action="/criarAgendamento" method="POST">
                                 <div class="form-group">
-                                    <label class="form-label"><h5>Nome do procedimento:</h5></label>
-                                    <input type="name" name="nome_evento" class="form-control" id="nome-evento" required=" Dado Obrigatório!" >
+                                    <label class="form-label">
+                                        <h5>Nome do procedimento:</h5>
+                                    </label>
+                                    <input type="name" name="nome_evento" class="form-control" id="nome-evento"
+                                        required=" Dado Obrigatório!">
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label"><h5>Local:</h5></label>
-                                    <input type="name" name="local_evento" class="form-control" id="local-evento" required=" Dado Obrigatório!" >
+                                    <label class="form-label">
+                                        <h5>Local:</h5>
+                                    </label>
+                                    <input type="name" name="local_evento" class="form-control" id="local-evento"
+                                        required=" Dado Obrigatório!">
                                 </div>
                                 <div class="form-group">
-                                    <label class="form-label"><h5>Descrição:</h5></label>
-                                    <input type="name" name="descricao_evento" class="form-control" id="descricao-evento" required=" Dado Obrigatório!">
+                                    <label class="form-label">
+                                        <h5>Descrição:</h5>
+                                    </label>
+                                    <input type="name" name="descricao_evento" class="form-control"
+                                        id="descricao-evento" required=" Dado Obrigatório!">
                                 </div>
 
                                 <div class="form-group">
-                                    
-                                    <label class="form-label"><h5>Data de Início:</h5></label>
-                                    <input type="text" name="data_evento" class="form-control" id="data_evento" required=" Dado Obrigatório!" placeholder="yyyy/mm/dd" >
-                                </div>
 
-                                 <div class="form-group">
-                                    <label class="form-label"><h5>Horário de Início:</h5></label>
-                                    <input type="" name="hora_inicio" class="form-control" id="hora_inicio" required=" Dado Obrigatório!" placeholder="hh:mm:ss">
+                                    <label class="form-label">
+                                        <h5>Data de Início:</h5>
+                                        <p class="card-description opacity-50"> * Insira a data no formato dia/mês/ano</p>
+                                    </label>
+                                    <input type="text" name="data_evento" class="form-control" id="data_evento"
+                                        required=" Dado Obrigatório!" placeholder="Insira a data">
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="form-label"><h5>Horário de Término:</h5></label>
-                                    <input type="text" name="hora_termino" class="form-control" id="hora_termino" required=" Dado Obrigatório!" placeholder="hh:mm:ss">
+                                    <label class="form-label">
+                                        <h5>Horário de Início:</h5>
+                                        <p class="card-description opacity-50"> * Insira o horário no formato horas:minutos</p>
+                                    </label>
+                                    <input type="" name="hora_inicio" class="form-control" id="hora_inicio"
+                                        required=" Dado Obrigatório!" placeholder="Insira o hórario de inicio da sessão">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <h5>Horário de Término:</h5>
+                                         <p class="card-description opacity-50"> * Insira o horário no formato horas:minutos</p>
+                                    </label>
+                                    <input type="text" name="hora_termino" class="form-control" id="hora_termino"
+                                        required=" Dado Obrigatório!" placeholder="Insira o horário de termino da sessão">
                                 </div>
 
                                 <!--<div class="form-group">
@@ -53,18 +73,26 @@
                                     <input type="email" name="email_cliente" class="form-control" id="email_cliente" required=" Dado Obrigatório!">
                                 </div>-->
 
-                                 <div class="form-group">
-                                    <label class="form-label"><h5>Id do cliente:</h5></label>
-                                    <input type="Integer" name="id_cliente" class="form-control" id="id_cliente" required=" Dado Obrigatório!">
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <h5>Id do cliente:</h5>
+                                    </label>
+                                    <input type="Integer" name="id_cliente" class="form-control" id="id_cliente"
+                                        required=" Dado Obrigatório!">
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="form-label"><h5>Id do colaborador:</h5></label>
-                                    <input type="Integer" name="id_colaborador" class="form-control" id="id_colaborador" required=" Dado Obrigatório!">
+                                    <label class="form-label">
+                                        <h5>Id do colaborador:</h5>
+                                    </label>
+                                    <input type="Integer" name="id_colaborador" class="form-control" id="id_colaborador"
+                                        required=" Dado Obrigatório!">
                                 </div>
                                 <button type="submit" class="butn butn-primary mr-2">Cadastrar</button>
 
-                                <button type="submit" class="butn butn-primary mr-2"><a href="https://calendar.google.com/calendar/embed?src=sixdevsfatec%40gmail.com&ctz=America%2FSao_Paulo">Ver Agenda</a></button>
+                                <button type="submit" class="butn butn-primary mr-2"><a
+                                        href="https://calendar.google.com/calendar/embed?src=sixdevsfatec%40gmail.com&ctz=America%2FSao_Paulo">Ver
+                                        Agenda</a></button>
                             </form>
                         </table>
                     </div>
