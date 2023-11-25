@@ -250,3 +250,22 @@
         .busca-cpf {
             width: 200px;
         }
+
+        .logout-link {
+            
+            color: #fff; /* Cor do texto */
+            text-decoration: none; /* Remove a decoração de texto padrão (sublinhado) */
+            background-color: #e74c3c; /* Cor de fundo */
+            padding: 8px 15px; /* Espaçamento interno */
+            border-radius: 5px; /* Borda arredondada */
+            transition: background-color 0.3s; /* Efeito de transição suave na mudança de cor de fundo */
+            padding-top: 40px;
+            margin-left: 75px;
+        }
+        
+        /* Adiciona estilo de hover para dar feedback visual ao usuário */
+        .logout-link:hover {
+            background-color: #c0392b; /* Altera a cor de fundo no hover */
+            text-decoration: none; /* Remove a decoração de texto padrão (sublinhado) */
+            color: #fff; /* Cor do texto */
+        }
