@@ -9,6 +9,7 @@ const { eAdmin } = require('./middlewares/auth')
 const Colaborador = require("./models/Colaborador");
 const Usuario = require("./models/Usuario");
 const FichaAnamnese = require("./models/FichaAnamnese");
+const Evento = require("./models/Evento");
 const hdCompile = require("handlebars")
 const fs = require("fs");
 const pdf = require("html-pdf-node");

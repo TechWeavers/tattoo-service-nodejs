@@ -13,15 +13,18 @@
                 </div>
                 <div class="card-body card-pasta bg-orange">
                     <div class="table-responsive ">
-                        <table class="table table-striped text-center">
+                        <table class="table table-striped ">
                             <h4 class="card-title">Lista de Colaboradores</h4>
                               <!--Formulário de busca de colaboradores--->
                              <form class="forms-sample" action="/buscar-colaborador" method="POST" >
-                                 <div class="form-group">
-                                <label class="form-label"><strong>Buscar Colaborador pelo CPF:</strong></label>
-                                 <input type="text" name="cpf" class="form-control busca-cpf" col="30" id="cpf">
+                                <div class="form-group">
+                                    <label class="form-label"><strong>Buscar Colaborador pelo CPF:</strong></label>
+                                    <div class="row col-sm">
+                                        <input type="text" name="cpf" class="form-control busca-cpf col-2" col="30" id="cpf">
+                                        <button type="submit" class="butn butn-primary mr-2 col-1">Buscar</button>
+                                    </div>
+                                    
                                 </div>
-                                <button type="submit" class="butn butn-primary mr-2">Buscar</button>
                                  </form>
                             <thead>
                                 <tr>
