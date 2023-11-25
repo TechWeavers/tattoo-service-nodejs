@@ -4,6 +4,9 @@ const process = require('process');
 const { authenticate } = require('@google-cloud/local-auth');
 const { google } = require('googleapis');
 
+// importando a entidade cópiaEventos que vai copiar cada evento da API
+const copiaEventos = require("../models/copiaEventos")
+
 // If modifying these scopes, delete token.json.
 const SCOPES = ['https://www.googleapis.com/auth/calendar'];
 // The file token.json stores the user's access and refresh tokens, and is
@@ -140,12 +143,12 @@ class googleCalendar {
                 },
                 attendees: [{
                         email: email_cliente,
-                        displayName: nome_cliente,
+                        displayName: "Cliente: " + nome_cliente,
                         responseStatus: "needsAction"
                     },
                     {
                         email: email_colaborador,
-                        displayName: nome_colaborador,
+                        displayName: "Ttuador: " + nome_colaborador,
                         responseStatus: "needsAction"
                     }
                 ],
@@ -169,10 +172,24 @@ class googleCalendar {
 
                 console.log('Evento inserido:', res.data);
             });
-
-
         }
+
+        //copiando o evento para a entidade no banco
+        const copia = copiaEventos.create({
+            id_evento: event.id,
+            nome_evento: nome_evento,
+            nome_cliente: nome_cliente,
+            nome_colaborador: nome_colaborador,
+            data_evento: data_evento,
+            hora_inicio: hora_inicio,
+            hora_termino: hora_termino
+        })
+        console.log("cópia do evento: ", copia)
+
+
     }
+
+
 }
 
 
