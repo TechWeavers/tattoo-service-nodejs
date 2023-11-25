@@ -289,8 +289,8 @@ app.post("/buscar-colaborador", eAdmin, async(req, res) => {
 app.get("/novo-usuario", eAdmin, async(req, res) => {
     res.render("novo-usuario", {
         title: "Cadastro de Usuario",
-        style: `<link rel="stylesheet" href="/css/style.css">
-        <link rel="stylesheet" href="../../css/fileStyle.css">`,
+        style: 
+        `<link rel="stylesheet" href="/css/style.css">`
     });
 })
 
@@ -341,7 +341,7 @@ app.get("/editar-usuario/:id", eAdmin, function(req, res) {
             style: `<link rel="stylesheet" href="/css/estilos3.css">
             <link rel="stylesheet" href="/css/sidebar.css">
             <link rel="stylesheet" href="/css/header.css">
-            <link rel="stylesheet" href="../../css/style.css">
+            <link rel="stylesheet" href="/css/style.css">
             
             <link rel="stylesheet" href="../../css/fileStyle.css">
             <link rel="stylesheet" href="https://unpkg.com/mdi@latest/css/materialdesignicons.min.css">
@@ -521,7 +521,8 @@ app.get("/listar-cliente", eAdmin, function(req, res) {
 // renderiza o formulário de cadastro de clientes
 app.get("/novo-cliente", eAdmin, function(req, res) {
     res.render("novo-cliente", {
-        title: "Novo cliente"
+        title: "Novo cliente",
+        style: `<link rel="stylesheet" href="/css/style.css">`
     })
 })
 
