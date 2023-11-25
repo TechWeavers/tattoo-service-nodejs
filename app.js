@@ -150,6 +150,15 @@ app.post("/login", async(req, res) => {
     }
 })
 
+//Logout 
+app.get("/logout", (req, res) => {
+    // Remova o token
+    tokenModule.removeToken();
+
+    // Redirecione para a rota raiz da aplicação
+    res.redirect("/");
+});
+
 // Tela principal do site, com todas as funcionalidades do sistema
 app.get("/dashboard", eAdmin, async(req, res) => {
     copiaEventos.findAll().then((eventos) => {
