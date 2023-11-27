@@ -34,7 +34,7 @@ const { Controller_Cliente } = require("./Controller_Cliente");
 const { googleCalendar } = require("./googleCalendar/googleCalendar");
 const path = require("path");
 const Cliente = require("./models/Cliente");
-const Colaborador = require("./models/Colaborador");
+
 
 // Página que renderiza a tela de login (handlebars)
 app.get("/", async(req, res) => {
@@ -768,9 +768,9 @@ app.post("/criarAgendamento", eAdmin, async(req, res) => {
     const { nome } = cliente;
     const email_cliente = email;
     const nome_cliente = nome;
-    if (colaborador && cliente) {        
+    if (colaborador && cliente) {
         const email_cliente = cliente.email;
-        const nome_cliente = cliente.nome;        
+        const nome_cliente = cliente.nome;
         const email_colaborador = colaborador.email;
         const nome_colaborador = colaborador.nome;
         googleCalendar.createEvent(
@@ -786,9 +786,9 @@ app.post("/criarAgendamento", eAdmin, async(req, res) => {
             nome_colaborador
 
         ).then(async() => {
-           
+
             if (cliente) {
-                
+
                 nodemailer.email.enviarEmail(email_cliente, nome_cliente);
 
 
