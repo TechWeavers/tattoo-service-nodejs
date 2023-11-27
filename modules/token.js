@@ -9,4 +9,8 @@ function getToken() {
     return token;
 }
 
-module.exports = { setToken, getToken };
+function removeToken() {
+    token = null;
+}
+
+module.exports = { setToken, getToken, removeToken };

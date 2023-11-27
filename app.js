@@ -31,9 +31,9 @@ app.use(bodyParser.json())
 const { Controller_Colaborador_Usuario } = require("./Controller_Colaborador_Usuario")
 const { Controller_Estoque } = require("./Controller_Estoque");
 const { Controller_Cliente } = require("./Controller_Cliente");
-const ClienteFicha = require("./models/ClienteFicha");
 const { googleCalendar } = require("./googleCalendar/googleCalendar");
 const path = require("path");
+const Cliente = require("./models/Cliente");
 
 // Página que renderiza a tela de login (handlebars)
 app.get("/", async(req, res) => {
@@ -150,6 +150,15 @@ app.post("/login", async(req, res) => {
 
     }
 })
+
+//Logout 
+app.get("/logout", (req, res) => {
+    // Remova o token
+    tokenModule.removeToken();
+
+    // Redirecione para a rota raiz da aplicação
+    res.redirect("/");
+});
 
 // Tela principal do site, com todas as funcionalidades do sistema
 app.get("/dashboard", eAdmin, async(req, res) => {
@@ -770,7 +779,7 @@ app.post("/criarAgendamento", eAdmin, async(req, res) => {
 
         ).then(async() => {
             const id = req.body.id_cliente;
-            const cliente = await ClienteFicha.findByPk(id);
+            const cliente = await Cliente.findByPk(id);
             if (cliente) {
                 const { email } = cliente;
                 const { nome } = cliente;
