@@ -34,6 +34,7 @@ const { Controller_Cliente } = require("./Controller_Cliente");
 const { googleCalendar } = require("./googleCalendar/googleCalendar");
 const path = require("path");
 const Cliente = require("./models/Cliente");
+const Colaborador = require("./models/Colaborador");
 
 // Página que renderiza a tela de login (handlebars)
 app.get("/", async(req, res) => {
@@ -761,11 +762,17 @@ app.get("/novo-agendamento", eAdmin, async(req, res) => {
 app.post("/criarAgendamento", eAdmin, async(req, res) => {
     const id_colab = req.body.id_colaborador;
     const colaborador = await Colaborador.findByPk(id_colab);
-    if (colaborador) {
-        const { email } = colaborador;
-        const { nome } = colaborador;
-        const email_colaborador = email;
-        const nome_colaborador = nome;
+    const id_cliente = req.body.id_cliente;
+    const cliente = await Cliente.findByPk(id_cliente);
+    const { email } = cliente;
+    const { nome } = cliente;
+    const email_cliente = email;
+    const nome_cliente = nome;
+    if (colaborador && cliente) {        
+        const email_cliente = cliente.email;
+        const nome_cliente = cliente.nome;        
+        const email_colaborador = colaborador.email;
+        const nome_colaborador = colaborador.nome;
         googleCalendar.createEvent(
             req.body.nome_evento,
             req.body.local_evento,
@@ -773,18 +780,15 @@ app.post("/criarAgendamento", eAdmin, async(req, res) => {
             req.body.data_evento,
             req.body.hora_inicio,
             req.body.hora_termino,
-            req.body.id_cliente,
+            email_cliente,
+            nome_cliente,
             email_colaborador,
             nome_colaborador
 
         ).then(async() => {
-            const id = req.body.id_cliente;
-            const cliente = await Cliente.findByPk(id);
+           
             if (cliente) {
-                const { email } = cliente;
-                const { nome } = cliente;
-                const email_cliente = email;
-                const nome_cliente = nome;
+                
                 nodemailer.email.enviarEmail(email_cliente, nome_cliente);
 
 
