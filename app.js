@@ -13,6 +13,10 @@ const nodemailer = require("./Nodemailer")
 const puppeteer = require("puppeteer");
 const Colaborador = require("./models/Colaborador")
 
+// variaveis que servirao de controle da dashboard
+const { Dashboard } = require("./Controller_Dashboard");
+const agendamentos = 0;
+
 
 
 
@@ -786,7 +790,6 @@ app.post("/criarAgendamento", eAdmin, async(req, res) => {
             nome_colaborador
 
         ).then(async() => {
-
             if (cliente) {
 
                 nodemailer.email.enviarEmail(email_cliente, nome_cliente);
