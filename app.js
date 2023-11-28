@@ -447,7 +447,7 @@ app.get("/novo-estoque", eAdmin, function(req, res) {
 
 // rota interna recebe os dados do formulário de cadastro de materiais, e registra no banco
 app.post("/cadastrar-estoque", eAdmin, async(req, res) => {
-    console.log(req.body.tipo)
+
     Controller_Estoque.cadastrarMaterial(
         req.body.nome,
         req.body.quantidade,
@@ -523,8 +523,7 @@ app.post("/atualizar-estoque", eAdmin, async(req, res) => {
         req.body.id_material,
         req.body.nome,
         req.body.quantidade,
-        req.body.valor_unidade,
-        req.body.data_compra).then(function() {
+        req.body.valor_unidade, ).then(function() {
         res.redirect("/listar-estoque")
     })
 })
