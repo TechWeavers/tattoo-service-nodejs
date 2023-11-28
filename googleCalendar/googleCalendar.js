@@ -127,13 +127,13 @@ class googleCalendar {
                 location: local_evento,
                 description: descricao_evento,
                 start: {
-                    dateTime: data_evento + "T" + hora_inicio
-                        /*formato de data e horário '2023-11-23T06:00:00'*/
-                        ,
+                    dateTime: data_evento + "T" + hora_inicio + ":00",
+                    /*formato de data e horário '2023-11-23T06:00:00'*/
+
                     timeZone: 'America/Sao_Paulo',
                 },
                 end: {
-                    dateTime: data_evento + "T" + hora_termino,
+                    dateTime: data_evento + "T" + hora_termino + ":00",
                     timeZone: 'America/Sao_Paulo',
                 },
                 iCalUID: randomUUID,

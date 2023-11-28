@@ -168,6 +168,8 @@ app.get("/logout", (req, res) => {
 // Tela principal do site, com todas as funcionalidades do sistema
 app.get("/dashboard", eAdmin, async(req, res) => {
     copiaEventos.findAll().then((eventos) => {
+        const dataAtual = new Date();
+        console.log("Data atual: " + dataAtual)
         res.render("dashboard", {
             eventos,
             title: "Dashboard",
@@ -192,6 +194,7 @@ app.get("/dashboard", eAdmin, async(req, res) => {
         });
 
     })
+
 })
 
 // criar um novo login para usuários do sistema
