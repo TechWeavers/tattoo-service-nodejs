@@ -181,6 +181,7 @@ class googleCalendar {
                 hora_termino: hora_termino,
                 id_procedimento_API: event.iCalUID
             })
+            console.log("ID do evento: " + event.iCalUID);
         }
     }
 
@@ -188,12 +189,31 @@ class googleCalendar {
         const auth = await authorize();
         const calendar = google.calendar({ version: 'v3', auth });
 
-        const deleta = calendar.events.delete({ calendarId: "sixdevsfatec@gmail.com", eventId: id_procedimento_API });
-        return deleta;
+        const res = await calendar.events.delete({ calendarId: "sixdevsfatec@gmail.com", eventId: id_procedimento_API });
+        if (res.data === '') {
+            return res.data;
+        } else {
+            return "erro ao deletar agendamentos";
+        };
     }
 
+    static async deleta(eventId) {
+        const auth = await authorize();
+        const calendar = google.calendar({ version: 'v3', auth });
+        const calendarId = "sixdevsfatec@gmail.com";
+        try {
+            let response = await calendar.events.delete({
+                auth: auth,
+                calendarId: calendarId,
+                eventId: eventId
+            });
 
 
+        } catch (error) {
+            console.log(`Error at deleteEvent --> ${error}`);
+            return 0;
+        }
+    };
 }
 
 

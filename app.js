@@ -744,9 +744,12 @@ app.get("/excluir-dados-ficha/:id", eAdmin, async(req, res) => {
 //------------------------------------ Google agenda --------------------------------------
 
 app.get("/listar-evento", eAdmin, async(req, res) => {
-        res.render("listar-evento", { style: `<link rel="stylesheet" href="/css/style.css">`, })
+    copiaEventos.findAll().then((eventos) => {
+        res.render("listar-evento", { eventos, style: `<link rel="stylesheet" href="/css/style.css">`, })
     })
-    // renderiza a agenda com todos os agendamentos até agora
+})
+
+// renderiza a agenda com todos os agendamentos até agora
 app.get("/agenda", eAdmin, async(req, res) => {
     res.render("agenda", {
         style: `<link rel="stylesheet" href="/css/style.css">`
@@ -793,8 +796,6 @@ app.post("/criarAgendamento", eAdmin, async(req, res) => {
             if (cliente) {
 
                 nodemailer.email.enviarEmail(email_cliente, nome_cliente);
-
-
                 console.log("email enviado com sucesso")
             } else {
                 console.log("falha ao enviar email")
@@ -808,11 +809,12 @@ app.post("/criarAgendamento", eAdmin, async(req, res) => {
     }
 })
 
-// teste de commit
+
 
 //excluir agendamento
 app.get("/excluir-agendamento/:id_procedimento_API", eAdmin, async(req, res) => {
-    googleCalendar.deleteEvent(req.params.id_procedimento_API).then(() => {
+    googleCalendar.deleta(req.params.id_procedimento_API).then(() => {
+
         res.redirect("/listar-evento")
     }).catch((erro) => {
         res.redirect("/erro")
