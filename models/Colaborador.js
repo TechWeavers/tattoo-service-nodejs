@@ -36,7 +36,6 @@ Colaborador.hasOne(Usuario, { foreignKey: 'fk_colaborador' });
 Colaborador.hasOne(Procedimento, { foreignKey: 'fk_colaborador' });
 Colaborador.hasOne(Tatuador, { foreignKey: 'fk_colaborador' });
 Colaborador.hasOne(Administrador, { foreignKey: 'fk_colaborador' });
-Colaborador.hasMany(Telefone_Colaborador, { foreignKey: 'fk_colaborador' })
 Colaborador.hasOne(MaterialConsumido, { foreignKey: 'fk_colaborador' });
 
 

@@ -19,10 +19,11 @@
             <table class="table table-striped text-center">
               <thead>
                 <tr>
+                  <th>ID do Material</th>
                   <th>Material</th>
                   <th>Quantidade</th>
                   <th>Valor Unidade</th>
-                  <th>Última de atualização</th>
+                  <th>Data de última atualização</th>
                   <th></th>
                 </tr>
               </thead>
@@ -30,6 +31,7 @@
               {{#dataValues}}
               <tbody>
                 <tr>
+                  <td>{{id_material}}</td>
                   <td>{{nome}}</td>
                   <td>{{quantidade}}</td>
                   <td>{{valor_unidade}}</td>

@@ -795,8 +795,15 @@ app.post("/criarAgendamento", eAdmin, async(req, res) => {
             nome_colaborador
 
         ).then(async() => {
-            if (cliente) {
+            Controller_Estoque.diminuirQuantidade(
+                req.body.id_material,
+                req.body.id_colaborador,
+                req.body.quantidade
+            ).then(() => {
+                console.log("Material utilizado com sucesso");
 
+            }).catch(() => { res.redirect("/erro") })
+            if (cliente) {
                 nodemailer.email.enviarEmail(email_cliente, nome_cliente);
                 console.log("email enviado com sucesso")
             } else {
@@ -808,6 +815,8 @@ app.post("/criarAgendamento", eAdmin, async(req, res) => {
             console.log("Dados incorretos ou não encontrados ao cadastrar agendamento <br> Retorne a página anterior!" + error)
             console.log("Dados incorretos ou não encontrados ao cadastrar agendamento <br> Retorne a página anterior!" + error)
         })
+    } else {
+        throw new error("Cliente não encontrado!")
     }
 })
 

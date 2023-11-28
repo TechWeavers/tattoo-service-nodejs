@@ -31,7 +31,7 @@ class Controller_Estoque {
     }
 
 
-    static async diminuirQuantidade(id_material, id_colaborador, quantidade, data_consumo) {
+    static async diminuirQuantidade(id_material, id_colaborador, quantidade) {
         // Busque o material para obter o valor da unidade
         const material = await Material.findOne({
             where: { id_material: id_material }
@@ -55,7 +55,7 @@ class Controller_Estoque {
                 valor_total: valor_total,
                 data_consumo: diaAtual,
                 fk_material: id_material,
-                fk_colaborador: id_colaborador
+                //fk_colaborador: id_colaborador
             });
 
             return { material, consumo };
