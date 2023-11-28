@@ -66,38 +66,34 @@
           <div class="table-responsive">
            <table class="table table-striped text-center">
               <thead>
-                <tr>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                </tr>
-              </thead>
-              {{#each eventos}} {{#dataValues}}
-              <tbody>
-                <tr>
-                  <td class="py-1"></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td>
-                    <a href="/editar-usuario/{{id_procedimento_API}}" style="color:inherit"><i
-                        class="bi bi-pencil"></i></a>
-
-                    <a href="/excluir-agendamento/{{id_procedimento_API}}" style="color:inherit"><i
-                        class="bi bi-trash-fill"></i></a>
-                  </td>
-                </tr>
-              </tbody>
-              {{/dataValues}}
-              {{/each}}
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>CPF</th>
+                                    <th>Telefone</th>
+                                    <th>Email</th>
+                                    <th>Rede</th>
+                                    <th>Tipo</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            {{#each colaboradores}} {{#dataValues}} 
+                            <tbody>
+                                <tr>
+                                    <td class="py-1">{{id_colaborador}}</td>
+                                    <td>{{nome}}</td>
+                                    <td>{{cpf}}</td>
+                                    <td>{{telefone}}</td>
+                                    <td>{{email}}</td>
+                                    <td>{{redeSocial}}</td>
+                                    <td>{{tipo}}</td>
+                                    <td>
+                                        <a href="/editar-colaborador/{{id_colaborador}}" style="color:inherit"><i class="bi bi-pencil"></i></a>
+                                        <a href="/excluir-colaborador/{{id_colaborador}}" style="color:inherit"><i class="bi bi-trash-fill"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            {{/dataValues}} {{/each}}
             </table>
           </div>
         </div>
