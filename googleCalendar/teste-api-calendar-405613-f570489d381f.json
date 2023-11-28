@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "teste-api-calendar-405613",
+  "private_key_id": "f570489d381f4f5fe3118d70f531e9603349675d",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQDPVvFlUd9Rc84f\nA02/lEVH9pMhK9EUH1/ktceYAMMaSHM/bmGcVKEqfH33t/oG8gfUaO8BHdQ7WrT3\nn+n/JOJfQnoFMcKs1KA/Qk1nIvUuPhpsPvce07+Qm9lmFMB6WMmB1c2osc5vfoXL\nZfAZVYHN+mgvGISikceVvLICq3m877jSbwq9fNOfB0EaJGBRxNtjm9hF6K/5Dfsh\ne5jKcvJrB63LyioE/zVqbtXV+wUn06Q+KX/OP5I/qsO216XSP1Q4aqZOqo/fnrXV\nien98sl0Fs60hnEAtYeVEQAbH39L3HLS5Uf4J2KDAsPvnkRrlIsCf+VwsLuVG5MC\nKcDr0eR1AgMBAAECggEAI5roUtAjs5rZqWE5m33UhOZevzpFSfmWT9H4j82Hs45/\n/gNQT1aII6HjxuOo08MB3bPUYUJ0VOn/fCuRtR8qIZYqmpRAPEo6J4rU/HJYHMQM\n6QxKBxjxQ13EED/ditUO65Uh30eDbgmR48siV1Nj+lF3TSkec8Vpevj/r64vNma7\n8o1fDgm59fI6wLZKkVBGU62eL+eR8RlY0BxP+piURYIcIz+5gPRDaDD6laj2y0X9\nNPzouoQwp/G7u/ydtf/Mce1WMuHZcX8FQnSjuCZmp+3iLvYnqA61FbFBpN6B4kgv\nUmhBf3a5gN8qb4aNouJERMF0m1vva8+xIjfRqPrYkQKBgQD1gkuMLJynJRHrx2Em\nAHez6dtAkrKOMpOkUolUJS7odNt9aUdq1/BYzmTXRTj9ORPkadnWOlm0e5t6jd0Z\nc3sqmGgEKNEipA2o7BD+FzFGt34/K0bJDapcn62B2Wk9cYNhO0PJID4s2s4ex/Pm\nK/+UPC5tCfdFPjvVUfGhONKAkQKBgQDYMxnAJcD7Y+Un2ns6MKm/ikSS0f/SRVTE\n0EwFGqCdyskVNgmxbVW7qtJMQSpK8JRTaYL1I57qIaeUDKgNTZM062GyHe6qOfsX\nSQAhkms2j5zokj452t3gGEqycOiP5COQxLsJayiLJ650LSdI/LDjWSf6MDLz/l/W\nB5dlhRgXpQKBgB59VvqKk83iOa6JbVQ13KfYVCVZ0pj8SP+wTGPJ1mCCGrwhdgAb\n3zp4L2fYrfIsw36rcqU7S+axLybyNVIy2En68XgKxaZCr3uaDaYwpSr+IMyhiEHx\n04V7QyYMJRi/XyyVGp8AxRf2+IA0HuMn9a6oJq/d+/p6dx3P9m0qTGIxAoGAPLnd\nucLg+buNWixcAHQ6ubo0mKizmnQu4zk+oRBhnPCgmnybLGLxecz5VMHZB0Ob5fH0\n/rYKpOjfEQ6dBV+MwYh74HPX3ah7hobSqptd0e10vT6Wi9mWCKPKF2Tvbbs+4iLg\nBj07Hhr/PVKRfka7yJ/6QqPXLAF/Gbb4J2PC6KECgYAtGWEsZqDaqfgbiSaVJlIB\nqsbnEuU/IkuTgdqDABekq63c5npXg/5I1CTjWKZCGALHbs4rsFJ5ACTK5P7bHR7o\nC98Ubvhofe+PMaGD5Gp9bZkRgVYjFOsny0jPtUuUp+FFy9lmmZ6PFhzoab0lexy/\nzwKLBpbubs8SNoZDm8tSvg==\n-----END PRIVATE KEY-----\n",
+  "client_email": "api-calendar-streetwise@teste-api-calendar-405613.iam.gserviceaccount.com",
+  "client_id": "102437852297194742745",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/api-calendar-streetwise%40teste-api-calendar-405613.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

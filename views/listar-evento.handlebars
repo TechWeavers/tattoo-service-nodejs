@@ -10,34 +10,37 @@
             <a href="/novo-agendamento">Novo Agendamento</a>
           </div>
           <div id="ordem-ativo" class="col-auto  pasta-ordem">
-            <a href="/listar-evento">Novo Agendamento</a>
+            <a href="/listar-evento">Listar Agendamentos</a>
           </div>
         </div>
         <div class="card-body card-pasta bg-orange">
+          <h4 class="card-title">Listar</h4>
           <div class="table-responsive ">
             <table class="table table-striped ">
               <thead>
                 <tr>
+                  <th>ID do evento</th>
                   <th>Nome do evento</th>
-                  <th>id do evento</th>
                   <th>Hora do inicio</th>
                   <th>Data de inicio </th>
                   <th>Hora do termino</th>
                   <th>Nome do cliente</th>
                   <th>Nome do colaborador</th>
+                  <th>Id do evento</th>
                   <th></th>
                 </tr>
               </thead>
               {{#each eventos}} {{#dataValues}}
               <tbody>
                 <tr>
-                  <td class="py-1">{{nome_evento}}</td>
-                  <td>{{id_evento}}</td>
+                  <td class="py-1">{{id_evento}}</td>
+                  <td>{{nome_evento}}</td>
                   <td>{{hora_inicio}}</td>
                   <td>{{data_evento}}</td>
                   <td>{{hora_termino}}</td>
                   <td>{{nome_cliente}}</td>
                   <td>{{nome_colaborador}}</td>
+                  <td>{{id_procedimento_API}}</td>
                   <td>
                     <a href="/editar-usuario/{{id_procedimento_API}}" style="color:inherit"><i class="bi bi-pencil"></i></a>
 

@@ -18,7 +18,7 @@ const SCOPES = ['https://www.googleapis.com/auth/calendar'];
 // The file token.json stores the user's access and refresh tokens, and is
 // created automatically when the authorization flow completes for the first
 // time.
-const TOKEN_PATH = path.join(process.cwd(), 'token.json');
+const TOKEN_PATH = path.join(process.cwd(), 'teste-api-calendar.json');
 const CREDENTIALS_PATH = path.join(process.cwd(), 'credentials.json');
 
 /**
@@ -127,13 +127,13 @@ class googleCalendar {
                 location: local_evento,
                 description: descricao_evento,
                 start: {
-                    dateTime: data_evento + "T" + hora_inicio
-                        /*formato de data e horário '2023-11-23T06:00:00'*/
-                        ,
+                    dateTime: data_evento + "T" + hora_inicio + ":00",
+                    /*formato de data e horário '2023-11-23T06:00:00'*/
+
                     timeZone: 'America/Sao_Paulo',
                 },
                 end: {
-                    dateTime: data_evento + "T" + hora_termino,
+                    dateTime: data_evento + "T" + hora_termino + ":00",
                     timeZone: 'America/Sao_Paulo',
                 },
                 iCalUID: randomUUID,
@@ -181,6 +181,7 @@ class googleCalendar {
                 hora_termino: hora_termino,
                 id_procedimento_API: event.iCalUID
             })
+            console.log("ID do evento: " + event.iCalUID);
         }
     }
 
@@ -188,12 +189,31 @@ class googleCalendar {
         const auth = await authorize();
         const calendar = google.calendar({ version: 'v3', auth });
 
-        const deleta = calendar.events.delete({ calendarId: "sixdevsfatec@gmail.com", eventId: id_procedimento_API });
-        return deleta;
+        const res = await calendar.events.delete({ calendarId: "sixdevsfatec@gmail.com", eventId: id_procedimento_API });
+        if (res.data === '') {
+            return res.data;
+        } else {
+            return "erro ao deletar agendamentos";
+        };
     }
 
+    static async deleta(eventId) {
+        const auth = await authorize();
+        const calendar = google.calendar({ version: 'v3', auth });
+        const calendarId = "sixdevsfatec@gmail.com";
+        try {
+            let response = await calendar.events.delete({
+                auth: auth,
+                calendarId: calendarId,
+                eventId: eventId
+            });
 
 
+        } catch (error) {
+            console.log(`Error at deleteEvent --> ${error}`);
+            return 0;
+        }
+    };
 }
 
 
