@@ -1,8 +1,10 @@
 <div class="main-panel ">
-  <div class="content-wrapper bg-transparent">
-    <div class="row">
-      <div class="col-lg-12 grid-margin stretch-card">
 
+  <div class="content-wrapper bg-transparent">
+
+    <div class="row">
+      <!--Div lista de eventos--->
+      <div class="col-lg-7 grid-margin stretch-card">
         <div class="row col-sm">
           <div id="ordem-ativo" class="col-auto  pasta-ordem">
             <a href="/dashboard">Lista de eventos</a>
@@ -36,9 +38,61 @@
                   <td>{{nome_cliente}}</td>
                   <td>{{nome_colaborador}}</td>
                   <td>
-                    <a href="/editar-usuario/{{id_procedimento_API}}" style="color:inherit"><i class="bi bi-pencil"></i></a>
+                    <a href="/editar-usuario/{{id_procedimento_API}}" style="color:inherit"><i
+                        class="bi bi-pencil"></i></a>
 
-                    <a href="/excluir-agendamento/{{id_procedimento_API}}" style="color:inherit"><i class="bi bi-trash-fill"></i></a>
+                    <a href="/excluir-agendamento/{{id_procedimento_API}}" style="color:inherit"><i
+                        class="bi bi-trash-fill"></i></a>
+                  </td>
+                </tr>
+              </tbody>
+              {{/dataValues}}
+              {{/each}}
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!--DIV Ranking-->
+      <div class="col-lg-5 grid-margin stretch-card">
+        <div class="row col-sm">
+          <div id="ordem-ativo" class="col-auto  pasta-ordem">
+            <a href="/dashboard">Ranking de Tatuadores</a>
+          </div>
+        </div>
+
+        <div class="card-body card-pasta bg-orange">
+
+          <div class="table-responsive">
+           <table class="table table-striped text-center">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              {{#each eventos}} {{#dataValues}}
+              <tbody>
+                <tr>
+                  <td class="py-1"></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>
+                    <a href="/editar-usuario/{{id_procedimento_API}}" style="color:inherit"><i
+                        class="bi bi-pencil"></i></a>
+
+                    <a href="/excluir-agendamento/{{id_procedimento_API}}" style="color:inherit"><i
+                        class="bi bi-trash-fill"></i></a>
                   </td>
                 </tr>
               </tbody>
@@ -49,4 +103,158 @@
         </div>
       </div>
     </div>
+    <br>
+    <div class="row">
+      <!--DIV tattoo realizadas-->
+      <div class="col-lg-4 grid-margin stretch-card">
+        <div class="row col-sm">
+          <div id="ordem-ativo" class="col-auto  pasta-ordem">
+            <a href="/dashboard">Tattos realizadas</a>
+          </div>
+        </div>
+
+        <div class="card-body card-pasta bg-orange">
+
+          <div class="table-responsive">
+            <table class="table table-striped text-center">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              {{#each eventos}} {{#dataValues}}
+              <tbody>
+                <tr>
+                  <td class="py-1"></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>
+                    <a href="/editar-usuario/{{id_procedimento_API}}" style="color:inherit"><i
+                        class="bi bi-pencil"></i></a>
+
+                    <a href="/excluir-agendamento/{{id_procedimento_API}}" style="color:inherit"><i
+                        class="bi bi-trash-fill"></i></a>
+                  </td>
+                </tr>
+              </tbody>
+              {{/dataValues}}
+              {{/each}}
+            </table>
+          </div>
+        </div>
+      </div>
+      <!--DIV Clientes-->
+      <div class="col-lg-4 grid-margin stretch-card">
+        <div class="row col-sm">
+          <div id="ordem-ativo" class="col-auto  pasta-ordem">
+            <a href="/dashboard">Clientes</a>
+          </div>
+        </div>
+
+        <div class="card-body card-pasta bg-orange">
+
+          <div class="table-responsive">
+         <table class="table table-striped text-center">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              {{#each eventos}} {{#dataValues}}
+              <tbody>
+                <tr>
+                  <td class="py-1"></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>
+                    <a href="/editar-usuario/{{id_procedimento_API}}" style="color:inherit"><i
+                        class="bi bi-pencil"></i></a>
+
+                    <a href="/excluir-agendamento/{{id_procedimento_API}}" style="color:inherit"><i
+                        class="bi bi-trash-fill"></i></a>
+                  </td>
+                </tr>
+              </tbody>
+              {{/dataValues}}
+              {{/each}}
+            </table>
+          </div>
+        </div>
+      </div>
+      <!--DIV estoque-->
+      <div class="col-lg-4 grid-margin stretch-card">
+        <div class="row col-sm">
+          <div id="ordem-ativo" class="col-auto  pasta-ordem">
+            <a href="/dashboard">Estoque</a>
+          </div>
+        </div>
+
+        <div class="card-body card-pasta bg-orange">
+
+          <div class="table-responsive">
+            <table class="table table-striped text-center">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              {{#each eventos}} {{#dataValues}}
+              <tbody>
+                <tr>
+                  <td class="py-1"></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>
+                    <a href="/editar-usuario/{{id_procedimento_API}}" style="color:inherit"><i
+                        class="bi bi-pencil"></i></a>
+
+                    <a href="/excluir-agendamento/{{id_procedimento_API}}" style="color:inherit"><i
+                        class="bi bi-trash-fill"></i></a>
+                  </td>
+                </tr>
+              </tbody>
+              {{/dataValues}}
+              {{/each}}
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- fim DIV estoque-->
+    </div>
+
   </div>
+
+</div>
