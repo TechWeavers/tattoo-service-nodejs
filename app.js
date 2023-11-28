@@ -743,8 +743,8 @@ app.get("/excluir-dados-ficha/:id", eAdmin, async(req, res) => {
 
 //------------------------------------ Google agenda --------------------------------------
 
-app.get("/listar-eventos", eAdmin, async(req, res) => {
-        res.render("listar-eventos", { style: `<link rel="stylesheet" href="/css/style.css">`, })
+app.get("/listar-evento", eAdmin, async(req, res) => {
+        res.render("listar-evento", { style: `<link rel="stylesheet" href="/css/style.css">`, })
     })
     // renderiza a agenda com todos os agendamentos até agora
 app.get("/agenda", eAdmin, async(req, res) => {
@@ -811,7 +811,7 @@ app.post("/criarAgendamento", eAdmin, async(req, res) => {
 //excluir agendamento
 app.get("/excluir-agendamento/:id_procedimento_API", eAdmin, async(req, res) => {
     googleCalendar.deleteEvent(req.params.id_procedimento_API).then(() => {
-        res.redirect("/dashboard")
+        res.redirect("/listar-evento")
     }).catch((erro) => {
         res.redirect("/erro")
         console.log("erro" + erro)

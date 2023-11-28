@@ -4,36 +4,36 @@
       <div class="col-lg-12 grid-margin stretch-card">
         <div class="row col-sm">
 
-          <div id="ordem" class="col-auto pasta-ordem">
-            <a href="/listar-estoque">Listar matriais</a>
+          <div id="ordem" class="col-auto pasta-ordem ">
+            <a href="/listar-estoque" >Listar matriais</a>
           </div>
-          <div id="ordem" class="col-auto pasta-ordem">
-            <a href="/novo-estoque">Cadastar novo mayerial</a>
+          <div id="ordem" class="col-auto pasta-ordem ">
+            <a href="/novo-estoque ">Cadastar novo mayerial</a>
           </div>
           <div id="ordem-ativo" class="col-auto pasta-ordem">
             <a href="/consumir-cliente">Utilizar material</a>
           </div>
 
-          <div class="card-body card-pasta">
+          <div class="card-body card-pasta ">
             <table class="table table-striped ">
-              <h4 class="card-title">Estoque</h4>
-              <p class="card-description">
+              <h4 class="card-title ">Estoque</h4>
+              <p class="card-description ">
                 Registrar Uso de Material
               </p>
               {{#each materiais}} 
               {{#dataValues}} 
               <form action="/consumir-estoque" method="POST">
-                  <input type="hidden" name="id_material" class="form-control" id="id_material" value="{{id_material}}"> 
+                  <input type="hidden" name="id_material" class="form-control " id="id_material" value="{{id_material}}"> 
                   <div class="mb-3 text-start">
-                    <label class="form-label">ID Colaborador</label>
+                    <label class="form-label ">ID Colaborador</label>
                     <input type="number" name="id_colaborador" class="form-control" id="id_colaborador">
                   </div>
                   <div class="mb-3 text-start">
-                    <label class="form-label">Nome:</label>
+                    <label class="form-label ">Nome:</label>
                     <input type="text" name="nome" class="form-control" id="nome" value="{{nome}}">
                   </div>
                   <div class="mb-3 text-start">
-                    <label class="form-label">Quantidade:</label>
+                    <label class="form-label ">Quantidade:</label>
                     <input type="number" name="quantidade" class="form-control" id="quantidade" value="1">
                   </div>
                   <!--
@@ -42,8 +42,8 @@
                     <input type="date" name="data_consumo" class="form-control" id="data_consumo">
                   </div> -->             
                   <div class="mb-3 text-start">
-                    <button type="submit" class="butn butn-primary mr-2">Registrar</button>
-                    <button class="butn butn-secondary ml-2"><a href="/listar-estoque">Cancelar</a></button>
+                    <button type="submit" class="butn butn-primary mr-2 ">Registrar</button>
+                    <button class="butn butn-secondary ml-2 "><a href="/listar-estoque">Cancelar</a></button>
                   </div>
                 </table>
               </form>
