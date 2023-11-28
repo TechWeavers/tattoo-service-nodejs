@@ -20,54 +20,242 @@
         <div class="card-body card-pasta">
           <div class="table-responsive ">
             <table class="table table-striped ">
-              <h4 class="card-title">Ficha Anamnese</h4>
-              <p class="card-description"> Cadastro de ficha</p>
-              <p class="card-title"><strong>Coloque "N/A", caso algum dado seja inexistente.</strong></p>
-              {{#each cliente}}
-              {{#dataValues}}
-                <form class="forms-sample" action="/cadastrar-ficha" method="POST">
-                  <div class="form-group">
-                    
-                    <input type="hidden" name="id_cliente_ficha" class="form-control" id="id_cliente_ficha" value="{{id_cliente_ficha}}"> 
-                    <label class="form-label">1º Alergia:</label>
-                    <input type="text" required="Obrigatório" name="alergia1" class="form-control" id="alergia1" value="{{alergia1}}">
-                  </div>
-
-                  <div class="form-group">
-                    <label class="form-label">2º Alergia:</label>
-                    <input type="text" required="Obrigatório" name="alergia2" class="form-control" id="alergia2" value="{{alergia2}}">
-                  </div>
-
-                  <div class="form-group">
-                    <label class="form-label">1º Medicação:</label>
-                    <input type="text" required="Obrigatório" name="medicacao1" class="form-control" id="medicacao1" value="{{medicacao1}}">
-                  </div>
-
-                  <div class="form-group">
-                    <label class="form-label">2º Medicação: </label>
-                    <input type="text" required="Obrigatório" required="Obrigatório" name="medicacao2" class="form-control" id="medicacao2" value="{{medicacao2}}">
-                  </div>
-
-                  <div class="form-group">
-                    <label class="form-label">1º Doença:</label>
-                    <input type="text" required="Obrigatório" name="doenca1" class="form-control" id="doenca1" value="{{doenca1}}">
-                  </div>
-
-                  <div class="form-group">
-                    <label class="form-label">2º Doença:</label>
-                    <input type="text" required="Obrigatório" name="doenca2" class="form-control" id="doenca2" value="{{doenca2}}">
-                  </div>
-
-
-
-                  <button type="submit" class="butn bunt-primary mr-2">Cadastrar</button>
-                </form>
-                {{/dataValues}}
-                {{/each}}
+              <h4 class="card-title">Ficha de Anamnese</h4>
+              <p class="card-description">Cadastro de Ficha</p>
+              <p class="card-description">Coloque "N/A", caso algum dado seja inexistente.</p>
+              {{#each cliente}} 
+              {{#dataValues}} 
+              <form class="forms-sample" action="/cadastrar-ficha" method="POST">
+                <input type="hidden" name="fk_cliente" class="form-control" id="fk_cliente" value="{{id_cliente}}"> 
+                              
+                <div class="form-group">
+                  <label for="nascimento" class="form-label">Data de Nascimento:</label>
+                  <input type="date" name="nascimento" class="form-control" id="nascimento" >
                 </div>
-            </table>    
+              
+                <div class="form-group">
+                  <label for="endereco" class="form-label">Endereço:</label>
+                  <input type="text" name="endereco" class="form-control" id="endereco" >
+                </div>
+              
+                <div class="form-group">
+                  <label for="tratamento" class="form-label">Faz Tratamento Médico:</label>
+                  <div>
+                    <input type="radio" name="tratamento" id="tratamento-sim" value="true">
+                    <label for="tratamento-sim">Sim</label>
+
+                    <input type="radio" name="tratamento" id="tratamento-nao" value="false">
+                    <label for="tratamento-nao">Não</label>
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  <label for="tratamentoDesc">Descrição do Tratamento:</label>
+                  <input type="text" name="tratamentoDesc" class="form-control" id="tratamentoDesc">
+                </div>
+              
+                <div class="form-group">
+                  <label for="cirurgia" class="form-label">Realizou Cirurgia Recentemente:</label>
+                  <div>
+                    <input type="radio" name="cirurgia" id="cirurgia-sim" value="true">
+                    <label for="cirurgia-sim">Sim</label>
+
+                    <input type="radio" name="cirurgia" id="cirurgia-nao" value="false">
+                    <label for="cirurgia-nao">Não</label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="cirurgiaDesc">Descrição da Cirurgia:</label>
+                  <input type="text" name="cirurgiaDesc" class="form-control" id="cirurgiaDesc">
+                </div>
+              
+                <div class="form-group">
+                  <label for="alergia" class="form-label">Possui Alergia:</label>
+                  <div>
+                    <input type="radio" name="alergia" id="alergia-sim" value="true">
+                    <label for="alergia-sim">Sim</label>
+
+                    <input type="radio" name="alergia" id="alergia-nao" value="false">
+                    <label for="alergia-nao">Não</label>
+                  </div>
+                </div>
+              
+                <div class="form-group">
+                  <label for="alergiaDesc">Descrição da Alergia:</label>
+                  <input type="text" name="alergiaDesc" class="form-control" id="alergiaDesc">
+                </div>
+
+                <div class="form-group">
+                  <label for="problemaCardiaco" class="form-label">Possui Problema Cardíaco:</label>
+                  <div>
+                    <input type="radio" name="problemaCardiaco" id="problemaCardiaco-sim" value="true">
+                    <label for="problemaCardiaco-sim">Sim</label>
+
+                    <input type="radio" name="problemaCardiaco" id="problemaCardiaco-nao" value="false">
+                    <label for="problemaCardiaco-nao">Não</label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="cancer" class="form-label">Já teve Câncer:</label>
+                  <div>
+                    <input type="radio" name="cancer" id="cancer-sim" value="true">
+                    <label for="cancer-sim">Sim</label>
+
+                    <input type="radio" name="cancer" id="cancer-nao" value="false">
+                    <label for="cancer-nao">Não</label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="drogas" class="form-label">Usa Drogas:</label>
+                  <div>
+                    <input type="radio" name="drogas" id="drogas-sim" value="true">
+                    <label for="drogas-sim">Sim</label>
+
+                    <input type="radio" name="drogas" id="drogas-nao" value="false">
+                    <label for="drogas-nao">Não</label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="cicatrizacao" class="form-label">Problemas de Cicatrização:</label>
+                  <div>
+                    <input type="radio" name="cicatrizacao" id="cicatrizacao-sim" value="true">
+                    <label for="cicatrizacao-sim">Sim</label>
+
+                    <input type="radio" name="cicatrizacao" id="cicatrizacao-nao" value="false">
+                    <label for="cicatrizacao-nao">Não</label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="diabetes" class="form-label">Possui Diabetes:</label>
+                  <div>
+                    <input type="radio" name="diabetes" id="diabetes-sim" value="true">
+                    <label for="diabetes-sim">Sim</label>
+
+                    <input type="radio" name="diabetes" id="diabetes-nao" value="false">
+                    <label for="diabetes-nao">Não</label>
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  <label for="diabetesDesc">Descrição da Diabetes:</label>
+                  <input type="text" name="diabetesDesc" class="form-control" id="diabetesDesc">
+                </div>
+              
+                <div class="form-group">
+                  <label for="convulsao" class="form-label">Teve Convulsões:</label>
+                  <div>
+                    <input type="radio" name="convulsao" id="convulsao-sim" value="true">
+                    <label for="convulsao-sim">Sim</label>
+
+                    <input type="radio" name="convulsao" id="convulsao-nao" value="false">
+                    <label for="convulsao-nao">Não</label>
+                  </div>
+                </div>
+
+                
+                <div class="form-group">
+                  <label for="convulsaoDesc">Descrição das Convulsões:</label>
+                  <input type="text" name="convulsaoDesc" class="form-control" id="convulsaoDesc">
+                </div>
+              
+                <div class="form-group">
+                  <label for="doencasTransmissiveis" class="form-label">Possui Doenças Transmissíveis:</label>
+                  <div>
+                    <input type="radio" name="doencasTransmissiveis" id="doencasTransmissiveis-sim" value="true">
+                    <label for="doencasTransmissiveis-sim">Sim</label>
+
+                    <input type="radio" name="doencasTransmissiveis" id="doencasTransmissiveis-nao" value="false">
+                    <label for="doencasTransmissiveis-nao">Não</label>
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  <label for="doencasTransmissiveisDesc">Descrição das Doenças Transmissíveis:</label>
+                  <input type="text" name="doencasTransmissiveisDesc" class="form-control" id="doencasTransmissiveisDesc">
+                </div>
+              
+                <div class="form-group">
+                  <label for="pressao" class="form-label">Problemas de Pressão:</label>
+                  <div>
+                    <input type="radio" name="pressao" id="pressao-sim" value="true">
+                    <label for="pressao-sim">Sim</label>
+
+                    <input type="radio" name="pressao" id="pressao-nao" value="false">
+                    <label for="pressao-nao">Não</label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="anemia" class="form-label">Possui Anemia:</label>
+                  <div>
+                    <input type="radio" name="anemia" id="anemia-sim" value="true">
+                    <label for="anemia-sim">Sim</label>
+
+                    <input type="radio" name="anemia" id="anemia-nao" value="false">
+                    <label for="anemia-nao">Não</label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="hemofilia" class="form-label">Possui Hemofilia:</label>
+                  <div>
+                    <input type="radio" name="hemofilia" id="hemofilia-sim" value="true">
+                    <label for="hemofilia-sim">Sim</label>
+
+                    <input type="radio" name="hemofilia" id="hemofilia-nao" value="false">
+                    <label for="hemofilia-nao">Não</label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="hepatite" class="form-label">Possui Hepatite:</label>
+                  <div>
+                    <input type="radio" name="hepatite" id="hepatite-sim" value="true">
+                    <label for="hepatite-sim">Sim</label>
+
+                    <input type="radio" name="hepatite" id="hepatite-nao" value="false">
+                    <label for="hepatite-nao">Não</label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="outro" class="form-label">Outras Condições:</label>
+                  <div>
+                    <input type="radio" name="outro" id="outro-sim" value="true">
+                    <label for="outro-sim">Sim</label>
+
+                    <input type="radio" name="outro" id="outro-nao" value="false">
+                    <label for="outro-nao">Não</label>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="outroDesc">Descrição de Outras Condições:</label>
+                  <input type="text" name="outroDesc" class="form-control" id="outroDesc">
+                </div>
+              
+                <div class="form-group">
+                  <label for="dataAtual" class="form-label">Data Atual:</label>
+                  <input type="date" name="dataAtual" class="form-control" id="dataAtual" required>
+                </div>
+                
+                <button type="submit" class="butn butn-primary mr-2">Cadastrar</button>
+                
+              </form>
+              {{/dataValues}}
+              {{/each}}
+              </div>
+            </table>
           </div>
-        </div>
+        </div> 
       </div>
     </div>
   </div>

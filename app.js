@@ -6,14 +6,17 @@ const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 const tokenModule = require('./modules/token');
 const { eAdmin } = require('./middlewares/auth')
-const Colaborador = require("./models/Colaborador");
 const Usuario = require("./models/Usuario");
-const FichaAnamnese = require("./models/FichaAnamnese");
 const Evento = require("./models/Evento");
-const hdCompile = require("handlebars")
-const fs = require("fs");
-const pdf = require("html-pdf-node");
-const nodemailer = require("./Nodemailer");
+const copiaEventos = require("./models/copiaEventos")
+const nodemailer = require("./Nodemailer")
+const puppeteer = require("puppeteer");
+const Colaborador = require("./models/Colaborador")
+
+// variaveis que servirao de controle da dashboard
+const { Dashboard } = require("./Controller_Dashboard");
+const agendamentos = 0;
+
 
 
 
@@ -32,9 +35,10 @@ app.use(bodyParser.json())
 const { Controller_Colaborador_Usuario } = require("./Controller_Colaborador_Usuario")
 const { Controller_Estoque } = require("./Controller_Estoque");
 const { Controller_Cliente } = require("./Controller_Cliente");
-const ClienteFicha = require("./models/ClienteFicha");
 const { googleCalendar } = require("./googleCalendar/googleCalendar");
 const path = require("path");
+const Cliente = require("./models/Cliente");
+
 
 // Página que renderiza a tela de login (handlebars)
 app.get("/", async(req, res) => {
@@ -62,23 +66,56 @@ app.get("/", async(req, res) => {
 })
 
 //--------------------------------- rota html pdf-----------------------------------
-const template = fs.readFileSync(path.resolve(__dirname, "./views/pdf-html.handlebars"), 'utf8')
-const compiledTemplate = hdCompile.compile(template);
-const content = compiledTemplate({});
-const outputPath = path.resolve(__dirname, './public/saida.html');
 
-app.get("/pdf", async(req, res) => {
-    fs.writeFile(outputPath, content, async() => {
-        const pdfContent = compiledTemplate({ layout: false });
-        const options = { format: 'A4', path: './public/pdf/output.pdf' };
-        const file = { content: pdfContent };
-        await pdf.generatePdf(file, options);
-        console.log("PDF gerado")
+// Rota para gerar o PDF
+app.get("/pdf/:id", async(req, res) => {
+    let responseSent = false;
 
-    })
-    res.render("pdf-html", { layout: false })
+    try {
+        // Busca informações do cliente e da ficha
+        const [cliente, ficha] = await Promise.all([
+            Controller_Cliente.procurarCliente(req.params.id),
+            Controller_Cliente.procurarFicha(req.params.id)
+        ]);
 
+        // Renderiza a view em HTML
+        const html = await new Promise((resolve, reject) => {
+            res.render("pdf-html", { cliente, ficha, layout: false }, (err, html) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(html);
+                }
+            });
+        });
+
+        // Configurações do Puppeteer
+        const browser = await puppeteer.launch({ headless: "new" });
+        const page = await browser.newPage();
+        await page.setContent(html);
+
+        // Gera o PDF
+        const pdfBuffer = await page.pdf({ format: "A4" });
+
+        await browser.close();
+
+        // Envia o PDF como resposta, garantindo que seja enviado apenas uma vez
+        if (!responseSent) {
+            responseSent = true;
+            res.contentType("application/pdf");
+            res.send(pdfBuffer);
+            console.log("PDF GERADO");
+        }
+    } catch (error) {
+        // Verifica se a resposta já foi enviada para evitar headers duplicados
+        if (!responseSent) {
+            console.error("Erro ao gerar o PDF:", error);
+            res.status(500).send("Erro ao gerar o PDF");
+            responseSent = true;
+        }
+    }
 });
+
 
 //rota interna de validação do login
 app.post("/login", async(req, res) => {
@@ -110,38 +147,51 @@ app.post("/login", async(req, res) => {
 
         res.redirect("/dashboard");
 
-    }catch(error){
+    } catch (error) {
 
-    } 
-        then => {
-        const  usuarioNome = req.body.usuarioLogin
-            
+    }
+    then => {
+        const usuarioNome = req.body.usuarioLogin
+
     }
 })
 
+//Logout 
+app.get("/logout", (req, res) => {
+    // Remova o token
+    tokenModule.removeToken();
+
+    // Redirecione para a rota raiz da aplicação
+    res.redirect("/");
+});
+
 // Tela principal do site, com todas as funcionalidades do sistema
 app.get("/dashboard", eAdmin, async(req, res) => {
-    res.render("dashboard", {
-        title: "Dashboard",
-        style: `<link rel="stylesheet" href="/css/estilos3.css">
-        <link rel="stylesheet" href="/css/sidebar.css">
-        <link rel="stylesheet" href="/css/header.css">
-        <link rel="stylesheet" href="../../css/style.css">
-        <link rel="stylesheet" href="https://unpkg.com/mdi@latest/css/materialdesignicons.min.css">
-        <link rel="stylesheet" href="https://unpkg.com/feather-icons@latest/dist/feather.css">
-        <link rel="stylesheet" href="https://unpkg.com/vendors-base@latest/vendor.bundle.base.css">
-        <link rel="stylesheet" href="https://unpkg.com/select2@latest/dist/css/select2.min.css">
-        <link rel="stylesheet" href="https://unpkg.com/select2@latest/dist/css/select2-bootstrap.min.css">`,
-        script: `<script src="https://unpkg.com/vendors-base@latest/vendor.bundle.base.js"></script>
-        <script src="https://unpkg.com/@vx/off-canvas@^latest/dist/off-canvas.js"></script>
-        <script src="https://unpkg.com/@vx/hoverable-collapse@^latest/dist/hoverable-collapse.js"></script>
-        <script src="https://unpkg.com/@vx/template@^latest/dist/template.js"></script>
-        <script src="https://unpkg.com/typeahead.js@latest/dist/typeahead.bundle.min.js"></script>
-        <script src="https://unpkg.com/select2@latest/dist/js/select2.min.js"></script>
-        <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
-        <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
-        <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`
-    });
+    copiaEventos.findAll().then((eventos) => {
+        res.render("dashboard", {
+            eventos,
+            title: "Dashboard",
+            style: `<link rel="stylesheet" href="/css/estilos3.css">
+            <link rel="stylesheet" href="/css/sidebar.css">
+            <link rel="stylesheet" href="/css/header.css">
+            <link rel="stylesheet" href="../../css/style.css">
+            <link rel="stylesheet" href="https://unpkg.com/mdi@latest/css/materialdesignicons.min.css">
+            <link rel="stylesheet" href="https://unpkg.com/feather-icons@latest/dist/feather.css">
+            <link rel="stylesheet" href="https://unpkg.com/vendors-base@latest/vendor.bundle.base.css">
+            <link rel="stylesheet" href="https://unpkg.com/select2@latest/dist/css/select2.min.css">
+            <link rel="stylesheet" href="https://unpkg.com/select2@latest/dist/css/select2-bootstrap.min.css">`,
+            script: `<script src="https://unpkg.com/vendors-base@latest/vendor.bundle.base.js"></script>
+            <script src="https://unpkg.com/@vx/off-canvas@^latest/dist/off-canvas.js"></script>
+            <script src="https://unpkg.com/@vx/hoverable-collapse@^latest/dist/hoverable-collapse.js"></script>
+            <script src="https://unpkg.com/@vx/template@^latest/dist/template.js"></script>
+            <script src="https://unpkg.com/typeahead.js@latest/dist/typeahead.bundle.min.js"></script>
+            <script src="https://unpkg.com/select2@latest/dist/js/select2.min.js"></script>
+            <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
+            <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
+            <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`
+        });
+
+    })
 })
 
 // criar um novo login para usuários do sistema
@@ -155,7 +205,8 @@ app.post("/novo-usuario-login", eAdmin, async(req, res) => {
         res.redirect("/")
         console.log("Dados cadastrados com sucesso!")
     }).catch(function(erro) {
-        res.send("Erro ao cadastrar " + erro)
+        res.redirect("/erro")
+        console.log("Erro ao cadastrar " + erro)
     })
 })
 
@@ -195,6 +246,7 @@ app.get("/listar-colaboradores", eAdmin, async(req, res) => {
             style: `<link rel="stylesheet" href="/css/style.css">`
         })
     }).catch(function(erro) {
+        res.redirect("/erro")
         console.log("Erro ao carregar os dados " + erro)
     })
 })
@@ -204,6 +256,7 @@ app.get("/excluir-colaborador/:id", eAdmin, function(req, res) {
     Controller_Colaborador_Usuario.excluirColaborador(req.params.id).then(function() {
         res.redirect("/listar-colaboradores")
     }).catch(function(erro) {
+        res.redirect("/erro")
         console.log("Erro ao carregar os dados " + erro)
     })
 })
@@ -233,6 +286,7 @@ app.get("/editar-colaborador/:id", eAdmin, function(req, res) {
         <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`
         })
     }).catch(function(erro) {
+        res.redirect("/erro")
         console.log("Erro ao carregar os dados " + erro)
     })
 })
@@ -252,7 +306,7 @@ app.post("/atualizar-colaborador", eAdmin, function(req, res) {
 })
 
 //buscar colaborador pelo CPF
-app.post("/buscar-colaborador", async(req, res) => {
+app.post("/buscar-colaborador", eAdmin, async(req, res) => {
     const cpf = req.body.cpf;
 
     if (!cpf) {
@@ -267,6 +321,7 @@ app.post("/buscar-colaborador", async(req, res) => {
             })
         })
     } catch (error) {
+        res.redirect("/erro")
         console.error('Erro ao consultar o banco de dados:', error);
         res.status(500).send('Erro interno do servidor');
     }
@@ -280,15 +335,14 @@ app.post("/buscar-colaborador", async(req, res) => {
 app.get("/novo-usuario", eAdmin, async(req, res) => {
     res.render("novo-usuario", {
         title: "Cadastro de Usuario",
-        style: `<link rel="stylesheet" href="/css/style.css">
-        <link rel="stylesheet" href="../../css/fileStyle.css">`,
+        style: `<link rel="stylesheet" href="/css/style.css">`
     });
 })
 
 
 
 // rota interna para criar um novo login para usuários do sistema, recebendo os dados do formulário de cadastro de usuários
-app.post("/novo-usuario", async(req, res) => {
+app.post("/novo-usuario", eAdmin, async(req, res) => {
     const senhaCript = await bcrypt.hash(req.body.senha, 8);
     Controller_Colaborador_Usuario.cadastrarUsuario(
         req.body.usuario,
@@ -308,16 +362,18 @@ app.get("/listar-usuarios", eAdmin, async(req, res) => {
             style: `<link rel="stylesheet" href="/css/style.css">`
         })
     }).catch(function(erro) {
+        res.redirect("/erro")
         console.log("Erro ao carregar os dados " + erro)
     })
 })
 
 
 //exclusão do colaborador selecionado, através de um botão de delete, na página de edição dos usuários
-app.get("/excluir-usuario/:id", function(req, res) {
+app.get("/excluir-usuario/:id", eAdmin, function(req, res) {
     Controller_Colaborador_Usuario.excluirUsuario(req.params.id).then(function() {
         res.redirect("/listar-usuarios")
     }).catch(function(erro) {
+        res.redirect("/erro")
         console.log("Erro ao carregar os dados " + erro)
     })
 })
@@ -330,7 +386,7 @@ app.get("/editar-usuario/:id", eAdmin, function(req, res) {
             style: `<link rel="stylesheet" href="/css/estilos3.css">
             <link rel="stylesheet" href="/css/sidebar.css">
             <link rel="stylesheet" href="/css/header.css">
-            <link rel="stylesheet" href="../../css/style.css">
+            <link rel="stylesheet" href="/css/style.css">
             
             <link rel="stylesheet" href="../../css/fileStyle.css">
             <link rel="stylesheet" href="https://unpkg.com/mdi@latest/css/materialdesignicons.min.css">
@@ -349,6 +405,7 @@ app.get("/editar-usuario/:id", eAdmin, function(req, res) {
             <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`
         })
     }).catch(function(erro) {
+        res.redirect("/erro")
         console.log("Erro ao carregar os dados " + erro)
     })
 })
@@ -424,6 +481,7 @@ app.get("/editar-estoque/:id", eAdmin, async(req, res) => {
             <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`,
         })
     }).catch(function(erro) {
+        res.redirect("/erro")
         console.log("erro ao carregar os dados: " + erro)
     })
 })
@@ -452,6 +510,7 @@ app.get("/consumir-estoque/:id", eAdmin, async(req, res) => {
             <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`,
         })
     }).catch(function(erro) {
+        res.redirect("/erro")
         console.log("erro ao carregar os dados: " + erro)
     })
 })
@@ -491,7 +550,7 @@ app.post("/consumir-estoque", eAdmin, async(req, res) => {
 // ------------------------------------ CRUD Cliente -------------------------------------------
 
 //visualização de clientes cadastrados
-app.get("/listar-cliente", function(req, res) {
+app.get("/listar-cliente", eAdmin, function(req, res) {
     Controller_Cliente.visualizarCliente().then((clientes) => {
         res.render("listar-cliente", {
             clientes,
@@ -499,19 +558,21 @@ app.get("/listar-cliente", function(req, res) {
             style: `<link rel="stylesheet" href="/css/style.css">`,
         })
     }).catch((erro) => {
-        res.send("Erro ao carregar os dados. Volte a página anterior! <br> Erro: " + erro)
+        res.redirect("/erro")
+        console.log("Erro ao carregar os dados. Volte a página anterior! <br> Erro: " + erro)
     })
 })
 
 // renderiza o formulário de cadastro de clientes
-app.get("/novo-cliente", function(req, res) {
+app.get("/novo-cliente", eAdmin, function(req, res) {
     res.render("novo-cliente", {
-        title: "Novo cliente"
+        title: "Novo cliente",
+        style: `<link rel="stylesheet" href="/css/style.css">`
     })
 })
 
 //rota interna de cadastro de clientes
-app.post("/cadastrar-cliente", async(req, res) => {
+app.post("/cadastrar-cliente", eAdmin, async(req, res) => {
     Controller_Cliente.cadastrarCliente(
         req.body.nome,
         req.body.cpf,
@@ -525,17 +586,18 @@ app.post("/cadastrar-cliente", async(req, res) => {
 })
 
 // rota de exclusão do cliente
-app.get("/excluir-cliente/:id", async(req, res) => {
+app.get("/excluir-cliente/:id", eAdmin, async(req, res) => {
     Controller_Cliente.excluirCliente(req.params.id).then(() => {
         res.redirect("/listar-cliente")
         console.log("dados excluídos com sucesso")
     }).catch((erro) => {
-        re.send("Erro ao excluir os dados: " + erro)
+        res.redirect("/erro")
+        console.log("Erro ao excluir os dados: " + erro)
     })
 })
 
 // procura o cliente esepcificado ao apertar o botão de editar, e renderiza o formulário com os dados dele para editá-lo
-app.get("/editar-cliente/:id", async(req, res) => {
+app.get("/editar-cliente/:id", eAdmin, async(req, res) => {
     Controller_Cliente.procurarCliente(req.params.id).then((cliente) => {
         res.render("editar-cliente", {
             cliente,
@@ -563,7 +625,7 @@ app.get("/editar-cliente/:id", async(req, res) => {
 })
 
 // rota de atualização dos dados
-app.post("/atualizar-cliente", async(req, res) => {
+app.post("/atualizar-cliente", eAdmin, async(req, res) => {
     Controller_Cliente.atualizarCliente(
         req.body.id_cliente,
         req.body.nome,
@@ -575,12 +637,12 @@ app.post("/atualizar-cliente", async(req, res) => {
         res.redirect("/listar-cliente");
         console.log("Dados atualizados com sucesso")
     }).catch((erro) => {
-        res.render("refresh")
+        res.redirect("/erro")
     })
 })
 
 // funcionalidade de busca por CPF
-app.post("/buscar-cliente", async(req, res) => {
+app.post("/buscar-cliente", eAdmin, async(req, res) => {
     const cpf = req.body.cpf;
 
     if (!cpf) {
@@ -597,6 +659,7 @@ app.post("/buscar-cliente", async(req, res) => {
     } catch (error) {
         console.error('Erro ao consultar o banco de dados:', error);
         res.status(500).send('Erro interno do servidor');
+        res.redirect("/erro")
     }
 })
 
@@ -606,51 +669,73 @@ app.post("/buscar-cliente", async(req, res) => {
 //--------------------------  CRUD da Ficha de Anamnese que pertence a um único cliente -------
 
 // esta rota é acessada através de um botão editar ficha, na página de listar clientes, ela renderiza os dados de uma ficha pertencente a um cliente
-app.get("/listar-ficha/:id", async(req, res) => {
+app.get("/listar-ficha/:id", eAdmin, async(req, res) => {
     Controller_Cliente.visualizarFicha(req.params.id).then((cliente) => {
         res.render("listar-ficha", {
             cliente,
             style: `<link rel="stylesheet" href="/css/style.css">`,
         })
     }).catch((erro) => {
-        res.send("erro ao carregar os dados. Volte para a página anterior. <br> Erro: " + erro)
+        res.redirect("/erro")
+        console.log("erro ao carregar os dados. Volte para a página anterior. <br> Erro: " + erro)
     })
 })
 
 //esta rota renderiza o formulário de cadastro dos dados da ficha, que também é o mesmo de edição
-app.get("/nova-ficha/:id", async(req, res) => {
-    Controller_Cliente.visualizarFicha(req.params.id).then((cliente) => {
+app.get("/nova-ficha/:id", eAdmin, async(req, res) => {
+    Controller_Cliente.procurarCliente(req.params.id).then((cliente) => {
         res.render("nova-ficha", {
             cliente,
             style: `<link rel="stylesheet" href="/css/style.css">`,
         })
     }).catch(() => {
-        res.render("refresh")
+        res.redirect("/erro")
     })
 })
 
 // rota interna que atualiza o cliente, com os dados da ficha
 app.post("/cadastrar-ficha", async(req, res) => {
     Controller_Cliente.cadastrarFicha(
-        req.body.id_cliente_ficha,
-        req.body.alergia1,
-        req.body.alergia2,
-        req.body.medicacao1,
-        req.body.medicacao2,
-        req.body.doenca1,
-        req.body.doenca2
+        req.body.nascimento,
+        req.body.endereco,
+        req.body.tratamento,
+        req.body.tratamentoDesc,
+        req.body.cirurgia,
+        req.body.cirurgiaDesc,
+        req.body.alergia,
+        req.body.alergiaDesc,
+        req.body.problemaCardiaco,
+        req.body.cancer,
+        req.body.drogas,
+        req.body.cicatrizacao,
+        req.body.diabetes,
+        req.body.diabetesDesc,
+        req.body.convulsao,
+        req.body.convulsaoDesc,
+        req.body.doencasTransmissiveis,
+        req.body.doencasTransmissiveisDesc,
+        req.body.pressao,
+        req.body.anemia,
+        req.body.hemofilia,
+        req.body.hepatite,
+        req.body.outro,
+        req.body.outroDesc,
+        req.body.dataAtual,
+        req.body.fk_cliente
     ).then(() => {
         res.redirect("listar-cliente")
     }).catch((erro) => {
-        res.send("erro ao carregar os dados. Volte para a página anterior. <br> Erro: " + erro)
+        res.redirect("/erro")
+        console.log("erro ao carregar os dados. Volte para a página anterior. <br> Erro: " + erro)
     })
 })
 
-app.get("/excluir-dados-ficha/:id", async(req, res) => {
+app.get("/excluir-dados-ficha/:id", eAdmin, async(req, res) => {
     Controller_Cliente.excluirDadosFicha(req.params.id).then(() => {
         res.redirect("/listar-cliente")
     }).catch((erro) => {
-        res.send("Houve um erro. Volte a página anterior.<br> Erro: " + erro)
+        res.redirect("/erro")
+        console.log("Houve um erro. Volte a página anterior.<br> Erro: " + erro)
     })
 })
 
@@ -658,18 +743,18 @@ app.get("/excluir-dados-ficha/:id", async(req, res) => {
 
 //------------------------------------ Google agenda --------------------------------------
 
-app.get("/listar-eventos", async(req, res) => {
-        res.render("listar-eventos", { style: `<link rel="stylesheet" href="/css/style.css">`, })
+app.get("/listar-evento", eAdmin, async(req, res) => {
+        res.render("listar-evento", { style: `<link rel="stylesheet" href="/css/style.css">`, })
     })
     // renderiza a agenda com todos os agendamentos até agora
-app.get("/agenda", async(req, res) => {
+app.get("/agenda", eAdmin, async(req, res) => {
     res.render("agenda", {
         style: `<link rel="stylesheet" href="/css/style.css">`
     })
 })
 
 // renderiza formulário de captação dos dados para agendamento
-app.get("/novo-agendamento", async(req, res) => {
+app.get("/novo-agendamento", eAdmin, async(req, res) => {
     res.render("novo-evento", {
         style: `<link rel="stylesheet" href="/css/style.css">`
     })
@@ -678,14 +763,20 @@ app.get("/novo-agendamento", async(req, res) => {
 // rota interna que chama a API e insere um procedimento na agenda
 // ao inserir um procedimento, ele chama o módulo da biblioteca de enviar o email de confirmação, e envia pro email do cliente.
 
-app.post("/criarAgendamento", async(req, res) => {
+app.post("/criarAgendamento", eAdmin, async(req, res) => {
     const id_colab = req.body.id_colaborador;
     const colaborador = await Colaborador.findByPk(id_colab);
-    if (colaborador) {
-        const { email } = colaborador;
-        const { nome } = colaborador;
-        const email_colaborador = email;
-        const nome_colaborador = nome;
+    const id_cliente = req.body.id_cliente;
+    const cliente = await Cliente.findByPk(id_cliente);
+    const { email } = cliente;
+    const { nome } = cliente;
+    const email_cliente = email;
+    const nome_cliente = nome;
+    if (colaborador && cliente) {
+        const email_cliente = cliente.email;
+        const nome_cliente = cliente.nome;
+        const email_colaborador = colaborador.email;
+        const nome_colaborador = colaborador.nome;
         googleCalendar.createEvent(
             req.body.nome_evento,
             req.body.local_evento,
@@ -693,30 +784,38 @@ app.post("/criarAgendamento", async(req, res) => {
             req.body.data_evento,
             req.body.hora_inicio,
             req.body.hora_termino,
-            req.body.id_cliente,
+            email_cliente,
+            nome_cliente,
             email_colaborador,
             nome_colaborador
 
         ).then(async() => {
-            const id = req.body.id_cliente;
-            const cliente = await ClienteFicha.findByPk(id);
             if (cliente) {
-                const { email } = cliente;
-                const { nome } = cliente;
-                const email_cliente = email;
-                const nome_cliente = nome;
+
                 nodemailer.email.enviarEmail(email_cliente, nome_cliente);
+
+
                 console.log("email enviado com sucesso")
             } else {
                 console.log("falha ao enviar email")
             }
             res.redirect("/agenda")
         }).catch((error) => {
+            res.redirect("/erro")
             console.log("Dados incorretos ou não encontrados ao cadastrar agendamento <br> Retorne a página anterior!" + error)
-            res.send("Dados incorretos ou não encontrados ao cadastrar agendamento <br> Retorne a página anterior!" + error)
+            console.log("Dados incorretos ou não encontrados ao cadastrar agendamento <br> Retorne a página anterior!" + error)
         })
     }
+})
 
+//excluir agendamento
+app.get("/excluir-agendamento/:id_procedimento_API", eAdmin, async(req, res) => {
+    googleCalendar.deleteEvent(req.params.id_procedimento_API).then(() => {
+        res.redirect("/listar-evento")
+    }).catch((erro) => {
+        res.redirect("/erro")
+        console.log("erro" + erro)
+    })
 })
 
 // teste Enviar email pro cliente
@@ -746,29 +845,24 @@ app.get("/email", async(req, res) => {
 
 })
 
-// deletando agendamentos
 
-app.get("/error", async(req, res) => {
+
+app.get("/erro404", eAdmin, async(req, res) => {
     res.render("refresh.handlebars", {
         text: "A página em que você tentou acessar não existe",
         rota_nome: "Voltar para dashboard",
-        rota: "login",
+        rota: "dashboard",
         style: `<link rel="stylesheet" href="/css/error.css">`
     })
 })
 
-app.get("/error", async(req, res) => {
-    res.render("refresh.handlebars", {
-        style: `<link rel="stylesheet" href="/css/error.css">`
-    })
-})
 
 app.use(function(req, res, next) {
-    res.redirect("/error")
+    res.redirect("/erro404")
 });
 
-app.get("/negado", async(req, res) => {
-    res.render("negado.handlebars", {
+app.get("/erro", async(req, res) => {
+    res.render("error.handlebars", {
         style: `<link rel="stylesheet" href="/css/error.css">`
     })
 })
@@ -776,8 +870,8 @@ app.get("/negado", async(req, res) => {
 
 
 //porta principal
-app.listen(8083, () => {
-    console.log("Servidor iniciado na porta 8080: http://localhost:8080")
+app.listen(8081, () => {
+    console.log("Servidor iniciado na porta 8080: http://localhost:8081")
 })
 
 

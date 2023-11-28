@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { promisify } = require('util');
 const tokenModule = require('../modules/token');
+const { Controller_Colaborador_Usuario } = require('../Controller_Colaborador_Usuario');
 
 
 module.exports = {
@@ -20,6 +21,7 @@ module.exports = {
         try {
             const decode = await promisify(jwt.verify)(token, "J98JDASD908ML0G9ZV8ML1PI3I89S7D6F");
             req.idUsuario = decode.id;
+                        
             return next();
         } catch (err) {
             return res.status(400).json({

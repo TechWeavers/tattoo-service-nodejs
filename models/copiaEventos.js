@@ -4,6 +4,7 @@ const CopiaEventos = db.sequelize.define("copiaEventos", {
     id_evento: {
         type: db.Sequelize.INTEGER,
         primaryKey: true,
+        autoIncrement: true
     },
     nome_evento: {
         type: db.Sequelize.STRING
@@ -21,6 +22,9 @@ const CopiaEventos = db.sequelize.define("copiaEventos", {
         type: db.Sequelize.STRING
     },
     hora_termino: {
+        type: db.Sequelize.STRING
+    },
+    id_procedimento_API: {
         type: db.Sequelize.STRING
     }
 

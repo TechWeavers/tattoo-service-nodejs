@@ -3,9 +3,15 @@ const path = require('path');
 const process = require('process');
 const { authenticate } = require('@google-cloud/local-auth');
 const { google } = require('googleapis');
+const crypto = require("crypto");
+
+// validação de dados do cliente
+const Cliente = require("../models/Cliente")
+
 
 // importando a entidade cópiaEventos que vai copiar cada evento da API
-const copiaEventos = require("../models/copiaEventos")
+const copiaEventos = require("../models/copiaEventos");
+const { Controller_Cliente } = require('../Controller_Cliente');
 
 // If modifying these scopes, delete token.json.
 const SCOPES = ['https://www.googleapis.com/auth/calendar'];
@@ -109,24 +115,13 @@ async function listEvents() {
 class googleCalendar {
 
 
-    static async createEvent(nome_evento, local_evento, descricao_evento, data_evento, hora_inicio, hora_termino, id_cliente, email_colaborador, nome_colaborador) {
-
-        // validação de dados do cliente
-        const Cliente = require("../models/ClienteFicha")
-
-        const id = id_cliente;
-        const cliente = await Cliente.findByPk(id);
+    static async createEvent(nome_evento, local_evento, descricao_evento, data_evento, hora_inicio, hora_termino, email_cliente, nome_cliente, email_colaborador, nome_colaborador) {
 
         //obter o valor do campo "email" do cliente e armazenar na variável email_cliente
-        if (cliente) {
-            const { email } = cliente
-            const { nome } = cliente
-            const email_cliente = email;
-            const nome_cliente = nome;
-
+        if (nome_cliente && email_cliente) {
             const auth = await authorize();
             const calendar = google.calendar({ version: 'v3', auth });
-
+            const randomUUID = crypto.randomUUID();
             const event = {
                 summary: nome_evento,
                 location: local_evento,
@@ -141,6 +136,7 @@ class googleCalendar {
                     dateTime: data_evento + "T" + hora_termino,
                     timeZone: 'America/Sao_Paulo',
                 },
+                iCalUID: randomUUID,
                 attendees: [{
                         email: email_cliente,
                         displayName: "Cliente: " + nome_cliente,
@@ -148,7 +144,7 @@ class googleCalendar {
                     },
                     {
                         email: email_colaborador,
-                        displayName: "Ttuador: " + nome_colaborador,
+                        displayName: "Tatuador: " + nome_colaborador,
                         responseStatus: "needsAction"
                     }
                 ],
@@ -158,8 +154,10 @@ class googleCalendar {
                         method: "email",
                         "minutes": 24 * 60
                     }],
-                    sendUpdates: "all"
+                    sendUpdates: "all",
+
                 }
+
 
 
             };
@@ -172,22 +170,28 @@ class googleCalendar {
 
                 console.log('Evento inserido:', res.data);
             });
+
+            //copiando os eventos
+            copiaEventos.create({
+                nome_evento: nome_evento,
+                nome_cliente: nome_cliente,
+                nome_colaborador: nome_colaborador,
+                data_evento: data_evento,
+                hora_inicio: hora_inicio,
+                hora_termino: hora_termino,
+                id_procedimento_API: event.iCalUID
+            })
         }
-
-        //copiando o evento para a entidade no banco
-        const copia = copiaEventos.create({
-            id_evento: event.id,
-            nome_evento: nome_evento,
-            nome_cliente: nome_cliente,
-            nome_colaborador: nome_colaborador,
-            data_evento: data_evento,
-            hora_inicio: hora_inicio,
-            hora_termino: hora_termino
-        })
-        console.log("cópia do evento: ", copia)
-
-
     }
+
+    static async deleteEvent(id_procedimento_API) {
+        const auth = await authorize();
+        const calendar = google.calendar({ version: 'v3', auth });
+
+        const deleta = calendar.events.delete({ calendarId: "sixdevsfatec@gmail.com", eventId: id_procedimento_API });
+        return deleta;
+    }
+
 
 
 }
