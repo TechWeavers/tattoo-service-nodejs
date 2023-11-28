@@ -808,6 +808,8 @@ app.post("/criarAgendamento", eAdmin, async(req, res) => {
     }
 })
 
+// teste de commit
+
 //excluir agendamento
 app.get("/excluir-agendamento/:id_procedimento_API", eAdmin, async(req, res) => {
     googleCalendar.deleteEvent(req.params.id_procedimento_API).then(() => {
