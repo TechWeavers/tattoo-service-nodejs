@@ -9,14 +9,14 @@
                     <div id="ordem-ativo" class="col-auto  pasta-ordem">
                         <a href="/novo-agendamento">Novo Agendamento</a>
                     </div>
+                    <div id="ordem" class="col-auto  pasta-ordem">
+                        <a href="/listar-evento">Listar Agendamentos</a>
+                    </div>
                 </div>
                 <div class="card-body card-pasta">
                     <div class="table-responsive ">
                         <table class="table table-striped ">
-                            <h4 class="card-title">Agendamentos</h4>
-                            <p class="card-description text-white">
-                                Novo Agendamento
-                            </p>
+                            <h4 class="card-title">Agendar</h4>
                             <form action="/criarAgendamento" method="POST">
                                 <div class="form-group">
                                     <label class="form-label">
@@ -44,28 +44,25 @@
 
                                     <label class="form-label">
                                         <h5>Data de Início:</h5>
-                                        <p class="card-description opacity-50"> * Insira a data no formato dia/mês/ano</p>
                                     </label>
                                     <input type="text" name="data_evento" class="form-control" id="data_evento"
-                                        required=" Dado Obrigatório!" placeholder="Insira a data">
+                                        required=" Dado Obrigatório!" placeholder="ano/mês/dia">
                                 </div>
 
                                 <div class="form-group">
                                     <label class="form-label">
                                         <h5>Horário de Início:</h5>
-                                        <p class="card-description opacity-50"> * Insira o horário no formato horas:minutos</p>
                                     </label>
                                     <input type="" name="hora_inicio" class="form-control" id="hora_inicio"
-                                        required=" Dado Obrigatório!" placeholder="Insira o hórario de inicio da sessão">
+                                        required=" Dado Obrigatório!" placeholder="horas-minutos-segundos">
                                 </div>
 
                                 <div class="form-group">
                                     <label class="form-label">
                                         <h5>Horário de Término:</h5>
-                                         <p class="card-description opacity-50"> * Insira o horário no formato horas:minutos</p>
                                     </label>
                                     <input type="text" name="hora_termino" class="form-control" id="hora_termino"
-                                        required=" Dado Obrigatório!" placeholder="Insira o horário de termino da sessão">
+                                        required=" Dado Obrigatório!" placeholder="horas-minutos-segundos">
                                 </div>
 
                                 <!--<div class="form-group">
