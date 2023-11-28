@@ -529,13 +529,11 @@ app.post("/atualizar-estoque", eAdmin, async(req, res) => {
 })
 
 app.post("/consumir-estoque", eAdmin, async(req, res) => {
-    const dataAtual = new Date();
-    console.log(dataAtual);
     Controller_Estoque.diminuirQuantidade(
         req.body.id_material,
         req.body.id_colaborador,
         req.body.quantidade,
-        dataAtual
+
     ).then(function() {
         res.redirect("/listar-estoque")
     })
@@ -795,14 +793,20 @@ app.post("/criarAgendamento", eAdmin, async(req, res) => {
             nome_colaborador
 
         ).then(async() => {
-            Controller_Estoque.diminuirQuantidade(
-                req.body.id_material,
-                req.body.id_colaborador,
-                req.body.quantidade
+            let materiais = [];
+            let quantidades = [];
+            materiais.push(req.body.id_material1);
+            materiais.push(req.body.id_material2)
+            quantidades.push(req.body.quantidade1);
+            quantidades.push(req.body.quantidade2);
+            Controller_Estoque.consumirMateriaisAgendamento(
+                materiais,
+                quantidades,
+                req.body.fk_colaborador
             ).then(() => {
                 console.log("Material utilizado com sucesso");
 
-            }).catch(() => { res.redirect("/erro") })
+            })
             if (cliente) {
                 nodemailer.email.enviarEmail(email_cliente, nome_cliente);
                 console.log("email enviado com sucesso")
