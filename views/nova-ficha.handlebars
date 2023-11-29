@@ -40,11 +40,16 @@
                 <div class="form-group">
                   <label for="tratamento" class="form-label">Faz Tratamento Médico:</label>
                   <div>
-                    <input type="radio" name="tratamento" id="tratamento-sim" value="true">
-                    <label for="tratamento-sim">Sim</label>
-
-                    <input type="radio" name="tratamento" id="tratamento-nao" value="false">
-                    <label for="tratamento-nao">Não</label>
+                    <div class="sim-ficha">
+                      <input type="radio" name="tratamento" id="tratamento-sim" value="true" class="radio-style">
+                      <label for="tratamento-sim">Sim</label>
+                    </div>
+                    
+                    <div class="nao-ficha">
+                      <input type="radio" name="tratamento" id="tratamento-nao" value="false" class="radio-style">
+                      <label for="tratamento-nao">Não</label>
+                    </div>
+                    
                   </div>
                 </div>
 
@@ -57,27 +62,36 @@
                 <div class="form-group">
                   <label for="cirurgia" class="form-label">Realizou Cirurgia Recentemente:</label>
                   <div>
-                    <input type="radio" name="cirurgia" id="cirurgia-sim" value="true">
-                    <label for="cirurgia-sim">Sim</label>
-
-                    <input type="radio" name="cirurgia" id="cirurgia-nao" value="false">
-                    <label for="cirurgia-nao">Não</label>
+                    <div class="sim-ficha">
+                      <input type="radio" name="cirurgia" id="cirurgia-sim" value="true" class="radio-style">
+                      <label for="cirurgia-sim">Sim</label>
+                    </div>
+                    <div class="nao-ficha">
+                      <input type="radio" name="cirurgia" id="cirurgia-nao" value="false">
+                      <label for="cirurgia-nao">Não</label>
+                    </div>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label for="cirurgiaDesc">Descrição da Cirurgia:</label>
-                  <input type="text" name="cirurgiaDesc" class="form-control" id="cirurgiaDesc">
+                  <input type="text" name="cirurgiaDesc" class="form-control" id="cirurgiaDesc" class="radio-style">
                 </div>
               
                 <div class="form-group">
                   <label for="alergia" class="form-label">Possui Alergia:</label>
                   <div>
-                    <input type="radio" name="alergia" id="alergia-sim" value="true">
-                    <label for="alergia-sim">Sim</label>
-
-                    <input type="radio" name="alergia" id="alergia-nao" value="false">
+                    <div class="sim-ficha">
+                      <input type="radio" name="alergia" id="alergia-sim" value="true" class="radio-style">
+                      <label for="alergia-sim">Sim</label>
+                    </div>
+                    <div class="nao-ficha">
+                      <input type="radio" name="alergia" id="alergia-nao" value="false" class="radio-style">
                     <label for="alergia-nao">Não</label>
+                    </div>
+                    
+
+                    
                   </div>
                 </div>
               
@@ -89,55 +103,82 @@
                 <div class="form-group">
                   <label for="problemaCardiaco" class="form-label">Possui Problema Cardíaco:</label>
                   <div>
-                    <input type="radio" name="problemaCardiaco" id="problemaCardiaco-sim" value="true">
-                    <label for="problemaCardiaco-sim">Sim</label>
+                    <div class="sim-ficha">
+                      <input type="radio" name="problemaCardiaco" id="problemaCardiaco-sim" value="true" class="radio-style">
+                      <label for="problemaCardiaco-sim">Sim</label>
+                    </div>
 
-                    <input type="radio" name="problemaCardiaco" id="problemaCardiaco-nao" value="false">
-                    <label for="problemaCardiaco-nao">Não</label>
+                    <div class="nao-ficha">
+                      <input type="radio" name="problemaCardiaco" id="problemaCardiaco-nao" value="false" class="radio-style">
+                      <label for="problemaCardiaco-nao">Não</label>
+                    </div>
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label for="cancer" class="form-label">Já teve Câncer:</label>
                   <div>
-                    <input type="radio" name="cancer" id="cancer-sim" value="true">
-                    <label for="cancer-sim">Sim</label>
-
-                    <input type="radio" name="cancer" id="cancer-nao" value="false">
+                    <div class="sim-ficha">
+                      <input type="radio" name="cancer" id="cancer-sim" value="true" class="radio-style">
+                      <label for="cancer-sim">Sim</label>
+                    </div>
+                    <div class="nao-ficha">
+                      <input type="radio" name="cancer" id="cancer-sim" value="true" class="radio-style">
                     <label for="cancer-nao">Não</label>
+                    </div>
+                  </div>
+
+                    
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label for="drogas" class="form-label">Usa Drogas:</label>
                   <div>
-                    <input type="radio" name="drogas" id="drogas-sim" value="true">
-                    <label for="drogas-sim">Sim</label>
-
-                    <input type="radio" name="drogas" id="drogas-nao" value="false">
-                    <label for="drogas-nao">Não</label>
+                    <div class="sim-ficha">
+                      <input type="radio" name="drogas" id="drogas-sim" value="true" class="radio-style">
+                      <label for="drogas-sim">Sim</label>
+                    </div>
+                    
+                    <div class="nao-ficha">
+                      <input type="radio" name="drogas" id="drogas-nao" value="false" class="radio-style">
+                      <label for="drogas-nao">Não</label>
+                    </div>
+                    
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label for="cicatrizacao" class="form-label">Problemas de Cicatrização:</label>
                   <div>
-                    <input type="radio" name="cicatrizacao" id="cicatrizacao-sim" value="true">
-                    <label for="cicatrizacao-sim">Sim</label>
+                    <div class="sim-ficha">
+                      <input type="radio" name="cicatrizacao" id="cicatrizacao-sim" value="true" class="radio-style">
+                      <label for="cicatrizacao-sim">Sim</label>
+                    </div>
 
-                    <input type="radio" name="cicatrizacao" id="cicatrizacao-nao" value="false">
+                    <div class="nao-ficha">
+                      <input type="radio" name="cicatrizacao" id="cicatrizacao-nao" value="false" class="radio-style">
                     <label for="cicatrizacao-nao">Não</label>
+                    </div>
+                    
+
+                    
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label for="diabetes" class="form-label">Possui Diabetes:</label>
                   <div>
-                    <input type="radio" name="diabetes" id="diabetes-sim" value="true">
-                    <label for="diabetes-sim">Sim</label>
-
-                    <input type="radio" name="diabetes" id="diabetes-nao" value="false">
-                    <label for="diabetes-nao">Não</label>
+                    <div class="sim-ficha">
+                      <input type="radio" name="diabetes" id="diabetes-sim" value="true" class="radio-style">
+                      <label for="diabetes-sim">Sim</label>
+                    </div>
+                    
+                    <div class="nao-ficha">
+                      <input type="radio" name="diabetes" id="diabetes-nao" value="false" class="radio-style">
+                      <label for="diabetes-nao">Não</label>
+                    </div>
+                    
                   </div>
                 </div>
 
@@ -150,11 +191,14 @@
                 <div class="form-group">
                   <label for="convulsao" class="form-label">Teve Convulsões:</label>
                   <div>
-                    <input type="radio" name="convulsao" id="convulsao-sim" value="true">
-                    <label for="convulsao-sim">Sim</label>
-
-                    <input type="radio" name="convulsao" id="convulsao-nao" value="false">
-                    <label for="convulsao-nao">Não</label>
+                    <div class="sim-ficha">
+                      <input type="radio" name="convulsao" id="convulsao-sim" value="true" class="radio-style">
+                      <label for="convulsao-sim">Sim</label>
+                    </div>
+                    <div class="nao-ficha">
+                      <input type="radio" name="convulsao" id="convulsao-nao" value="false" class="radio-style">
+                      <label for="convulsao-nao">Não</label>
+                    </div>
                   </div>
                 </div>
 
@@ -167,11 +211,17 @@
                 <div class="form-group">
                   <label for="doencasTransmissiveis" class="form-label">Possui Doenças Transmissíveis:</label>
                   <div>
-                    <input type="radio" name="doencasTransmissiveis" id="doencasTransmissiveis-sim" value="true">
-                    <label for="doencasTransmissiveis-sim">Sim</label>
+                    <div class="sim-ficha">
+                      <input type="radio" name="doencasTransmissiveis" id="doencasTransmissiveis-sim" value="true" class="radio-style">
+                      <label for="doencasTransmissiveis-sim">Sim</label>
+                    </div>
+                    <div class="nao-ficha">
+                      <input type="radio" name="doencasTransmissiveis" id="doencasTransmissiveis-nao" value="false" class="radio-style">
+                      <label for="doencasTransmissiveis-nao">Não</label>
+                    </div>
+                    
 
-                    <input type="radio" name="doencasTransmissiveis" id="doencasTransmissiveis-nao" value="false">
-                    <label for="doencasTransmissiveis-nao">Não</label>
+                    
                   </div>
                 </div>
 
@@ -184,55 +234,83 @@
                 <div class="form-group">
                   <label for="pressao" class="form-label">Problemas de Pressão:</label>
                   <div>
-                    <input type="radio" name="pressao" id="pressao-sim" value="true">
-                    <label for="pressao-sim">Sim</label>
+                    <div class="sim-ficha">
+                      <input type="radio" name="pressao" id="pressao-sim" value="true" class="radio-style">
+                      <label for="pressao-sim">Sim</label>
+                    </div>
+                    <div class="nao-ficha">
+                      <input type="radio" name="pressao" id="pressao-nao" value="false" class="radio-style">
+                      <label for="pressao-nao">Não</label>
+                    </div>
 
-                    <input type="radio" name="pressao" id="pressao-nao" value="false">
-                    <label for="pressao-nao">Não</label>
+                    
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label for="anemia" class="form-label">Possui Anemia:</label>
                   <div>
-                    <input type="radio" name="anemia" id="anemia-sim" value="true">
+                    <div class="sim-ficha">
+                      <input type="radio" name="anemia" id="anemia-sim" value="true" class="radio-style">
                     <label for="anemia-sim">Sim</label>
-
-                    <input type="radio" name="anemia" id="anemia-nao" value="false">
-                    <label for="anemia-nao">Não</label>
+                    </div>
+                    
+                    <div class="nao-ficha">
+                      <input type="radio" name="anemia" id="anemia-nao" value="false" class="radio-style">
+                      <label for="anemia-nao">Não</label>
+                    </div>
+                    
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label for="hemofilia" class="form-label">Possui Hemofilia:</label>
                   <div>
-                    <input type="radio" name="hemofilia" id="hemofilia-sim" value="true">
-                    <label for="hemofilia-sim">Sim</label>
+                    <div class="sim-ficha">
+                      <input type="radio" name="hemofilia" id="hemofilia-sim" value="true" class="radio-style">
+                      <label for="hemofilia-sim">Sim</label>
+                    </div>
+                    <div class="nao-ficha">
+                      <input type="radio" name="hemofilia" id="hemofilia-nao" value="false" class="radio-style">
+                      <label for="hemofilia-nao">Não</label>
+                    </div>
+                    
 
-                    <input type="radio" name="hemofilia" id="hemofilia-nao" value="false">
-                    <label for="hemofilia-nao">Não</label>
+                    
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label for="hepatite" class="form-label">Possui Hepatite:</label>
                   <div>
-                    <input type="radio" name="hepatite" id="hepatite-sim" value="true">
-                    <label for="hepatite-sim">Sim</label>
+                    <div class="sim-ficha">
+                      <input type="radio" name="hepatite" id="hepatite-sim" value="true" class="radio-style">
+                      <label for="hepatite-sim">Sim</label>
+                    </div>
+                    <div class="nao-ficha">
+                      <input type="radio" name="hepatite" id="hepatite-nao" value="false" class="radio-style">
+                      <label for="hepatite-nao">Não</label>
+                    </div>
+                    
 
-                    <input type="radio" name="hepatite" id="hepatite-nao" value="false">
-                    <label for="hepatite-nao">Não</label>
+                    
                   </div>
                 </div>
 
                 <div class="form-group">
                   <label for="outro" class="form-label">Outras Condições:</label>
                   <div>
-                    <input type="radio" name="outro" id="outro-sim" value="true">
-                    <label for="outro-sim">Sim</label>
-
-                    <input type="radio" name="outro" id="outro-nao" value="false">
+                    <div class="sim-ficha">
+                      <input type="radio" name="outro" id="outro-sim" value="true" class="radio-style">
+                      <label for="outro-sim">Sim</label>
+                    </div>
+                    <div class="nao-ficha">
+                      <input type="radio" name="outro" id="outro-nao" value="false" class="radio-style">
                     <label for="outro-nao">Não</label>
+                    </div>
+                    
+
+                    
                   </div>
                 </div>
 

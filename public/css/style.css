@@ -109,6 +109,11 @@
             color: #666666;
             text-decoration: none;
         }
+
+        .radio-style{
+            width: 20px;
+            height: 20px;
+        }
         
         .butn:focus {
             outline: 0;
