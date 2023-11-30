@@ -376,8 +376,12 @@ app.get("/excluir-usuario/:id", eAdmin, function(req, res) {
     Controller_Colaborador_Usuario.excluirUsuario(req.params.id).then(function() {
         res.redirect("/listar-usuarios")
     }).catch(function(erro) {
-        res.redirect("/erro")
+        res.status(500).send('error',{
+            message: 'Erro de nota'
+        });
+        res.render("/listar-usuarios", {script:'<script src="/js/alert.js"></script>'})
         console.log("Erro ao carregar os dados " + erro)
+        
     })
 })
 
