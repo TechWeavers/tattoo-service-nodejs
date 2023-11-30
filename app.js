@@ -15,8 +15,8 @@ const Colaborador = require("./models/Colaborador")
 
 // variaveis que servirao de controle da dashboard
 const { Dashboard } = require("./Controller_Dashboard");
-const agendamentos = 0;
-
+let agendamentos = 0;
+let clientes = 0;
 
 
 
@@ -167,11 +167,14 @@ app.get("/logout", (req, res) => {
 
 // Tela principal do site, com todas as funcionalidades do sistema
 app.get("/dashboard", eAdmin, async(req, res) => {
-    copiaEventos.findAll().then((eventos) => {
+    // fazer aqui a funcionalidade de retornar todos os metodos da dashboard
+
+    Dashboard.próximosProcedimentos().then((eventos) => {
         const dataAtual = new Date();
         console.log("Data atual: " + dataAtual)
         res.render("dashboard", {
             eventos,
+
             title: "Dashboard",
             style: `<link rel="stylesheet" href="/css/estilos3.css">
             <link rel="stylesheet" href="/css/sidebar.css">
@@ -580,6 +583,8 @@ app.post("/cadastrar-cliente", eAdmin, async(req, res) => {
         req.body.email,
         req.body.redeSocial
     ).then(() => {
+        clientes++;
+        Dashboard.quantidadeClientes(clientes);
         res.redirect("/listar-cliente");
         console.log("dados cadastrados com sucesso")
     })
@@ -773,8 +778,6 @@ app.post("/criarAgendamento", eAdmin, async(req, res) => {
     const cliente = await Cliente.findByPk(id_cliente);
     const { email } = cliente;
     const { nome } = cliente;
-    const email_cliente = email;
-    const nome_cliente = nome;
     if (colaborador && cliente) {
         const email_cliente = cliente.email;
         const nome_cliente = cliente.nome;

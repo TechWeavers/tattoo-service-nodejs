@@ -17,8 +17,8 @@
             <table class="table table-striped text-center">
               <thead>
                 <tr>
+                  <th>ID do evento</th>
                   <th>Nome do evento</th>
-                  <th>id do evento</th>
                   <th>Hora do inicio</th>
                   <th>Data de inicio </th>
                   <th>Hora do termino</th>
@@ -30,8 +30,8 @@
               {{#each eventos}} {{#dataValues}}
               <tbody>
                 <tr>
-                  <td class="py-1">{{nome_evento}}</td>
-                  <td>{{id_evento}}</td>
+                  <td class="py-1">{{id_evento}}</td>
+                  <td>{{nome_evento}}</td>
                   <td>{{hora_inicio}}</td>
                   <td>{{data_evento}}</td>
                   <td>{{hora_termino}}</td>
@@ -57,7 +57,7 @@
       <div class="col-lg-5 grid-margin stretch-card">
         <div class="row col-sm">
           <div id="ordem-ativo" class="col-auto  pasta-ordem">
-            <a href="/dashboard">Ranking de Tatuadores</a>
+            <a href="/dashboard">Histórico de Materiais Consumidos</a>
           </div>
         </div>
 
@@ -67,29 +67,24 @@
            <table class="table table-striped text-center">
               <thead>
                 <tr>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
+                  <th>ID do consumo</th>
+                  <th>Nome do material</th>
+                  <th>Quantidade</th>
+                  <th>Valor Total</th>
+                  <th>Data de consumo</th>
                 </tr>
               </thead>
-              {{#each eventos}} {{#dataValues}}
+              {{#each dashboard}} {{#dataValues}}
               <tbody>
                 <tr>
-                  <td class="py-1"></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+                  <td class="py-1">{{id_consumo}}</td>
+                  <td>{{nome}}</td>
+                  <td>{{quantidade}}</td>
+                  <td>{{valor_total}}</td>
+                  <td>{{data_consumo}}</td>
                   <td>
-                    <a href="/editar-usuario/{{id_procedimento_API}}" style="color:inherit"><i
-                        class="bi bi-pencil"></i></a>
+                   <!-- <a href="/editar-usuario/{{id_procedimento_API}}" style="color:inherit"><i
+                        class="bi bi-pencil"></i></a>-->
 
                     <a href="/excluir-agendamento/{{id_procedimento_API}}" style="color:inherit"><i
                         class="bi bi-trash-fill"></i></a>
@@ -129,7 +124,7 @@
                   <th></th>
                 </tr>
               </thead>
-              {{#each eventos}} {{#dataValues}}
+          
               <tbody>
                 <tr>
                   <td class="py-1"></td>
@@ -148,8 +143,7 @@
                   </td>
                 </tr>
               </tbody>
-              {{/dataValues}}
-              {{/each}}
+              
             </table>
           </div>
         </div>
@@ -158,12 +152,17 @@
       <div class="col-lg-4 grid-margin stretch-card">
         <div class="row col-sm">
           <div id="ordem-ativo" class="col-auto  pasta-ordem">
-            <a href="/dashboard">Clientes</a>
+            <a href="/dashboard">Quantidade de clientes cadastrados</a>
           </div>
         </div>
 
         <div class="card-body card-pasta bg-orange">
-
+          
+          
+          <p></p>
+        
+          
+         <!--
           <div class="table-responsive">
          <table class="table table-striped text-center">
               <thead>
@@ -200,14 +199,14 @@
               {{/dataValues}}
               {{/each}}
             </table>
-          </div>
+          </div>-->
         </div>
       </div>
       <!--DIV estoque-->
       <div class="col-lg-4 grid-margin stretch-card">
         <div class="row col-sm">
           <div id="ordem-ativo" class="col-auto  pasta-ordem">
-            <a href="/dashboard">Estoque</a>
+            <a href="/dashboard">Materiais em falta</a>
           </div>
         </div>
 
