@@ -791,24 +791,29 @@ app.get("/novo-agendamento", eAdmin, async (req, res) => {
             <link rel="stylesheet" href="../../css/fileStyle.css">`,
         })
     })
-
-
-    /*res.render("novo-evento", {
-        materiais,
-        style: `<link rel="stylesheet" href="/css/style.css">`
-    })*/
 })
 
 // rota interna que chama a API e insere um procedimento na agenda
 // ao inserir um procedimento, ele chama o módulo da biblioteca de enviar o email de confirmação, e envia pro email do cliente.
 
 app.post("/criarAgendamento", eAdmin, async (req, res) => {
+    console.log(req.body.id_material)
+    console.log("bb")
+    console.log("bb")
+    console.log("bb")
+    console.log("bb")
+    console.log("bb")
+    console.log("bb")
+
     const id_colab = req.body.id_colaborador;
     const colaborador = await Colaborador.findByPk(id_colab);
     const id_cliente = req.body.id_cliente;
     const cliente = await Cliente.findByPk(id_cliente);
     const { email } = cliente;
     const { nome } = cliente;
+    const quantidade = req.body.quantidade
+    let materialUsado ;
+
     if (colaborador && cliente) {
         const email_cliente = cliente.email;
         const nome_cliente = cliente.nome;
@@ -827,23 +832,19 @@ app.post("/criarAgendamento", eAdmin, async (req, res) => {
             nome_colaborador
 
         ).then(async () => {
-            Handlebars.registerHelper('incrementCountVarUsage', function() {
-                countVarUsage++;
-                return '';
-            });
-                for(i=0;i<countVarUsage;i++){
-                    let materiais = [];
+                let materiais = [];
                 let quantidades = [];
-                materiais.push(req.body.id_material)
-                quantidades.push(req.body.quantidade);
+                for (let index = 0; index < req.body.id_material.length; index++) {
+                    materiais.push(req.body.id_material[index])
+                    quantidades.push(req.body.quantidade[index]) 
+                }
                 Controller_Estoque.consumirMateriaisAgendamento(
                     materiais,
-                    quantidades,
-                    req.body.fk_colaborador
+                    quantidades
                 ).then(() => {
                     console.log("Material utilizado com sucesso");
                 })
-            }
+            
                 
             
 
