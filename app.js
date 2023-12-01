@@ -113,7 +113,7 @@ app.get("/pdf/:id", async(req, res) => {
         // Verifica se a resposta já foi enviada para evitar headers duplicados
         if (!responseSent) {
             console.error("Erro ao gerar o PDF:", error);
-            res.status(500).send("Erro ao gerar o PDF");
+            res.redirect("/erro");
             responseSent = true;
         }
     }
@@ -135,12 +135,13 @@ app.post("/login", async(req, res) => {
         });
 
         if (!usuarioEncontrado) {
-            return res.status(401).json({ message: "Usuário não encontrado" });
-
+            res.redirect("/login-error");
+            return
         }
 
         if (!(await bcrypt.compare(senhaLogin, usuarioEncontrado.senha))) {
-            return res.status(401).json({ message: "Senha incorreta" });
+            res.redirect("/login-error");
+            return
         }
 
         let token = jwt.sign({ id: usuarioEncontrado.id }, "J98JDASD908ML0G9ZV8ML1PI3I89S7D6F", {
@@ -153,11 +154,7 @@ app.post("/login", async(req, res) => {
         res.redirect("/dashboard");
 
     } catch (error) {
-
-    }
-    then => {
-        const usuarioNome = req.body.usuarioLogin
-
+        res.redirect("/login-error");
     }
 })
 
@@ -218,18 +215,24 @@ cron.schedule('0 11 * * *', () => {
 
 // criar um novo login para usuários do sistema
 app.post("/novo-usuario-login", eAdmin, async(req, res) => {
-    const senhaCriptLogin = await bcrypt.hash(req.body.senhaCadastro, 8);
-    Usuario.create({
-        usuario: req.body.usuarioCadastro,
-        senha: senhaCriptLogin,
-        fk_colaborador: req.body.colaborador
-    }).then(function() {
-        res.redirect("/")
-        console.log("Dados cadastrados com sucesso!")
-    }).catch(function(erro) {
-        res.redirect("/erro")
-        console.log("Erro ao cadastrar " + erro)
-    })
+    try {
+        
+        const senhaCriptLogin = await bcrypt.hash(req.body.senhaCadastro, 8);
+        Usuario.create({
+            usuario: req.body.usuarioCadastro,
+            senha: senhaCriptLogin,
+            fk_colaborador: req.body.colaborador
+        }).then(function() {
+            res.redirect("/")
+            console.log("Dados cadastrados com sucesso!")
+        }).catch(function(erro) {
+            res.redirect("/erro")
+            console.log("Erro ao cadastrar " + erro)
+        })
+        
+    } catch (error) {
+        res.redirect("/erro");
+    }
 })
 
 //--------------------------------------- CRUD de Colaborador -------------------------------
@@ -244,17 +247,23 @@ app.get("/novo-colaborador", eAdmin, async(req, res) => {
 
 // rota interna recebe os dados do formulário de cadastro de colaboradores, e registra no banco
 app.post("/cadastrar-colaborador", eAdmin, async(req, res) => {
-    console.log(req.body.tipo)
-    Controller_Colaborador_Usuario.cadastrarColaborador(
-        req.body.nome,
-        req.body.cpf,
-        req.body.telefone,
-        req.body.email,
-        req.body.redeSocial,
-        req.body.tipo
-    );
-    res.redirect("/listar-colaboradores");
-    console.log("dados cadastrados com sucesso");
+    try {
+        
+        console.log(req.body.tipo)
+        Controller_Colaborador_Usuario.cadastrarColaborador(
+            req.body.nome,
+            req.body.cpf,
+            req.body.telefone,
+            req.body.email,
+            req.body.redeSocial,
+            req.body.tipo
+        );
+        res.redirect("/listar-colaboradores");
+        console.log("dados cadastrados com sucesso");
+        
+    } catch (error) {
+        res.redirect("/erro");
+    }
 
 })
 
@@ -315,16 +324,22 @@ app.get("/editar-colaborador/:id", eAdmin, function(req, res) {
 
 //rota interna que atualiza os dados do colaborador, vindo do formulário de atualização dos dados
 app.post("/atualizar-colaborador", eAdmin, function(req, res) {
-    Controller_Colaborador_Usuario.atualizarColaborador(
-        req.body.id_colaborador,
-        req.body.nome,
-        req.body.cpf,
-        req.body.telefone,
-        req.body.email,
-        req.body.redeSocial,
-        req.body.tipo).then(function() {
-        res.redirect("/listar-colaboradores")
-    })
+    try {
+        
+        Controller_Colaborador_Usuario.atualizarColaborador(
+            req.body.id_colaborador,
+            req.body.nome,
+            req.body.cpf,
+            req.body.telefone,
+            req.body.email,
+            req.body.redeSocial,
+            req.body.tipo).then(function() {
+            res.redirect("/listar-colaboradores")
+        })
+        
+    } catch (error) {
+        res.redirect("/erro");
+    }
 })
 
 //buscar colaborador pelo CPF
@@ -365,14 +380,20 @@ app.get("/novo-usuario", eAdmin, async(req, res) => {
 
 // rota interna para criar um novo login para usuários do sistema, recebendo os dados do formulário de cadastro de usuários
 app.post("/novo-usuario", eAdmin, async(req, res) => {
-    const senhaCript = await bcrypt.hash(req.body.senha, 8);
-    Controller_Colaborador_Usuario.cadastrarUsuario(
-        req.body.usuario,
-        senhaCript,
-        req.body.fk_colaborador);
-
-    res.redirect("/listar-usuarios")
-    console.log("Dados cadastrados com sucesso!")
+    try {
+        
+        const senhaCript = await bcrypt.hash(req.body.senha, 8);
+        Controller_Colaborador_Usuario.cadastrarUsuario(
+            req.body.usuario,
+            senhaCript,
+            req.body.fk_colaborador);
+    
+        res.redirect("/listar-usuarios")
+        console.log("Dados cadastrados com sucesso!")
+        
+    } catch (error) {
+        res.redirect("/erro");
+    }
 })
 
 //página de visualização de todos os usuários cadastrados no sistema
@@ -434,13 +455,19 @@ app.get("/editar-usuario/:id", eAdmin, function(req, res) {
 
 //rota interna que atualiza os dados de cada usuário, recebendo os dados do formulário de edição de usuários
 app.post("/atualizar-usuario", eAdmin, async (req, res) => {
-    const senhaCript = await bcrypt.hash(req.body.senha, 8);
-    Controller_Colaborador_Usuario.atualizarUsuario(
-        req.body.id_usuario,
-        req.body.usuario,
-        senhaCript).then(function() {
-        res.redirect("/listar-usuarios")
-    })
+    try {
+        const senhaCript = await bcrypt.hash(req.body.senha, 8);
+        Controller_Colaborador_Usuario.atualizarUsuario(
+            req.body.id_usuario,
+            req.body.usuario,
+            senhaCript).then(function() {
+            res.redirect("/listar-usuarios")
+        })
+        
+    } catch (error) {
+        res.redirect("/erro");
+    }
+    
 })
 
 // ---------------------------- CRUD ESTOQUE -------------------------------------
@@ -468,14 +495,20 @@ app.get("/novo-estoque", eAdmin, function(req, res) {
 // rota interna recebe os dados do formulário de cadastro de materiais, e registra no banco
 app.post("/cadastrar-estoque", eAdmin, async(req, res) => {
 
-    Controller_Estoque.cadastrarMaterial(
-        req.body.nome,
-        req.body.quantidade,
-        req.body.valor_unidade,
-        req.body.data_compra
-    );
-    res.redirect("/listar-estoque");
-    console.log("dados cadastrados com sucesso");
+    try {
+        Controller_Estoque.cadastrarMaterial(
+            req.body.nome,
+            req.body.quantidade,
+            req.body.valor_unidade,
+            req.body.data_compra
+        );
+        res.redirect("/listar-estoque");
+        console.log("dados cadastrados com sucesso");
+    } catch (error) {
+        res.redirect("/erro");
+    }
+
+   
 
 })
 
@@ -539,24 +572,36 @@ app.get("/consumir-estoque/:id", eAdmin, async(req, res) => {
 })
 
 app.post("/atualizar-estoque", eAdmin, async(req, res) => {
-    Controller_Estoque.atualizarMaterial(
-        req.body.id_material,
-        req.body.nome,
-        req.body.quantidade,
-        req.body.valor_unidade, ).then(function() {
-        res.redirect("/listar-estoque")
-    })
+    try {
+        Controller_Estoque.atualizarMaterial(
+            req.body.id_material,
+            req.body.nome,
+            req.body.quantidade,
+            req.body.valor_unidade, ).then(function() {
+            res.redirect("/listar-estoque")
+        })
+    } catch (error) {
+        res.redirect("/erro");
+    }
+    
+    
 })
 
 app.post("/consumir-estoque", eAdmin, async(req, res) => {
-    Controller_Estoque.diminuirQuantidade(
-        req.body.id_material,
-        req.body.id_colaborador,
-        req.body.quantidade,
-
-    ).then(function() {
-        res.redirect("/listar-estoque")
-    })
+    try {
+        Controller_Estoque.diminuirQuantidade(
+            req.body.id_material,
+            req.body.id_colaborador,
+            req.body.quantidade,
+    
+        ).then(function() {
+            res.redirect("/listar-estoque")
+        })
+    } catch (error) {
+        res.redirect("/erro");
+    }
+    
+    
 })
 
 /*app.get("/excluir-estoque/:id", eAdmin, async(req, res) => {
@@ -593,18 +638,24 @@ app.get("/novo-cliente", eAdmin, function(req, res) {
 
 //rota interna de cadastro de clientes
 app.post("/cadastrar-cliente", eAdmin, async(req, res) => {
-    Controller_Cliente.cadastrarCliente(
-        req.body.nome,
-        req.body.cpf,
-        req.body.telefone,
-        req.body.email,
-        req.body.redeSocial
-    ).then(() => {
-        clientes++;
-        Dashboard.quantidadeClientes(clientes);
-        res.redirect("/listar-cliente");
-        console.log("dados cadastrados com sucesso")
-    })
+    try {
+        Controller_Cliente.cadastrarCliente(
+            req.body.nome,
+            req.body.cpf,
+            req.body.telefone,
+            req.body.email,
+            req.body.redeSocial
+        ).then(() => {
+            clientes++;
+            Dashboard.quantidadeClientes(clientes);
+            res.redirect("/listar-cliente");
+            console.log("dados cadastrados com sucesso")
+        })
+    } catch (erro) {
+        res.redirect("/erro")
+    }
+    
+    
 })
 
 // rota de exclusão do cliente
@@ -883,34 +934,24 @@ app.get("/email", async(req, res) => {
     }).then(() => {
         console.log("email enviado com sucesso!")
     }).catch((error) => {
+        res.redirect("/erro")
         console.log("falha ao enviar email")
     })
 
 
 })
 
-
-
-app.get("/erro404", eAdmin, async(req, res) => {
-    res.render("refresh.handlebars", {
-        text: "A página em que você tentou acessar não existe",
-        rota_nome: "Voltar para dashboard",
-        rota: "dashboard",
-        style: `<link rel="stylesheet" href="/css/error.css">`
-    })
-})
-
-
-app.use(function(req, res, next) {
-    res.redirect("/erro404")
-});
-
 app.get("/erro", async(req, res) => {
-    res.render("error.handlebars", {
+    res.render("refresh", {
         style: `<link rel="stylesheet" href="/css/error.css">`
     })
 })
 
+app.get("/login-error", async(req, res) => {
+    res.render("login-error", {
+        style: `<link rel="stylesheet" href="/css/error.css">`
+    })
+})
 
 
 //porta principal
