@@ -40,6 +40,7 @@ const { googleCalendar } = require("./googleCalendar/googleCalendar");
 const { Controller_Agendamento } = require("./Controller_Agendamento")
 const path = require("path");
 const Cliente = require("./models/Cliente");
+const Material = require("./models/Material");
 
 
 // Página que renderiza a tela de login (handlebars)
@@ -776,9 +777,15 @@ app.get("/agenda", eAdmin, async(req, res) => {
 
 // renderiza formulário de captação dos dados para agendamento
 app.get("/novo-agendamento", eAdmin, async(req, res) => {
-    res.render("novo-evento", {
-        style: `<link rel="stylesheet" href="/css/style.css">`
+    Controller_Estoque.visualizarMaterial().then((materiais) => {
+        res.render("novo-evento", {
+            materiais,
+            title: "Listagem de estoque",
+            style: `<link rel="stylesheet" href="/css/style.css">
+            <link rel="stylesheet" href="../../css/fileStyle.css">`,
+        })
     })
+
 })
 
 // rota interna que chama a API e insere um procedimento na agenda
@@ -811,16 +818,16 @@ app.post("/criarAgendamento", eAdmin, async(req, res) => {
         ).then(async() => {
             let materiais = [];
             let quantidades = [];
-            materiais.push(req.body.id_material1);
-            quantidades.push(req.body.quantidade1);
-            quantidades.push(req.body.quantidade2);
+            for (let index = 0; index < req.body.id_material.length; index++) {
+                materiais.push(req.body.id_material[index])
+                quantidades.push(req.body.quantidade[index])
+            }
             Controller_Estoque.consumirMateriaisAgendamento(
                 materiais,
                 quantidades,
-                req.body.fk_colaborador
+                req.body.id_colaborador
             ).then(() => {
                 console.log("Material utilizado com sucesso");
-
             })
             if (cliente) {
                 nodemailer.email.enviarEmail(email_cliente, nome_cliente);

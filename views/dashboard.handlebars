@@ -72,6 +72,7 @@
                   <th>Quantidade</th>
                   <th>Valor Total</th>
                   <th>Data de consumo</th>
+                  <th></th>
                 </tr>
               </thead>
               {{#each materiaisConsumidos}} {{#dataValues}}
@@ -227,17 +228,18 @@
                   <th>Quantidade</th>
                   <th>Valor por unidade</th>
                   <th>data de atualização</th>
+                  <th></th>
                 </tr>
               </thead>
               {{#each materiaisFaltantes}} {{#dataValues}}
               <tbody>
                 <tr>
-                  <td class="py-1"></td>
-                  <td>{{id_material}}</td>
+                  <td class="py-1">{{id_material}}</td>
                   <td>{{nome}}</td>
                   <td>{{quantidade}}</td>
                   <td>{{valor_unidade}}</td>
                   <td>{{data_compra}}</td>
+                  
                   <td>
                     <a href="/editar-usuario/{{id_procedimento_API}}" style="color:inherit"><i
                         class="bi bi-pencil"></i></a>
