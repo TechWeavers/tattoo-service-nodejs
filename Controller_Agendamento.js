@@ -1,4 +1,5 @@
-const copiaEventos = require("./models/copiaEventos")
+const copiaEventos = require("./models/copiaEventos");
+const Material = require("./models/Material");
 const nodemailer = require("./Nodemailer")
 const { Op } = require('sequelize');
 

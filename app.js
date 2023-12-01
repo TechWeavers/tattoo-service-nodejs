@@ -166,10 +166,8 @@ app.get("/logout", (req, res) => {
 });
 
 // Tela principal do site, com todas as funcionalidades do sistema
-app.get("/dashboard", eAdmin, async(req, res) => {
-    // fazer aqui a funcionalidade de retornar todos os metodos da dashboard
-
-    Dashboard.próximosProcedimentos().then((eventos) => {
+app.get("/dashboard", eAdmin, async (req, res) => {
+    copiaEventos.findAll().then((eventos) => {
         const dataAtual = new Date();
         console.log("Data atual: " + dataAtual)
         res.render("dashboard", {
@@ -356,16 +354,16 @@ app.post("/novo-usuario", eAdmin, async (req, res) => {
             senhaCript,
             req.body.fk_colaborador);
 
-        
+
         console.log("Dados cadastrados com sucesso!")
-    }catch(triggerUncaughtException){
+    } catch (triggerUncaughtException) {
         res.redirect("/erro")
         alert('se fuddeeeeeee')
-    } finally{
+    } finally {
         res.redirect("/listar-usuarios")
     }
-    
-    
+
+
 })
 
 //página de visualização de todos os usuários cadastrados no sistema
@@ -784,8 +782,8 @@ app.get("/novo-agendamento", eAdmin, async (req, res) => {
             <link rel="stylesheet" href="../../css/fileStyle.css">`,
         })
     })
-    
-    
+
+
     /*res.render("novo-evento", {
         materiais,
         style: `<link rel="stylesheet" href="/css/style.css">`
@@ -820,20 +818,26 @@ app.post("/criarAgendamento", eAdmin, async (req, res) => {
             nome_colaborador
 
         ).then(async () => {
-            let materiais = [];
-            let quantidades = [];
-            materiais.push(req.body.id_material1);
-            materiais.push(req.body.id_material2)
-            quantidades.push(req.body.quantidade1);
-            quantidades.push(req.body.quantidade2);
-            Controller_Estoque.consumirMateriaisAgendamento(
-                materiais,
-                quantidades,
-                req.body.fk_colaborador
-            ).then(() => {
-                console.log("Material utilizado com sucesso");
+            Handlebars.registerHelper('incrementCountVarUsage', function() {
+                countVarUsage++;
+                return '';
+            });
+                for(i=0;i<countVarUsage;i++){
+                    let materiais = [];
+                let quantidades = [];
+                materiais.push(req.body.id_material)
+                quantidades.push(req.body.quantidade);
+                Controller_Estoque.consumirMateriaisAgendamento(
+                    materiais,
+                    quantidades,
+                    req.body.fk_colaborador
+                ).then(() => {
+                    console.log("Material utilizado com sucesso");
+                })
+            }
+                
+            
 
-            })
             if (cliente) {
                 nodemailer.email.enviarEmail(email_cliente, nome_cliente);
                 console.log("email enviado com sucesso")
