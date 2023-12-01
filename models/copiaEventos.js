@@ -24,6 +24,9 @@ const CopiaEventos = db.sequelize.define("copiaEventos", {
     hora_termino: {
         type: db.Sequelize.STRING
     },
+    status: {
+        type: db.Sequelize.STRING
+    },
     id_procedimento_API: {
         type: db.Sequelize.STRING
     }
