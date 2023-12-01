@@ -12,6 +12,9 @@ const CopiaEventos = db.sequelize.define("copiaEventos", {
     nome_cliente: {
         type: db.Sequelize.STRING
     },
+    email_cliente: {
+        type: db.Sequelize.STRING
+    },
     nome_colaborador: {
         type: db.Sequelize.STRING
     },

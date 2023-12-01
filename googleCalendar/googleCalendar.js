@@ -114,75 +114,75 @@ async function listEvents() {
 
 class googleCalendar {
 
-
     static async createEvent(nome_evento, local_evento, descricao_evento, data_evento, hora_inicio, hora_termino, email_cliente, nome_cliente, email_colaborador, nome_colaborador) {
+        try {
+            //obter o valor do campo "email" do cliente e armazenar na variável email_cliente
+            if (nome_cliente && email_cliente) {
+                const auth = await authorize();
+                const calendar = google.calendar({ version: 'v3', auth });
+                const randomUUID = crypto.randomUUID();
+                const randomUUID2 = crypto.randomUUID();
+                const event = {
+                    summary: nome_evento,
+                    location: local_evento,
+                    description: descricao_evento,
+                    start: {
+                        dateTime: data_evento + "T" + hora_inicio + ":00",
+                        /*formato de data e horário '2023-11-23T06:00:00'*/
 
-        //obter o valor do campo "email" do cliente e armazenar na variável email_cliente
-        if (nome_cliente && email_cliente) {
-            const auth = await authorize();
-            const calendar = google.calendar({ version: 'v3', auth });
-            const randomUUID = crypto.randomUUID();
-            const randomUUID2 = crypto.randomUUID();
-            const event = {
-                summary: nome_evento,
-                location: local_evento,
-                description: descricao_evento,
-                start: {
-                    dateTime: data_evento + "T" + hora_inicio + ":00",
-                    /*formato de data e horário '2023-11-23T06:00:00'*/
-
-                    timeZone: 'America/Sao_Paulo',
-                },
-                end: {
-                    dateTime: data_evento + "T" + hora_termino + ":00",
-                    timeZone: 'America/Sao_Paulo',
-                },
-                iCalUID: randomUUID,
-                attendees: [{
-                        email: email_cliente,
-                        displayName: "Cliente: " + nome_cliente,
-                        responseStatus: "needsAction"
+                        timeZone: 'America/Sao_Paulo',
                     },
-                    {
-                        email: email_colaborador,
-                        displayName: "Tatuador: " + nome_colaborador,
-                        responseStatus: "needsAction"
+                    end: {
+                        dateTime: data_evento + "T" + hora_termino + ":00",
+                        timeZone: 'America/Sao_Paulo',
+                    },
+                    iCalUID: randomUUID,
+                    attendees: [{
+                            email: email_cliente,
+                            displayName: "Cliente: " + nome_cliente,
+                            responseStatus: "needsAction"
+                        },
+                        {
+                            email: email_colaborador,
+                            displayName: "Tatuador: " + nome_colaborador,
+                            responseStatus: "needsAction"
+                        }
+                    ],
+                    reminders: {
+                        useDefault: false,
+                        overrides: [{
+                            method: "email",
+                            "minutes": 24 * 60
+                        }],
+                        sendUpdates: "all",
+
                     }
-                ],
-                reminders: {
-                    useDefault: false,
-                    overrides: [{
-                        method: "email",
-                        "minutes": 24 * 60
-                    }],
-                    sendUpdates: "all",
 
-                }
+                };
 
+                calendar.events.insert({
+                    calendarId: 'sixdevsfatec@gmail.com',
+                    resource: event,
+                }, (err, res) => {
+                    if (err) return console.error('Erro ao inserir evento:', err);
 
+                    console.log('Evento inserido:', res.data);
+                })
 
-            };
-
-            calendar.events.insert({
-                calendarId: 'sixdevsfatec@gmail.com',
-                resource: event,
-            }, (err, res) => {
-                if (err) return console.error('Erro ao inserir evento:', err);
-
-                console.log('Evento inserido:', res.data);
-            });
-
-            //copiando os eventos
-            copiaEventos.create({
-                nome_evento: nome_evento,
-                nome_cliente: nome_cliente,
-                nome_colaborador: nome_colaborador,
-                data_evento: data_evento,
-                hora_inicio: hora_inicio,
-                hora_termino: hora_termino,
-                id_procedimento_API: event.iCalUID
-            })
-            console.log("ID do evento: " + event.iCalUID);
+                copiaEventos.create({
+                    nome_evento: nome_evento,
+                    nome_cliente: nome_cliente,
+                    email_cliente: email_cliente,
+                    nome_colaborador: nome_colaborador,
+                    data_evento: data_evento,
+                    hora_inicio: hora_inicio,
+                    hora_termino: hora_termino,
+                    status: "agendado",
+                    id_procedimento_API: event.iCalUID
+                })
+            }
+        } catch {
+            console.log("erro ao inserir evento na agenda")
         }
     }
 

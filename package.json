@@ -8,6 +8,7 @@
     "googleapis": "^105.0.0",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.6.1",
+    "node-cron": "^3.0.3",
     "nodemailer": "^6.9.7",
     "nodemon": "^3.0.1",
     "puppeteer": "^21.5.2",
