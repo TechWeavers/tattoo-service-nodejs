@@ -86,6 +86,17 @@ class Controller_Colaborador_Usuario {
         })
         return atualiza;
     }
+
+    static alterarSenha(id_usuario, senha) {
+        const atualizaSenha = Usuario.update({
+            senha: senha
+        }, {
+            where: {
+                id_usuario: id_usuario
+            }
+        })
+        return atualizaSenha;
+    }
 }
 
 

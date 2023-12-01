@@ -1021,6 +1021,27 @@ app.get("/redefinir-senha", async(req, res) => {
     })
 })
 
+app.post("/alterar-senha", eTatuador, async (req, res) => {
+    if(req.body.novaSenha == req.body.repetirSenha) {
+        try {
+            const senhaCript = await bcrypt.hash(req.body.novaSenha, 8);
+            await Controller_Colaborador_Usuario.alterarSenha(
+                usuarioEncontrado.id_usuario,
+                req.body.novaSenha,
+                senhaCript).then(function() {
+                res.redirect("/redefinir-senha")
+            })
+            
+        } catch (error) {
+            res.redirect("/erro");
+            console.log(error)
+        }
+    } else {
+        console.log("Senhas não iguais")
+    }
+    
+})
+
 //porta principal
 app.listen(8081, () => {
     console.log("Servidor iniciado na porta 8080: http://localhost:8081")

@@ -35,18 +35,17 @@
                 <div class="form-group">
                   <label for="endereco" class="form-label">Endereço:</label>
                   <input type="text" name="endereco" class="form-control" id="endereco" >
-                </div>
-              
+                </div>         
                 <div class="form-group">
                   <label for="tratamento" class="form-label">Faz Tratamento Médico:</label>
                   <div>
                     <div class="sim-ficha">
-                      <input type="radio" name="tratamento" id="tratamento-sim" value="true" class="radio-style">
+                      <input type="radio" name="tratamento" id="tratamento-sim" value="true" class="radio-style" >
                       <label for="tratamento-sim">Sim</label>
                     </div>
                     
                     <div class="nao-ficha">
-                      <input type="radio" name="tratamento" id="tratamento-nao" value="false" class="radio-style">
+                      <input type="radio" name="tratamento" id="tratamento-nao" value="false" class="radio-style"  checked="checked">
                       <label for="tratamento-nao">Não</label>
                     </div>
                     
@@ -56,7 +55,7 @@
 
                 <div class="form-group">
                   <label for="tratamentoDesc">Descrição do Tratamento:</label>
-                  <input type="text" name="tratamentoDesc" class="form-control" id="tratamentoDesc">
+                  <input type="text" name="tratamentoDesc" class="form-control" id="tratamentoDesc" disabled>
                 </div>
               
                 <div class="form-group">
@@ -67,7 +66,7 @@
                       <label for="cirurgia-sim">Sim</label>
                     </div>
                     <div class="nao-ficha">
-                      <input type="radio" name="cirurgia" id="cirurgia-nao" value="false" class="radio-style">
+                      <input type="radio" name="cirurgia" id="cirurgia-nao" value="false" class="radio-style" checked="checked">
                       <label for="cirurgia-nao">Não</label>
                     </div>
                   </div>
@@ -75,7 +74,7 @@
 
                 <div class="form-group">
                   <label for="cirurgiaDesc">Descrição da Cirurgia:</label>
-                  <input type="text" name="cirurgiaDesc" class="form-control" id="cirurgiaDesc" class="radio-style">
+                  <input type="text" name="cirurgiaDesc" class="form-control" id="cirurgiaDesc" class="radio-style" disabled>
                 </div>
               
                 <div class="form-group">
@@ -86,7 +85,7 @@
                       <label for="alergia-sim">Sim</label>
                     </div>
                     <div class="nao-ficha">
-                      <input type="radio" name="alergia" id="alergia-nao" value="false" class="radio-style">
+                      <input type="radio" name="alergia" id="alergia-nao" value="false" class="radio-style" checked="checked">
                     <label for="alergia-nao">Não</label>
                     </div>
                     
@@ -97,9 +96,8 @@
               
                 <div class="form-group">
                   <label for="alergiaDesc">Descrição da Alergia:</label>
-                  <input type="text" name="alergiaDesc" class="form-control" id="alergiaDesc">
+                  <input type="text" name="alergiaDesc" class="form-control" id="alergiaDesc"  disabled>
                 </div>
-
                 <div class="form-group">
                   <label for="problemaCardiaco" class="form-label">Possui Problema Cardíaco:</label>
                   <div>
@@ -109,7 +107,7 @@
                     </div>
 
                     <div class="nao-ficha">
-                      <input type="radio" name="problemaCardiaco" id="problemaCardiaco-nao" value="false" class="radio-style">
+                      <input type="radio" name="problemaCardiaco" id="problemaCardiaco-nao" value="false" class="radio-style" checked="checked" >
                       <label for="problemaCardiaco-nao">Não</label>
                     </div>
                   </div>
@@ -123,7 +121,7 @@
                       <label for="cancer-sim">Sim</label>
                     </div>
                     <div class="nao-ficha">
-                      <input type="radio" name="cancer" id="cancer-sim" value="true" class="radio-style">
+                      <input type="radio" name="cancer" id="cancer-sim" value="true" class="radio-style" checked="checked">
                     <label for="cancer-nao">Não</label>
                     </div>
                   </div>
@@ -141,7 +139,7 @@
                     </div>
                     
                     <div class="nao-ficha">
-                      <input type="radio" name="drogas" id="drogas-nao" value="false" class="radio-style">
+                      <input type="radio" name="drogas" id="drogas-nao" value="false" class="radio-style" checked="checked">
                       <label for="drogas-nao">Não</label>
                     </div>
                     
@@ -157,7 +155,7 @@
                     </div>
 
                     <div class="nao-ficha">
-                      <input type="radio" name="cicatrizacao" id="cicatrizacao-nao" value="false" class="radio-style">
+                      <input type="radio" name="cicatrizacao" id="cicatrizacao-nao" value="false" class="radio-style" checked="checked">
                     <label for="cicatrizacao-nao">Não</label>
                     </div>
                     
@@ -175,7 +173,7 @@
                     </div>
                     
                     <div class="nao-ficha">
-                      <input type="radio" name="diabetes" id="diabetes-nao" value="false" class="radio-style">
+                      <input type="radio" name="diabetes" id="diabetes-nao" value="false" class="radio-style" checked="checked">
                       <label for="diabetes-nao">Não</label>
                     </div>
                     
@@ -185,9 +183,8 @@
 
                 <div class="form-group">
                   <label for="diabetesDesc">Descrição da Diabetes:</label>
-                  <input type="text" name="diabetesDesc" class="form-control" id="diabetesDesc">
-                </div>
-              
+                  <input type="text" name="diabetesDesc" class="form-control" id="diabetesDesc"  disabled>
+                </div>            
                 <div class="form-group">
                   <label for="convulsao" class="form-label">Teve Convulsões:</label>
                   <div>
@@ -196,7 +193,7 @@
                       <label for="convulsao-sim">Sim</label>
                     </div>
                     <div class="nao-ficha">
-                      <input type="radio" name="convulsao" id="convulsao-nao" value="false" class="radio-style">
+                      <input type="radio" name="convulsao" id="convulsao-nao" value="false" class="radio-style" checked="checked">
                       <label for="convulsao-nao">Não</label>
                     </div>
                   </div>
@@ -205,9 +202,9 @@
                 
                 <div class="form-group">
                   <label for="convulsaoDesc">Descrição das Convulsões:</label>
-                  <input type="text" name="convulsaoDesc" class="form-control" id="convulsaoDesc">
-                </div>
-              
+                  <input type="text" name="convulsaoDesc" class="form-control" id="convulsaoDesc" disabled>
+                </div>   
+
                 <div class="form-group">
                   <label for="doencasTransmissiveis" class="form-label">Possui Doenças Transmissíveis:</label>
                   <div>
@@ -216,7 +213,7 @@
                       <label for="doencasTransmissiveis-sim">Sim</label>
                     </div>
                     <div class="nao-ficha">
-                      <input type="radio" name="doencasTransmissiveis" id="doencasTransmissiveis-nao" value="false" class="radio-style">
+                      <input type="radio" name="doencasTransmissiveis" id="doencasTransmiss iveis-nao" value="false" class="radio-style" checked="checked">
                       <label for="doencasTransmissiveis-nao">Não</label>
                     </div>
                     
@@ -228,7 +225,7 @@
 
                 <div class="form-group">
                   <label for="doencasTransmissiveisDesc">Descrição das Doenças Transmissíveis:</label>
-                  <input type="text" name="doencasTransmissiveisDesc" class="form-control" id="doencasTransmissiveisDesc">
+                  <input type="text" name="doencasTransmissiveisDesc" class="form-control" id="doencasTransmissiveisDesc" disabled>
                 </div>
               
                 <div class="form-group">
@@ -239,7 +236,7 @@
                       <label for="pressao-sim">Sim</label>
                     </div>
                     <div class="nao-ficha">
-                      <input type="radio" name="pressao" id="pressao-nao" value="false" class="radio-style">
+                      <input type="radio" name="pressao" id="pressao-nao" value="false" class="radio-style" checked="checked">
                       <label for="pressao-nao">Não</label>
                     </div>
 
@@ -256,7 +253,7 @@
                     </div>
                     
                     <div class="nao-ficha">
-                      <input type="radio" name="anemia" id="anemia-nao" value="false" class="radio-style">
+                      <input type="radio" name="anemia" id="anemia-nao" value="false" class="radio-style" checked="checked">
                       <label for="anemia-nao">Não</label>
                     </div>
                     
@@ -271,7 +268,7 @@
                       <label for="hemofilia-sim">Sim</label>
                     </div>
                     <div class="nao-ficha">
-                      <input type="radio" name="hemofilia" id="hemofilia-nao" value="false" class="radio-style">
+                      <input type="radio" name="hemofilia" id="hemofilia-nao" value="false" class="radio-style" checked="checked">
                       <label for="hemofilia-nao">Não</label>
                     </div>
                     
@@ -288,7 +285,7 @@
                       <label for="hepatite-sim">Sim</label>
                     </div>
                     <div class="nao-ficha">
-                      <input type="radio" name="hepatite" id="hepatite-nao" value="false" class="radio-style">
+                      <input type="radio" name="hepatite" id="hepatite-nao" value="false" class="radio-style" checked="checked">
                       <label for="hepatite-nao">Não</label>
                     </div>
                     
@@ -305,7 +302,7 @@
                       <label for="outro-sim">Sim</label>
                     </div>
                     <div class="nao-ficha">
-                      <input type="radio" name="outro" id="outro-nao" value="false" class="radio-style">
+                      <input type="radio" name="outro" id="outro-nao" value="false" class="radio-style" checked="checked">
                     <label for="outro-nao">Não</label>
                     </div>
                     
@@ -316,9 +313,8 @@
 
                 <div class="form-group">
                   <label for="outroDesc">Descrição de Outras Condições:</label>
-                  <input type="text" name="outroDesc" class="form-control" id="outroDesc">
+                  <input type="text" name="outroDesc" class="form-control" id="outroDesc" disabled>
                 </div>
-              
                 <div class="form-group">
                   <label for="dataAtual" class="form-label">Data Atual:</label>
                   <input type="date" name="dataAtual" class="form-control" id="dataAtual" required>
@@ -337,3 +333,14 @@
     </div>
   </div>
 </div>
+
+<script>
+  function habilitar(textinput) {
+    document.getElementById(textinput).disabled = true; document.getElementById(textinput).disabled = false;
+  }
+
+  function desabilitar(textinput) {
+    document.getElementById(textinput).disabled = false; document.getElementById(textinput).disabled = true;
+  }
+  
+</script>
