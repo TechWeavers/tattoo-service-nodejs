@@ -30,8 +30,48 @@ class Controller_Estoque {
         return cadastro;
     }
 
+    // diminuir a quantidade de varios materiais no agendamento
+    // esta função utiliza um array de materiais e suas respectivas quantidades pré-definidos, no resultado da chamada da função de criar um agendamento
+    //obs: importante definir numero padrao de materiais utilizados
+    static async consumirMateriaisAgendamento(materiais, quantidades) {
+        for (let x = 0; x < materiais.length; x++) {
+            // Busque o material para obter o valor da unidade
+            const material = await Material.findOne({
+                where: { id_material: materiais[x] }
+            });
 
-    static async diminuirQuantidade(id_material, id_colaborador, quantidade, data_consumo) {
+            if (material) {
+                // Calcule o valor total
+                const valor_total = material.valor_unidade * quantidades[x];
+
+                // Atualize a quantidade no Material
+                await Material.update({
+                    quantidade: Sequelize.literal(`quantidade - ${quantidades[x]}`)
+                }, {
+                    where: { id_material: materiais[x] }
+                });
+
+            } else {
+                throw new Error('Material não encontrado');
+            }
+            // Crie o objeto MaterialConsumido
+            const valor_total = material.valor_unidade * quantidades[x];
+            const consumo = await MaterialConsumido.create({
+                nome: material.nome,
+                quantidade: quantidades[x],
+                valor_total: valor_total,
+                data_consumo: diaAtual,
+                fk_material: materiais[x],
+                //fk_colaborador: id_colaborador
+            });
+
+        }
+        //return { material, consumo };
+        return;
+
+    }
+
+    static async diminuirQuantidade(id_material, id_colaborador, quantidade) {
         // Busque o material para obter o valor da unidade
         const material = await Material.findOne({
             where: { id_material: id_material }
@@ -55,7 +95,7 @@ class Controller_Estoque {
                 valor_total: valor_total,
                 data_consumo: diaAtual,
                 fk_material: id_material,
-                fk_colaborador: id_colaborador
+                //fk_colaborador: id_colaborador
             });
 
             return { material, consumo };

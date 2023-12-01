@@ -41,7 +41,7 @@
                                         <h5>Descrição:</h5>
                                     </label>
                                     <input type="name" name="descricao_evento" class="form-control"
-                                        id="descricao-evento" required=" Dado Obrigatório!">
+                                        id="descricao-evento" row="5" required=" Dado Obrigatório!">
                                 </div>
 
                                 <div class="form-group">
@@ -52,8 +52,6 @@
                                     <input type="date" name="data_evento" class="form-control" id="data_evento"
                                         required=" Dado Obrigatório!" placeholder="ano/mês/dia">
                                 </div>
-
-                                
 
                                 <div class="form-group">
                                     <label class="form-label">
@@ -91,16 +89,45 @@
                                     <input type="Integer" name="id_colaborador" class="form-control" id="id_colaborador"
                                         required=" Dado Obrigatório!">
                                 </div>
+                                      <!--variável temporária -->
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <h5>Insira a quantidade de materiais a serem utilizados:</h5>
+                                    </label>
+                                    <input type="Integer" name="quantidade_materiais" class="form-control" id="quantidade_materiais"
+                                        required=" Dado Obrigatório!">
+                                </div>
+
+                                 <div class="form-group">
+                                    <label class="form-label">
+                                        <h5>Id do 1º material a ser utilizado:</h5>
+                                    </label>
+                                    <input type="Integer" name="id_material1" class="form-control" id="id_material1"
+                                        required=" Dado Obrigatório!">
+                                </div>
 
                                 <div class="form-group">
-                                    <label for="cars">Quais materiais serão utilizados</label>
+                                    <label class="form-label">
+                                        <h5>Quantidade do 1º material a ser utilizado:</h5>
+                                    </label>
+                                    <input type="number" name="quantidade1" class="form-control" id="quantidade1"
+                                        required=" Dado Obrigatório!">
+                                </div>
 
-                                    <select name="" id="" required=" Dado Obrigatório!">
-                                        <option value="volvo">Zopiden</option>
-                                        <option value="saab">Saab</option>
-                                        <option value="mercedes">Mercedes</option>
-                                        <option value="audi">Audi</option>
-                                    </select>
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <h5>Id do 2º material a ser utilizado:</h5>
+                                    </label>
+                                    <input type="Integer" name="id_material2" class="form-control" id="id_material2"
+                                        required=" Dado Obrigatório!">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">
+                                        <h5>Quantidade do 2º material a ser utilizado:</h5>
+                                    </label>
+                                    <input type="number" name="quantidade2" class="form-control" id="quantidade1"
+                                        required=" Dado Obrigatório!">
                                 </div>
 
                                 <button type="submit" class="butn butn-primary mr-2">Cadastrar</button>

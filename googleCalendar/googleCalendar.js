@@ -122,6 +122,7 @@ class googleCalendar {
             const auth = await authorize();
             const calendar = google.calendar({ version: 'v3', auth });
             const randomUUID = crypto.randomUUID();
+            const randomUUID2 = crypto.randomUUID();
             const event = {
                 summary: nome_evento,
                 location: local_evento,

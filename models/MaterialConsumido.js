@@ -16,7 +16,7 @@ const MaterialConsumido = db.sequelize.define('MaterialConsumido', {
         type: db.Sequelize.DOUBLE,
     },
     data_consumo: {
-        type: db.Sequelize.DATE,
+        type: db.Sequelize.STRING,
     },
 });
 
