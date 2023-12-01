@@ -11,6 +11,7 @@ const Evento = require("./models/Evento");
 const copiaEventos = require("./models/copiaEventos")
 const nodemailer = require("./Nodemailer")
 const puppeteer = require("puppeteer");
+const cron = require("node-cron");
 const Colaborador = require("./models/Colaborador")
 
 // variaveis que servirao de controle da dashboard
@@ -36,6 +37,7 @@ const { Controller_Colaborador_Usuario } = require("./Controller_Colaborador_Usu
 const { Controller_Estoque } = require("./Controller_Estoque");
 const { Controller_Cliente } = require("./Controller_Cliente");
 const { googleCalendar } = require("./googleCalendar/googleCalendar");
+const { Controller_Agendamento } = require("./Controller_Agendamento")
 const path = require("path");
 const Cliente = require("./models/Cliente");
 
@@ -197,6 +199,13 @@ app.get("/dashboard", eAdmin, async (req, res) => {
     })
 
 })
+
+// atualiza o status dos procedimentos do dia anterior para realizado, envia o email de 24 horas pós agendamento, e convite para retorno no estúdio 15 dias após o agendamento
+//esta funcionalidade é executada 1 vez por dia, todos os dias.
+cron.schedule('0 11 * * *', () => {
+    Controller_Agendamento.posAgendamento24Horas();
+    Controller_Agendamento.posAgendamento15Dias();
+});
 
 // criar um novo login para usuários do sistema
 app.post("/novo-usuario-login", eAdmin, async (req, res) => {
