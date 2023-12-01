@@ -74,7 +74,7 @@
                   <th>Data de consumo</th>
                 </tr>
               </thead>
-              {{#each dashboard}} {{#dataValues}}
+              {{#each materiaisConsumidos}} {{#dataValues}}
               <tbody>
                 <tr>
                   <td class="py-1">{{id_consumo}}</td>
@@ -157,9 +157,15 @@
         </div>
 
         <div class="card-body card-pasta bg-orange">
+          {{#each clientes}}
+          {{#dataValues}}
+
+          <p>Quantidade de clientes: {{quantCli}}</p>
+          {{/dataValues}}
+          {{/each}}
           
           
-          <p></p>
+          
         
           
          <!--
@@ -216,26 +222,22 @@
             <table class="table table-striped text-center">
               <thead>
                 <tr>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
+                  <th>ID do material</th>
+                  <th>Nome</th>
+                  <th>Quantidade</th>
+                  <th>Valor por unidade</th>
+                  <th>data de atualização</th>
                 </tr>
               </thead>
-              {{#each eventos}} {{#dataValues}}
+              {{#each materiaisFaltantes}} {{#dataValues}}
               <tbody>
                 <tr>
                   <td class="py-1"></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+                  <td>{{id_material}}</td>
+                  <td>{{nome}}</td>
+                  <td>{{quantidade}}</td>
+                  <td>{{valor_unidade}}</td>
+                  <td>{{data_compra}}</td>
                   <td>
                     <a href="/editar-usuario/{{id_procedimento_API}}" style="color:inherit"><i
                         class="bi bi-pencil"></i></a>

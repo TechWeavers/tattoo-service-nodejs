@@ -33,7 +33,7 @@ class Controller_Estoque {
     // diminuir a quantidade de varios materiais no agendamento
     // esta função utiliza um array de materiais e suas respectivas quantidades pré-definidos, no resultado da chamada da função de criar um agendamento
     //obs: importante definir numero padrao de materiais utilizados
-    static async consumirMateriaisAgendamento(materiais, quantidades) {
+    static async consumirMateriaisAgendamento(materiais, quantidades, id_colaborador) {
         for (let x = 0; x < materiais.length; x++) {
             // Busque o material para obter o valor da unidade
             const material = await Material.findOne({
@@ -62,7 +62,7 @@ class Controller_Estoque {
                 valor_total: valor_total,
                 data_consumo: diaAtual,
                 fk_material: materiais[x],
-                //fk_colaborador: id_colaborador
+                fk_colaborador: id_colaborador
             });
 
         }

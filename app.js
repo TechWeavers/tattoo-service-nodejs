@@ -170,12 +170,16 @@ app.get("/logout", (req, res) => {
 // Tela principal do site, com todas as funcionalidades do sistema
 app.get("/dashboard", eAdmin, async(req, res) => {
     // fazer aqui a funcionalidade de retornar todos os metodos da dashboard
+    const promiseProximosProcedimentos = Dashboard.próximosProcedimentos();
+    const promiseQuantidadeClientes = Dashboard.quantClientes();
+    const promiseMateriaisConsumidos = Dashboard.visualizarMaterialConsumido();
+    const promiseMateriaisfaltantes = Dashboard.materiaisFaltantes()
+    Promise.all([promiseProximosProcedimentos, promiseMateriaisConsumidos, promiseMateriaisfaltantes]).then(([eventos, materiaisConsumidos, materiaisFaltantes]) => {
 
-    Dashboard.próximosProcedimentos().then((eventos) => {
-        const dataAtual = new Date();
-        console.log("Data atual: " + dataAtual)
         res.render("dashboard", {
             eventos,
+            materiaisConsumidos,
+            materiaisFaltantes,
 
             title: "Dashboard",
             style: `<link rel="stylesheet" href="/css/estilos3.css">

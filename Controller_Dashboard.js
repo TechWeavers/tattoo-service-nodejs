@@ -1,7 +1,8 @@
 // este arquivo será de armazenamento dos dados que serão exibidos na dashboar
 const MaterialConsumido = require("./models/MaterialConsumido")
 const copiaEventos = require("./models/copiaEventos")
-const agendamentos = 0;
+const Cliente = require("./models/Cliente")
+const Material = require("./models/Material")
 
 // variaveis de data do dia
 let data = new Date();
@@ -18,15 +19,20 @@ let diaAtual = dia + "/" + (mes + 1) + "/" + ano;
 
 class Dashboard {
 
-    static quantidadeAgendamentos(quant) {
-        agendamentos = agendamentos + quant;
-        return agendamentos;
+    // quantidade de clientes
+    static async quantClientes() {
+        const clientes = await Cliente.findAll();
+        let quantCli = clientes.length;
+        return quantCli;
     }
 
-    static async quantidadeClientes(clientes) {
-        this.clientes = clientes;
-        return this.clientes;
+    static async quantidadeAgendamentos(quant) {
+        const agendamentos = await copiaEventos.findAll();
+        let quantEventos = agendamentos.length;
+        return quantEventos;
     }
+
+
 
     static async visualizarMaterialConsumido(id_consumo) {
         const view = await MaterialConsumido.findAll();
@@ -34,14 +40,25 @@ class Dashboard {
     }
 
     static async próximosProcedimentos() {
-        const eventos_realizados = await copiaEventos.findAll({
+        const proximos_eventos = await copiaEventos.findAll({
             where: {
                 'data_evento': {
                     [Op.gte]: data,
                 }
             }
         });
-        return eventos_realizados;
+        return proximos_eventos;
+    }
+
+    static async materiaisFaltantes() {
+        const faltantes = await Material.findAll({
+            where: {
+                'quantidade': {
+                    [Op.lt]: 5
+                }
+            }
+        })
+        return faltantes;
     }
 }
 
