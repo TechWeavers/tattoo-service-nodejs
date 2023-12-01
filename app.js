@@ -130,10 +130,12 @@ app.post("/login", async(req, res) => {
             where: { usuario: usuarioLogin },
         });
 
-
+        const colaboradorEncontrado = await Colaborador.findOne({
+            where: { id_colaborador: usuarioEncontrado.fk_colaborador},
+        });
 
         if (!usuarioEncontrado) {
-            return
+            return res.status(401).json({ message: "Usuário não encontrado" });
 
         }
 
@@ -431,11 +433,12 @@ app.get("/editar-usuario/:id", eAdmin, function(req, res) {
 })
 
 //rota interna que atualiza os dados de cada usuário, recebendo os dados do formulário de edição de usuários
-app.post("/atualizar-usuario", eAdmin, function(req, res) {
+app.post("/atualizar-usuario", eAdmin, async (req, res) => {
+    const senhaCript = await bcrypt.hash(req.body.senha, 8);
     Controller_Colaborador_Usuario.atualizarUsuario(
         req.body.id_usuario,
         req.body.usuario,
-        req.body.senha).then(function() {
+        senhaCript).then(function() {
         res.redirect("/listar-usuarios")
     })
 })
