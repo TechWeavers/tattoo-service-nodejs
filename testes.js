@@ -1,4 +1,5 @@
 const Cliente = require("./models/Cliente");
+const copiaEventos = require("./models/copiaEventos")
 
 function procurarCliente(id_cliente) {
     const procura = Cliente.findAll({ where: { 'id_cliente': id_cliente } });
@@ -12,7 +13,7 @@ clientes.push({ nome: "kauan", idade: 20 });
 console.log(clientes)
 
 
-diminuirMaterial(clientes)
+//diminuirMaterial(clientes)
 
 
 
@@ -29,3 +30,21 @@ function diminuirMaterial(clientes) {
         }
     }
 }
+
+async function quantClientes() {
+    const clientes = await Cliente.findAll();
+    let x = clientes.length;
+    console.log("quantidade de clientes " + clientes);
+
+}
+
+async function quantidadeAgendamentos(quant) {
+    const agendamentos = await copiaEventos.findAll();
+    let quantEventos = agendamentos.length;
+    console.log("quantidade de agendamentos" + quantEventos)
+    return quantEventos;
+}
+
+quantidadeAgendamentos();
+
+quantClientes();

@@ -40,6 +40,7 @@ const { googleCalendar } = require("./googleCalendar/googleCalendar");
 const { Controller_Agendamento } = require("./Controller_Agendamento")
 const path = require("path");
 const Cliente = require("./models/Cliente");
+const Material = require("./models/Material");
 
 
 // Página que renderiza a tela de login (handlebars)
@@ -168,12 +169,18 @@ app.get("/logout", (req, res) => {
 });
 
 // Tela principal do site, com todas as funcionalidades do sistema
-app.get("/dashboard", eAdmin, async (req, res) => {
-    copiaEventos.findAll().then((eventos) => {
-        const dataAtual = new Date();
-        console.log("Data atual: " + dataAtual)
+app.get("/dashboard", eAdmin, async(req, res) => {
+    // fazer aqui a funcionalidade de retornar todos os metodos da dashboard
+    const promiseProximosProcedimentos = Dashboard.próximosProcedimentos();
+    const promiseQuantidadeClientes = Dashboard.quantClientes();
+    const promiseMateriaisConsumidos = Dashboard.visualizarMaterialConsumido();
+    const promiseMateriaisfaltantes = Dashboard.materiaisFaltantes()
+    Promise.all([promiseProximosProcedimentos, promiseMateriaisConsumidos, promiseMateriaisfaltantes]).then(([eventos, materiaisConsumidos, materiaisFaltantes]) => {
+
         res.render("dashboard", {
             eventos,
+            materiaisConsumidos,
+            materiaisFaltantes,
 
             title: "Dashboard",
             style: `<link rel="stylesheet" href="/css/estilos3.css">
@@ -782,7 +789,7 @@ app.get("/agenda", eAdmin, async (req, res) => {
 })
 
 // renderiza formulário de captação dos dados para agendamento
-app.get("/novo-agendamento", eAdmin, async (req, res) => {
+app.get("/novo-agendamento", eAdmin, async(req, res) => {
     Controller_Estoque.visualizarMaterial().then((materiais) => {
         res.render("novo-evento", {
             materiais,
@@ -791,6 +798,7 @@ app.get("/novo-agendamento", eAdmin, async (req, res) => {
             <link rel="stylesheet" href="../../css/fileStyle.css">`,
         })
     })
+
 })
 
 // rota interna que chama a API e insere um procedimento na agenda
@@ -831,23 +839,20 @@ app.post("/criarAgendamento", eAdmin, async (req, res) => {
             email_colaborador,
             nome_colaborador
 
-        ).then(async () => {
-                let materiais = [];
-                let quantidades = [];
-                for (let index = 0; index < req.body.id_material.length; index++) {
-                    materiais.push(req.body.id_material[index])
-                    quantidades.push(req.body.quantidade[index]) 
-                }
-                Controller_Estoque.consumirMateriaisAgendamento(
-                    materiais,
-                    quantidades
-                ).then(() => {
-                    console.log("Material utilizado com sucesso");
-                })
-            
-                
-            
-
+        ).then(async() => {
+            let materiais = [];
+            let quantidades = [];
+            for (let index = 0; index < req.body.id_material.length; index++) {
+                materiais.push(req.body.id_material[index])
+                quantidades.push(req.body.quantidade[index])
+            }
+            Controller_Estoque.consumirMateriaisAgendamento(
+                materiais,
+                quantidades,
+                req.body.id_colaborador
+            ).then(() => {
+                console.log("Material utilizado com sucesso");
+            })
             if (cliente) {
                 nodemailer.email.enviarEmail(email_cliente, nome_cliente);
                 console.log("email enviado com sucesso")
