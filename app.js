@@ -175,15 +175,15 @@ app.get("/logout", (req, res) => {
 });
 
 //Recuperação de senha
-app.post('/esqueceu-senha', async (req, res) => {
+app.post('/esqueceu-senha', async(req, res) => {
     const emailUsuario = req.body.email;
 
     try {
-        const colaborador = await Colaborador.findOne({ where: {'email': emailUsuario}});
+        const colaborador = await Colaborador.findOne({ where: { 'email': emailUsuario } });
 
-        const usuario = await Usuario.findOne({ where: {'fk_colaborador': colaborador.id_colaborador}});
+        const usuario = await Usuario.findOne({ where: { 'fk_colaborador': colaborador.id_colaborador } });
 
-        if(!usuario) {
+        if (!usuario) {
             res.redirect('/erro')
         }
 
@@ -208,24 +208,24 @@ app.post('/recuperar-senha/:token', async(req, res) => {
     const confirmacaoNovaSenha = req.body.confirmacaoNovaSenha;
 
     try {
-        const colaboradorEncontrado = Colaborador.findOne({ where: {'email': emailUsuario}});
-        const usuarioEncontrado = Usuario.findOne({ where: {'fk_colaborador': colaboradorEncontrado.id_colaborador}});
+        const colaboradorEncontrado = Colaborador.findOne({ where: { 'email': emailUsuario } });
+        const usuarioEncontrado = Usuario.findOne({ where: { 'fk_colaborador': colaboradorEncontrado.id_colaborador } });
 
-        if(!usuarioEncontrado) {
+        if (!usuarioEncontrado) {
             res.redirect('/erro');
         }
 
-        if(tokenUsuario !== usuarioEncontrado.resetarSenhaToken) {
+        if (tokenUsuario !== usuarioEncontrado.resetarSenhaToken) {
             res.redirect('/erro');
         }
 
         const now = new Date();
 
-        if(now > usuarioEncontrado.resetarSenhaExpire) {
+        if (now > usuarioEncontrado.resetarSenhaExpire) {
             res.redirect('/erro');
         }
 
-        if(novaSenha !== confirmacaoNovaSenha) {
+        if (novaSenha !== confirmacaoNovaSenha) {
             res.redirect('/erro');
         }
 
@@ -253,6 +253,7 @@ app.get("/dashboard", eTatuador, async(req, res) => {
 
             title: "Dashboard",
             style: `<link rel="stylesheet" href="/css/estilos3.css">
+            <link rel="stylesheet" href="/css/contador.css">
             <link rel="stylesheet" href="/css/sidebar.css">
             <link rel="stylesheet" href="/css/header.css">
             <link rel="stylesheet" href="../../css/style.css">
@@ -1133,9 +1134,13 @@ app.get("/admin-error", async(req, res) => {
 //Alterar senha
 app.get("/redefinir-senha", async(req, res) => {
     res.render("alterar-senha", {
-        style: `<link rel="stylesheet" href="/css/style.css">`,
-        usuarioLogin: usuarioEncontrado.usuario,
-        tipo: colaboradorEncontrado.tipo
+        style: `<link rel="stylesheet" href="/css/style.css">
+        <style>
+            .sidebar {
+                display: none;
+            }
+        </style>`,
+        
     })
 })
 
@@ -1172,6 +1177,6 @@ app.get("/excluir-historico", eAdmin, async(req, res) => {
 
 
 //porta principal
-app.listen(8083, () => {
+app.listen(8081, () => {
     console.log("Servidor iniciado na porta 8080: http://localhost:8081")
 })

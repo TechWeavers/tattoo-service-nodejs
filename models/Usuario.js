@@ -15,9 +15,11 @@ const Usuario = db.sequelize.define("Usuario", {
     },
     resetarSenhaToken: {
         type: db.Sequelize.STRING,
+        defaultValue: null
     },
     resetarSenhaExpire: {
         type: db.Sequelize.DATE,
+        defaultValue: null
     },
 });
 
