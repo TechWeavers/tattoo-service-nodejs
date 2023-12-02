@@ -9,10 +9,9 @@ const tokenModule = require('./modules/token');
 const { eTatuador, eAdmin } = require('./middlewares/auth')
 const Usuario = require("./models/Usuario");
 const copiaEventos = require("./models/copiaEventos")
-const nodemailer = require("./Nodemailer")
+const nodemailer = require("./controllers/Nodemailer")
 const puppeteer = require("puppeteer");
 const cron = require("node-cron");
-const { format, parseISO } = require('date-fns');
 const Colaborador = require("./models/Colaborador")
 
 //identificar que esta usando o sistema
@@ -20,7 +19,7 @@ let colaboradorEncontrado
 let usuarioEncontrado
 
 // variaveis que servirao de controle da dashboard
-const { Dashboard } = require("./Controller_Dashboard");
+const { Dashboard } = require("./controllers/Controller_Dashboard");
 
 // configurações handlebars
 app.engine("handlebars", handlebars({ defaultLayout: "main" }))
@@ -33,11 +32,11 @@ app.use(bodyParser.json())
 
 
 //importando as classes de controle
-const { Controller_Colaborador_Usuario } = require("./Controller_Colaborador_Usuario")
-const { Controller_Estoque } = require("./Controller_Estoque");
-const { Controller_Cliente } = require("./Controller_Cliente");
+const { Controller_Colaborador_Usuario } = require("./controllers/Controller_Colaborador_Usuario")
+const { Controller_Estoque } = require("./controllers/Controller_Estoque");
+const { Controller_Cliente } = require("./controllers/Controller_Cliente");
 const { googleCalendar } = require("./googleCalendar/googleCalendar");
-const { Controller_Agendamento } = require("./Controller_Agendamento")
+const { Controller_Agendamento } = require("./controllers/Controller_Agendamento")
 const path = require("path");
 const Cliente = require("./models/Cliente");
 const Material = require("./models/Material");
@@ -356,7 +355,7 @@ app.get("/dashboard", eTatuador, async(req, res) => {
 
 // atualiza o status dos procedimentos do dia anterior para realizado, envia o email de 24 horas pós agendamento, e convite para retorno no estúdio 15 dias após o agendamento
 //esta funcionalidade é executada 1 vez por dia, todos os dias.
-cron.schedule('0 11 * * *', () => {
+cron.schedule('0 10 * * *', () => {
     Controller_Agendamento.posAgendamento24Horas();
     Controller_Agendamento.posAgendamento15Dias();
 });
@@ -508,7 +507,8 @@ app.post("/buscar-colaborador", eTatuador, async(req, res) => {
     const cpf = req.body.cpf;
 
     if (!cpf) {
-        return res.status(400).send('CPF não encontrado na base de dados ');
+        //return res.status(400).send('CPF não encontrado na base de dados ');
+        res.redirect("/erro")
     }
 
     try {
@@ -972,7 +972,8 @@ app.post("/buscar-cliente", eTatuador, async(req, res) => {
     const cpf = req.body.cpf;
 
     if (!cpf) {
-        return res.status(400).send('CPF não encontrado na base de dados ');
+        //return res.status(400).send('CPF não encontrado na base de dados ');
+        res.redirect("/erro")
     }
 
     try {
@@ -1166,9 +1167,10 @@ app.post("/criarAgendamento", eTatuador, async(req, res) => {
             ).then(async() => {
                 let materiais = [];
                 let quantidades = [];
+
                 for (let index = 0; index < req.body.id_material.length; index++) {
                     materiais.push(req.body.id_material[index])
-                    quantidades.push(req.body.quantidade[index])
+                    quantidades.push(req.body.id_material[index])
                 }
                 Controller_Estoque.consumirMateriaisAgendamento(
                     materiais,
