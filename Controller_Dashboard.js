@@ -21,9 +21,8 @@ class Dashboard {
 
     // quantidade de clientes
     static async quantClientes() {
-        const clientes = await Cliente.findAll();
-        let quantCli = clientes.length;
-        return quantCli;
+        const totClientes = await Cliente.count();
+        return totClientes;
     }
 
     static async quantidadeAgendamentos(quant) {
@@ -43,9 +42,13 @@ class Dashboard {
         const proximos_eventos = await copiaEventos.findAll({
             where: {
                 'data_evento': {
-                    [Op.gte]: data,
+                    [Op.gte]: diaAtual,
                 }
-            }
+            },
+            order: [
+                ['data_evento', 'ASC'], // Ordena os resultados pela data do evento em ordem crescente
+            ],
+            limit: 5,
         });
         return proximos_eventos;
     }

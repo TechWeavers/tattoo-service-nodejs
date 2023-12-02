@@ -5,7 +5,7 @@ const bodyParser = require("body-parser");
 const bcrypt = require('bcrypt');
 const jwt = require("jsonwebtoken");
 const tokenModule = require('./modules/token');
-const { eAdmin } = require('./middlewares/auth')
+const { eTatuador, eAdmin } = require('./middlewares/auth')
 const Usuario = require("./models/Usuario");
 const Evento = require("./models/Evento");
 const copiaEventos = require("./models/copiaEventos")
@@ -13,6 +13,10 @@ const nodemailer = require("./Nodemailer")
 const puppeteer = require("puppeteer");
 const cron = require("node-cron");
 const Colaborador = require("./models/Colaborador")
+
+//identificar que esta usando o sistema
+let colaboradorEncontrado
+let usuarioEncontrado
 
 // variaveis que servirao de controle da dashboard
 const { Dashboard } = require("./Controller_Dashboard");
@@ -41,6 +45,7 @@ const { Controller_Agendamento } = require("./Controller_Agendamento")
 const path = require("path");
 const Cliente = require("./models/Cliente");
 const Material = require("./models/Material");
+const { col } = require("sequelize");
 
 
 // Página que renderiza a tela de login (handlebars)
@@ -113,7 +118,7 @@ app.get("/pdf/:id", async (req, res) => {
         // Verifica se a resposta já foi enviada para evitar headers duplicados
         if (!responseSent) {
             console.error("Erro ao gerar o PDF:", error);
-            res.status(500).send("Erro ao gerar o PDF");
+            res.redirect("/erro");
             responseSent = true;
         }
     }
@@ -126,19 +131,22 @@ app.post("/login", async (req, res) => {
     const senhaLogin = req.body.senhaLogin;
 
     try {
-        const usuarioEncontrado = await Usuario.findOne({
+        usuarioEncontrado = await Usuario.findOne({
             where: { usuario: usuarioLogin },
         });
 
-
+        colaboradorEncontrado = await Colaborador.findOne({
+            where: { id_colaborador: usuarioEncontrado.dataValues.fk_colaborador }
+        });
 
         if (!usuarioEncontrado) {
+            res.redirect("/login-error");
             return
-
         }
 
         if (!(await bcrypt.compare(senhaLogin, usuarioEncontrado.senha))) {
-            return res.status(401).json({ message: "Senha incorreta" });
+            res.redirect("/login-error");
+            return
         }
 
         let token = jwt.sign({ id: usuarioEncontrado.id }, "J98JDASD908ML0G9ZV8ML1PI3I89S7D6F", {
@@ -147,15 +155,12 @@ app.post("/login", async (req, res) => {
         })
 
         tokenModule.setToken(token);
+        tokenModule.setTipo(colaboradorEncontrado.dataValues.tipo)
 
         res.redirect("/dashboard");
 
     } catch (error) {
-
-    }
-    then => {
-        const usuarioNome = req.body.usuarioLogin
-
+        res.redirect("/login-error");
     }
 })
 
@@ -163,22 +168,23 @@ app.post("/login", async (req, res) => {
 app.get("/logout", (req, res) => {
     // Remova o token
     tokenModule.removeToken();
-
+    tokenModule.removeTipo();
     // Redirecione para a rota raiz da aplicação
     res.redirect("/");
 });
 
 // Tela principal do site, com todas as funcionalidades do sistema
-app.get("/dashboard", eAdmin, async(req, res) => {
+app.get("/dashboard", eTatuador, async(req, res) => {
     // fazer aqui a funcionalidade de retornar todos os metodos da dashboard
     const promiseProximosProcedimentos = Dashboard.próximosProcedimentos();
     const promiseQuantidadeClientes = Dashboard.quantClientes();
     const promiseMateriaisConsumidos = Dashboard.visualizarMaterialConsumido();
     const promiseMateriaisfaltantes = Dashboard.materiaisFaltantes()
-    Promise.all([promiseProximosProcedimentos, promiseMateriaisConsumidos, promiseMateriaisfaltantes]).then(([eventos, materiaisConsumidos, materiaisFaltantes]) => {
+    Promise.all([promiseProximosProcedimentos, promiseQuantidadeClientes, promiseMateriaisConsumidos, promiseMateriaisfaltantes]).then(([eventos, quantidadeClientes, materiaisConsumidos, materiaisFaltantes]) => {
 
         res.render("dashboard", {
             eventos,
+            quantidadeClientes,
             materiaisConsumidos,
             materiaisFaltantes,
 
@@ -200,7 +206,9 @@ app.get("/dashboard", eAdmin, async(req, res) => {
             <script src="https://unpkg.com/select2@latest/dist/js/select2.min.js"></script>
             <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
             <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
-            <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`
+            <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
         });
 
     })
@@ -215,19 +223,25 @@ cron.schedule('0 11 * * *', () => {
 });
 
 // criar um novo login para usuários do sistema
-app.post("/novo-usuario-login", eAdmin, async (req, res) => {
-    const senhaCriptLogin = await bcrypt.hash(req.body.senhaCadastro, 8);
-    Usuario.create({
-        usuario: req.body.usuarioCadastro,
-        senha: senhaCriptLogin,
-        fk_colaborador: req.body.colaborador
-    }).then(function () {
-        res.redirect("/")
-        console.log("Dados cadastrados com sucesso!")
-    }).catch(function (erro) {
-        res.redirect("/erro")
-        console.log("Erro ao cadastrar " + erro)
-    })
+app.post("/novo-usuario-login", eTatuador, async(req, res) => {
+    try {
+
+        const senhaCriptLogin = await bcrypt.hash(req.body.senhaCadastro, 8);
+        Usuario.create({
+            usuario: req.body.usuarioCadastro,
+            senha: senhaCriptLogin,
+            fk_colaborador: req.body.colaborador
+        }).then(function() {
+            res.redirect("/")
+            console.log("Dados cadastrados com sucesso!")
+        }).catch(function(erro) {
+            res.redirect("/erro")
+            console.log("Erro ao cadastrar " + erro)
+        })
+
+    } catch (error) {
+        res.redirect("/erro");
+    }
 })
 
 //--------------------------------------- CRUD de Colaborador -------------------------------
@@ -237,33 +251,43 @@ app.get("/novo-colaborador", eAdmin, async (req, res) => {
     res.render("novo-colaborador", {
         title: "Cadastro de Colaborador",
         style: `<link rel="stylesheet" href="/css/style.css">`,
+        usuarioLogin: usuarioEncontrado.usuario,
+        tipo: colaboradorEncontrado.tipo
     });
 })
 
 // rota interna recebe os dados do formulário de cadastro de colaboradores, e registra no banco
-app.post("/cadastrar-colaborador", eAdmin, async (req, res) => {
-    console.log(req.body.tipo)
-    Controller_Colaborador_Usuario.cadastrarColaborador(
-        req.body.nome,
-        req.body.cpf,
-        req.body.telefone,
-        req.body.email,
-        req.body.redeSocial,
-        req.body.tipo
-    );
-    res.redirect("/listar-colaboradores");
-    console.log("dados cadastrados com sucesso");
+app.post("/cadastrar-colaborador", eAdmin, async(req, res) => {
+    try {
+
+        console.log(req.body.tipo)
+        Controller_Colaborador_Usuario.cadastrarColaborador(
+            req.body.nome,
+            req.body.cpf,
+            req.body.telefone,
+            req.body.email,
+            req.body.redeSocial,
+            req.body.tipo
+        );
+        res.redirect("/listar-colaboradores");
+        console.log("dados cadastrados com sucesso");
+
+    } catch (error) {
+        res.redirect("/erro");
+    }
 
 })
 
 //visualização de todos os colaboradores cadastrados
-app.get("/listar-colaboradores", eAdmin, async (req, res) => {
+app.get("/listar-colaboradores", eTatuador, async(req, res) => {
     //const viewDados = Controller_Colaborador_Usuario.visualizarColaboradores;
     Controller_Colaborador_Usuario.visualizarColaboradores().then((colaboradores) => {
         res.render("listar-colaboradores", {
             colaboradores,
             title: "Listar Colaboradores",
-            style: `<link rel="stylesheet" href="/css/style.css">`
+            style: `<link rel="stylesheet" href="/css/style.css">`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
         })
     }).catch(function (erro) {
         res.redirect("/erro")
@@ -303,7 +327,9 @@ app.get("/editar-colaborador/:id", eAdmin, function (req, res) {
         <script src="https://unpkg.com/select2@latest/dist/js/select2.min.js"></script>
         <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
         <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
-        <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`
+        <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
         })
     }).catch(function (erro) {
         res.redirect("/erro")
@@ -312,21 +338,27 @@ app.get("/editar-colaborador/:id", eAdmin, function (req, res) {
 })
 
 //rota interna que atualiza os dados do colaborador, vindo do formulário de atualização dos dados
-app.post("/atualizar-colaborador", eAdmin, function (req, res) {
-    Controller_Colaborador_Usuario.atualizarColaborador(
-        req.body.id_colaborador,
-        req.body.nome,
-        req.body.cpf,
-        req.body.telefone,
-        req.body.email,
-        req.body.redeSocial,
-        req.body.tipo).then(function () {
+app.post("/atualizar-colaborador", eAdmin, function(req, res) {
+    try {
+
+        Controller_Colaborador_Usuario.atualizarColaborador(
+            req.body.id_colaborador,
+            req.body.nome,
+            req.body.cpf,
+            req.body.telefone,
+            req.body.email,
+            req.body.redeSocial,
+            req.body.tipo).then(function() {
             res.redirect("/listar-colaboradores")
         })
+
+    } catch (error) {
+        res.redirect("/erro");
+    }
 })
 
 //buscar colaborador pelo CPF
-app.post("/buscar-colaborador", eAdmin, async (req, res) => {
+app.post("/buscar-colaborador", eTatuador, async(req, res) => {
     const cpf = req.body.cpf;
 
     if (!cpf) {
@@ -338,6 +370,8 @@ app.post("/buscar-colaborador", eAdmin, async (req, res) => {
             res.render("listar-colaboradores", {
                 colaboradores,
                 style: `<link rel="stylesheet" href="/css/style.css">`,
+                usuarioLogin: usuarioEncontrado.usuario,
+                tipo: colaboradorEncontrado.tipo
             })
         })
     } catch (error) {
@@ -352,43 +386,49 @@ app.post("/buscar-colaborador", eAdmin, async (req, res) => {
 //------------------------------------ CRUD Usuários --------------------------------------
 
 //renderiza a formulário de cadastro de novos usuários
-app.get("/novo-usuario", eAdmin, async (req, res) => {
-    res.render("novo-usuario", {
-        title: "Cadastro de Usuario",
-        style: `<link rel="stylesheet" href="/css/style.css">`
-    });
+app.get("/novo-usuario", eAdmin, async(req, res) => {
+    try {
+        res.render("novo-usuario", {
+            title: "Cadastro de Usuario",
+            style: `<link rel="stylesheet" href="/css/style.css">`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
+        })
+
+    } catch (error) {
+        res.redirect("/erro");
+    }
 })
 
 
 
 // rota interna para criar um novo login para usuários do sistema, recebendo os dados do formulário de cadastro de usuários
-app.post("/novo-usuario", eAdmin, async (req, res) => {
+app.post("/novo-usuario", eTatuador, async(req, res) => {
     try {
+
         const senhaCript = await bcrypt.hash(req.body.senha, 8);
         Controller_Colaborador_Usuario.cadastrarUsuario(
             req.body.usuario,
             senhaCript,
             req.body.fk_colaborador);
 
-
-        console.log("Dados cadastrados com sucesso!")
-    } catch (triggerUncaughtException) {
-        res.redirect("/erro")
-        alert('se fuddeeeeeee')
-    } finally {
         res.redirect("/listar-usuarios")
+        console.log("Dados cadastrados com sucesso!")
+
+    } catch (error) {
+        res.redirect("/erro");
     }
-
-
 })
 
 //página de visualização de todos os usuários cadastrados no sistema
-app.get("/listar-usuarios", eAdmin, async (req, res) => {
+app.get("/listar-usuarios", eTatuador, async(req, res) => {
     Controller_Colaborador_Usuario.visualizarUsuarios().then((usuarios) => {
         res.render("listar-usuarios", {
             usuarios,
             title: "Listar Usuarios",
-            style: `<link rel="stylesheet" href="/css/style.css">`
+            style: `<link rel="stylesheet" href="/css/style.css">`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
         })
     }).catch(function (erro) {
         res.redirect("/erro")
@@ -435,7 +475,9 @@ app.get("/editar-usuario/:id", eAdmin, function (req, res) {
             <script src="https://unpkg.com/select2@latest/dist/js/select2.min.js"></script>
             <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
             <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
-            <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`
+            <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
         })
     }).catch(function (erro) {
         res.redirect("/erro")
@@ -444,24 +486,33 @@ app.get("/editar-usuario/:id", eAdmin, function (req, res) {
 })
 
 //rota interna que atualiza os dados de cada usuário, recebendo os dados do formulário de edição de usuários
-app.post("/atualizar-usuario", eAdmin, function (req, res) {
-    Controller_Colaborador_Usuario.atualizarUsuario(
-        req.body.id_usuario,
-        req.body.usuario,
-        req.body.senha).then(function () {
+app.post("/atualizar-usuario", eAdmin, async(req, res) => {
+    try {
+        const senhaCript = await bcrypt.hash(req.body.senha, 8);
+        Controller_Colaborador_Usuario.atualizarUsuario(
+            req.body.id_usuario,
+            req.body.usuario,
+            senhaCript).then(function() {
             res.redirect("/listar-usuarios")
         })
+
+    } catch (error) {
+        res.redirect("/erro");
+    }
+
 })
 
 // ---------------------------- CRUD ESTOQUE -------------------------------------
 //rota de listagem dos materiais disponíveis no estoque
-app.get("/listar-estoque", eAdmin, function (req, res) {
+app.get("/listar-estoque", eTatuador, function(req, res) {
     Controller_Estoque.visualizarMaterial().then((materiais) => {
         res.render("listar-estoque", {
             materiais,
             title: "Listagem de estoque",
             style: `<link rel="stylesheet" href="/css/style.css">
             <link rel="stylesheet" href="../../css/fileStyle.css">`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
         })
     })
 })
@@ -472,20 +523,29 @@ app.get("/novo-estoque", eAdmin, function (req, res) {
         title: "Cadastrar estoque",
         style: `<link rel="stylesheet" href="/css/style.css">
         <link rel="stylesheet" href="../../css/fileStyle.css">`,
+        usuarioLogin: usuarioEncontrado.usuario,
+        tipo: colaboradorEncontrado.tipo
     })
 })
 
 // rota interna recebe os dados do formulário de cadastro de materiais, e registra no banco
 app.post("/cadastrar-estoque", eAdmin, async (req, res) => {
 
-    Controller_Estoque.cadastrarMaterial(
-        req.body.nome,
-        req.body.quantidade,
-        req.body.valor_unidade,
-        req.body.data_compra
-    );
-    res.redirect("/listar-estoque");
-    console.log("dados cadastrados com sucesso");
+    try {
+        Controller_Estoque.cadastrarMaterial(
+            req.body.nome,
+            req.body.quantidade,
+            req.body.valor_unidade,
+
+
+        );
+        res.redirect("/listar-estoque");
+        console.log("dados cadastrados com sucesso");
+    } catch (error) {
+        res.redirect("/erro");
+    }
+
+
 
 })
 
@@ -512,6 +572,8 @@ app.get("/editar-estoque/:id", eAdmin, async (req, res) => {
             <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
             <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
             <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
         })
     }).catch(function (erro) {
         res.redirect("/erro")
@@ -519,8 +581,8 @@ app.get("/editar-estoque/:id", eAdmin, async (req, res) => {
     })
 })
 
-app.get("/consumir-estoque/:id", eAdmin, async (req, res) => {
-    Controller_Estoque.procurarMaterial(req.params.id).then(function (materiais) {
+app.get("/consumir-estoque/:id", eTatuador, async(req, res) => {
+    Controller_Estoque.procurarMaterial(req.params.id).then(function(materiais) {
         res.render("consumir-estoque", {
             materiais,
             style: `<link rel="stylesheet" href="/css/estilos3.css">
@@ -541,6 +603,8 @@ app.get("/consumir-estoque/:id", eAdmin, async (req, res) => {
             <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
             <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
             <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
         })
     }).catch(function (erro) {
         res.redirect("/erro")
@@ -548,44 +612,58 @@ app.get("/consumir-estoque/:id", eAdmin, async (req, res) => {
     })
 })
 
-app.post("/atualizar-estoque", eAdmin, async (req, res) => {
-    Controller_Estoque.atualizarMaterial(
-        req.body.id_material,
-        req.body.nome,
-        req.body.quantidade,
-        req.body.valor_unidade,).then(function () {
+app.post("/atualizar-estoque", eAdmin, async(req, res) => {
+    try {
+        Controller_Estoque.atualizarMaterial(
+            req.body.id_material,
+            req.body.nome,
+            req.body.quantidade,
+            req.body.valor_unidade, ).then(function() {
             res.redirect("/listar-estoque")
         })
+    } catch (error) {
+        res.redirect("/erro");
+    }
+
+
 })
 
-app.post("/consumir-estoque", eAdmin, async (req, res) => {
-    Controller_Estoque.diminuirQuantidade(
-        req.body.id_material,
-        req.body.id_colaborador,
-        req.body.quantidade,
+app.post("/consumir-estoque", eTatuador, async(req, res) => {
+    try {
+        Controller_Estoque.diminuirQuantidade(
+            req.body.id_material,
+            req.body.id_colaborador,
+            req.body.quantidade,
 
-    ).then(function () {
-        res.redirect("/listar-estoque")
-    })
+        ).then(function() {
+            res.redirect("/listar-estoque")
+        })
+    } catch (error) {
+        res.redirect("/erro");
+    }
+
+
 })
 
-/*app.get("/excluir-estoque/:id", eAdmin, async(req, res) => {
+app.get("/excluir-estoque/:id", eTatuador, async(req, res) => {
     Controller_Estoque.excluirMaterial(req.params.id).then(function() {
         res.redirect("/listar-estoque")
     }).catch(function(erro) {
         res.send("Erro ao deletar os dados: " + erro)
     })
-})*/
+})
 
 // ------------------------------------ CRUD Cliente -------------------------------------------
 
 //visualização de clientes cadastrados
-app.get("/listar-cliente", eAdmin, function (req, res) {
+app.get("/listar-cliente", eTatuador, function(req, res) {
     Controller_Cliente.visualizarCliente().then((clientes) => {
         res.render("listar-cliente", {
             clientes,
             title: "Listar cliente",
             style: `<link rel="stylesheet" href="/css/style.css">`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
         })
     }).catch((erro) => {
         res.redirect("/erro")
@@ -594,31 +672,39 @@ app.get("/listar-cliente", eAdmin, function (req, res) {
 })
 
 // renderiza o formulário de cadastro de clientes
-app.get("/novo-cliente", eAdmin, function (req, res) {
+app.get("/novo-cliente", eTatuador, function(req, res) {
     res.render("novo-cliente", {
         title: "Novo cliente",
-        style: `<link rel="stylesheet" href="/css/style.css">`
+        style: `<link rel="stylesheet" href="/css/style.css">`,
+        usuarioLogin: usuarioEncontrado.usuario,
+        tipo: colaboradorEncontrado.tipo
     })
 })
 
 //rota interna de cadastro de clientes
-app.post("/cadastrar-cliente", eAdmin, async (req, res) => {
-    Controller_Cliente.cadastrarCliente(
-        req.body.nome,
-        req.body.cpf,
-        req.body.telefone,
-        req.body.email,
-        req.body.redeSocial
-    ).then(() => {
-        clientes++;
-        Dashboard.quantidadeClientes(clientes);
-        res.redirect("/listar-cliente");
-        console.log("dados cadastrados com sucesso")
-    })
+app.post("/cadastrar-cliente", eTatuador, async(req, res) => {
+    try {
+        Controller_Cliente.cadastrarCliente(
+            req.body.nome,
+            req.body.cpf,
+            req.body.telefone,
+            req.body.email,
+            req.body.redeSocial
+        ).then(() => {
+            clientes++;
+            Dashboard.quantidadeClientes(clientes);
+            res.redirect("/listar-cliente");
+            console.log("dados cadastrados com sucesso")
+        })
+    } catch (erro) {
+        res.redirect("/erro")
+    }
+
+
 })
 
 // rota de exclusão do cliente
-app.get("/excluir-cliente/:id", eAdmin, async (req, res) => {
+app.get("/excluir-cliente/:id", eTatuador, async(req, res) => {
     Controller_Cliente.excluirCliente(req.params.id).then(() => {
         res.redirect("/listar-cliente")
         console.log("dados excluídos com sucesso")
@@ -629,7 +715,7 @@ app.get("/excluir-cliente/:id", eAdmin, async (req, res) => {
 })
 
 // procura o cliente esepcificado ao apertar o botão de editar, e renderiza o formulário com os dados dele para editá-lo
-app.get("/editar-cliente/:id", eAdmin, async (req, res) => {
+app.get("/editar-cliente/:id", eTatuador, async(req, res) => {
     Controller_Cliente.procurarCliente(req.params.id).then((cliente) => {
         res.render("editar-cliente", {
             cliente,
@@ -652,12 +738,14 @@ app.get("/editar-cliente/:id", eAdmin, async (req, res) => {
                     <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
                     <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
                     <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
         })
     })
 })
 
 // rota de atualização dos dados
-app.post("/atualizar-cliente", eAdmin, async (req, res) => {
+app.post("/atualizar-cliente", eTatuador, async(req, res) => {
     Controller_Cliente.atualizarCliente(
         req.body.id_cliente,
         req.body.nome,
@@ -674,7 +762,7 @@ app.post("/atualizar-cliente", eAdmin, async (req, res) => {
 })
 
 // funcionalidade de busca por CPF
-app.post("/buscar-cliente", eAdmin, async (req, res) => {
+app.post("/buscar-cliente", eTatuador, async(req, res) => {
     const cpf = req.body.cpf;
 
     if (!cpf) {
@@ -686,6 +774,8 @@ app.post("/buscar-cliente", eAdmin, async (req, res) => {
             res.render("listar-cliente", {
                 clientes,
                 style: `<link rel="stylesheet" href="/css/style.css">`,
+                usuarioLogin: usuarioEncontrado.usuario,
+                tipo: colaboradorEncontrado.tipo
             })
         })
     } catch (error) {
@@ -701,11 +791,13 @@ app.post("/buscar-cliente", eAdmin, async (req, res) => {
 //--------------------------  CRUD da Ficha de Anamnese que pertence a um único cliente -------
 
 // esta rota é acessada através de um botão editar ficha, na página de listar clientes, ela renderiza os dados de uma ficha pertencente a um cliente
-app.get("/listar-ficha/:id", eAdmin, async (req, res) => {
+app.get("/listar-ficha/:id", eTatuador, async(req, res) => {
     Controller_Cliente.visualizarFicha(req.params.id).then((cliente) => {
         res.render("listar-ficha", {
             cliente,
             style: `<link rel="stylesheet" href="/css/style.css">`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
         })
     }).catch((erro) => {
         res.redirect("/erro")
@@ -714,11 +806,13 @@ app.get("/listar-ficha/:id", eAdmin, async (req, res) => {
 })
 
 //esta rota renderiza o formulário de cadastro dos dados da ficha, que também é o mesmo de edição
-app.get("/nova-ficha/:id", eAdmin, async (req, res) => {
+app.get("/nova-ficha/:id", eTatuador, async(req, res) => {
     Controller_Cliente.procurarCliente(req.params.id).then((cliente) => {
         res.render("nova-ficha", {
             cliente,
             style: `<link rel="stylesheet" href="/css/style.css">`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
         })
     }).catch(() => {
         res.redirect("/erro")
@@ -762,7 +856,7 @@ app.post("/cadastrar-ficha", async (req, res) => {
     })
 })
 
-app.get("/excluir-dados-ficha/:id", eAdmin, async (req, res) => {
+app.get("/excluir-dados-ficha/:id", eTatuador, async(req, res) => {
     Controller_Cliente.excluirDadosFicha(req.params.id).then(() => {
         res.redirect("/listar-cliente")
     }).catch((erro) => {
@@ -775,27 +869,36 @@ app.get("/excluir-dados-ficha/:id", eAdmin, async (req, res) => {
 
 //------------------------------------ Google agenda --------------------------------------
 
-app.get("/listar-evento", eAdmin, async (req, res) => {
+app.get("/listar-evento", eTatuador, async(req, res) => {
     copiaEventos.findAll().then((eventos) => {
-        res.render("listar-evento", { eventos, style: `<link rel="stylesheet" href="/css/style.css">`, })
+        res.render("listar-evento", {
+            eventos,
+            style: `<link rel="stylesheet" href="/css/style.css">`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
+        })
     })
 })
 
 // renderiza a agenda com todos os agendamentos até agora
-app.get("/agenda", eAdmin, async (req, res) => {
+app.get("/agenda", eTatuador, async(req, res) => {
     res.render("agenda", {
-        style: `<link rel="stylesheet" href="/css/style.css">`
+        style: `<link rel="stylesheet" href="/css/style.css">`,
+        usuarioLogin: usuarioEncontrado.usuario,
+        tipo: colaboradorEncontrado.tipo
     })
 })
 
 // renderiza formulário de captação dos dados para agendamento
-app.get("/novo-agendamento", eAdmin, async(req, res) => {
+app.get("/novo-agendamento", eTatuador, async(req, res) => {
     Controller_Estoque.visualizarMaterial().then((materiais) => {
         res.render("novo-evento", {
             materiais,
             title: "Listagem de estoque",
             style: `<link rel="stylesheet" href="/css/style.css">
             <link rel="stylesheet" href="../../css/fileStyle.css">`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
         })
     })
 
@@ -804,76 +907,69 @@ app.get("/novo-agendamento", eAdmin, async(req, res) => {
 // rota interna que chama a API e insere um procedimento na agenda
 // ao inserir um procedimento, ele chama o módulo da biblioteca de enviar o email de confirmação, e envia pro email do cliente.
 
-app.post("/criarAgendamento", eAdmin, async (req, res) => {
-    console.log(req.body.id_material)
-    console.log("bb")
-    console.log("bb")
-    console.log("bb")
-    console.log("bb")
-    console.log("bb")
-    console.log("bb")
+app.post("/criarAgendamento", eTatuador, async(req, res) => {
+    try {
+        const id_colab = colaboradorEncontrado.id_colaborador;
+        const colaborador = await Colaborador.findByPk(id_colab);
+        const id_cliente = req.body.id_cliente;
+        const cliente = await Cliente.findByPk(id_cliente);
 
-    const id_colab = req.body.id_colaborador;
-    const colaborador = await Colaborador.findByPk(id_colab);
-    const id_cliente = req.body.id_cliente;
-    const cliente = await Cliente.findByPk(id_cliente);
-    const { email } = cliente;
-    const { nome } = cliente;
-    const quantidade = req.body.quantidade
-    let materialUsado ;
+        if (colaborador && cliente) {
+            const email_cliente = cliente.email;
+            const nome_cliente = cliente.nome;
+            const email_colaborador = colaborador.email;
+            const nome_colaborador = colaborador.nome;
+            googleCalendar.createEvent(
+                req.body.nome_evento,
+                req.body.local_evento,
+                req.body.descricao_evento,
+                req.body.data_evento,
+                req.body.hora_inicio,
+                req.body.hora_termino,
+                email_cliente,
+                nome_cliente,
+                email_colaborador,
+                nome_colaborador
 
-    if (colaborador && cliente) {
-        const email_cliente = cliente.email;
-        const nome_cliente = cliente.nome;
-        const email_colaborador = colaborador.email;
-        const nome_colaborador = colaborador.nome;
-        googleCalendar.createEvent(
-            req.body.nome_evento,
-            req.body.local_evento,
-            req.body.descricao_evento,
-            req.body.data_evento,
-            req.body.hora_inicio,
-            req.body.hora_termino,
-            email_cliente,
-            nome_cliente,
-            email_colaborador,
-            nome_colaborador
+            ).then(async() => {
+                let materiais = [];
+                let quantidades = [];
+                for (let index = 0; index < req.body.id_material.length; index++) {
+                    materiais.push(req.body.id_material[index])
+                    quantidades.push(req.body.quantidade[index])
+                }
+                Controller_Estoque.consumirMateriaisAgendamento(
+                    materiais,
+                    quantidades,
+                    req.body.id_colaborador
+                ).then(() => {
+                    console.log("Material utilizado com sucesso");
+                }).catch((erro) => { console.log("erro ao consumir material: " + erro) })
+                if (cliente) {
+                    nodemailer.email.enviarEmail(email_cliente, nome_cliente);
+                    console.log("email enviado com sucesso")
+                } else {
+                    console.log("falha ao enviar email")
+                }
+                res.redirect("/agenda")
+            }).catch((error) => {
 
-        ).then(async() => {
-            let materiais = [];
-            let quantidades = [];
-            for (let index = 0; index < req.body.id_material.length; index++) {
-                materiais.push(req.body.id_material[index])
-                quantidades.push(req.body.quantidade[index])
-            }
-            Controller_Estoque.consumirMateriaisAgendamento(
-                materiais,
-                quantidades,
-                req.body.id_colaborador
-            ).then(() => {
-                console.log("Material utilizado com sucesso");
+                console.log("Dados incorretos ou não encontrados ao cadastrar agendamento <br> Retorne a página anterior!" + error)
+                console.log("Dados incorretos ou não encontrados ao cadastrar agendamento <br> Retorne a página anterior!" + error)
             })
-            if (cliente) {
-                nodemailer.email.enviarEmail(email_cliente, nome_cliente);
-                console.log("email enviado com sucesso")
-            } else {
-                console.log("falha ao enviar email")
-            }
-            res.redirect("/agenda")
-        }).catch((error) => {
-            res.redirect("/erro")
-            console.log("Dados incorretos ou não encontrados ao cadastrar agendamento <br> Retorne a página anterior!" + error)
-            console.log("Dados incorretos ou não encontrados ao cadastrar agendamento <br> Retorne a página anterior!" + error)
-        })
-    } else {
-        throw new error("Cliente não encontrado!")
+        } else {
+            throw new error("Cliente não encontrado!")
+        }
+    } catch {
+        res.redirect("/erro")
     }
 })
 
 
 
+
 //excluir agendamento
-app.get("/excluir-agendamento/:id_procedimento_API", eAdmin, async (req, res) => {
+app.get("/excluir-agendamento/:id_procedimento_API", eTatuador, async(req, res) => {
     googleCalendar.deleta(req.params.id_procedimento_API).then(() => {
 
         res.redirect("/listar-evento")
@@ -883,81 +979,57 @@ app.get("/excluir-agendamento/:id_procedimento_API", eAdmin, async (req, res) =>
     })
 })
 
-// teste Enviar email pro cliente
-app.get("/email", async (req, res) => {
-    const transport = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: true,
-        auth: {
-            user: "sixdevsfatec@gmail.com",
-            pass: "bdsx clop ykqi thaw"
+
+
+app.get("/erro", async(req, res) => {
+    res.render("refresh", {
+        style: `<link rel="stylesheet" href="/css/error.css">`
+    })
+})
+
+app.get("/login-error", async(req, res) => {
+    res.render("login-error", {
+        style: `<link rel="stylesheet" href="/css/error.css">`
+    })
+})
+
+app.get("/admin-error", async(req, res) => {
+    res.render("admin-error", {
+        style: `<link rel="stylesheet" href="/css/error.css">`
+    })
+})
+
+//Alterar senha
+app.get("/redefinir-senha", async(req, res) => {
+    res.render("alterar-senha", {
+        style: `<link rel="stylesheet" href="/css/style.css">`,
+        usuarioLogin: usuarioEncontrado.usuario,
+        tipo: colaboradorEncontrado.tipo
+    })
+})
+
+app.post("/alterar-senha", eTatuador, async(req, res) => {
+
+    if (String(var1).equals(var2)) {
+        try {
+            const senhaCript = await bcrypt.hash(req.body.senha, 8);
+            Controller_Colaborador_Usuario.atualizarUsuario(
+                req.body.id_usuario,
+                req.body.usuario,
+                senhaCript).then(function() {
+                res.redirect("/listar-usuarios")
+            })
+
+        } catch (error) {
+            res.redirect("/erro");
         }
-    })
+    } else {
 
-    transport.sendMail({
-        from: "sixdevsfatec@gmail.com",
-        to: "jplima.dev@outlook.com",
-        subject: "Enviando email com Nodemailer",
-        html: "<h1> Olá João Pedro!</h1> <p> Este email foi enviado usando o NodeMailer</p>",
-        text: "Este email foi enviado usando o NodeMailer"
-    }).then(() => {
-        console.log("email enviado com sucesso!")
-    }).catch((error) => {
-        console.log("falha ao enviar email")
-    })
+    }
 
-
-})
-
-
-
-app.get("/erro404", eAdmin, async (req, res) => {
-    res.render("refresh.handlebars", {
-        text: "A página em que você tentou acessar não existe",
-        rota_nome: "Voltar para dashboard",
-        rota: "dashboard",
-        style: `<link rel="stylesheet" href="/css/error.css">`
-    })
-})
-
-
-app.use(function (req, res, next) {
-    res.redirect("/erro404")
-});
-
-app.get("/erro", async (req, res) => {
-    res.render("error.handlebars", {
-        style: `<link rel="stylesheet" href="/css/error.css">`
-    })
-})
-
-app.get("/erronovo", async (req, res) => {
-    res.render("erro-novo", {
-        style: `<link rel="stylesheet" href="/css/error.css">`
-    })
 })
 
 //porta principal
-app.listen(8083, () => {
+app.listen(8081, () => {
     console.log("Servidor iniciado na porta 8080: http://localhost:8081")
 })
-
-
-
-//Colaborador.create({
-// nome: req.body.nome,
-//cpf: req.body.cpf,
-//telefone: req.body.telefone,
-//email: req.body.email,
-//redeSocial: req.body.redeSocial,
-//tipo: req.body.tipo
-//}).then(function() {
-//res.redirect("/listar-colaboradores")
-//console.log("Dados cadastrados com sucesso!")
-//}).catch(function(erro) {
-// res.send("Erro ao cadastrar " + erro)
-//}).catch(function(erro) {
-// res.send("Erro ao cadastrar " + erro)
-//})es.send("Erro ao cadastrar " + erro)
-//})

@@ -13,4 +13,19 @@ function removeToken() {
     token = null;
 }
 
-module.exports = { setToken, getToken, removeToken };
+let tipo = null;
+
+function setTipo(newTipo) {
+    tipo = newTipo;
+}
+
+function getTipo() {
+    return tipo;
+}
+
+function removeTipo() {
+    tipo = null;
+}
+
+
+module.exports = { setToken, getToken, removeToken, setTipo, getTipo, removeTipo };
