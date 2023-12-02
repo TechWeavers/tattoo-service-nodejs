@@ -531,7 +531,8 @@ app.post("/cadastrar-estoque", eAdmin, async(req, res) => {
             req.body.nome,
             req.body.quantidade,
             req.body.valor_unidade,
-            req.body.data_compra
+
+
         );
         res.redirect("/listar-estoque");
         console.log("dados cadastrados com sucesso");
@@ -639,13 +640,13 @@ app.post("/consumir-estoque", eTatuador, async(req, res) => {
 
 })
 
-/*app.get("/excluir-estoque/:id", eTatuador, async(req, res) => {
+app.get("/excluir-estoque/:id", eTatuador, async(req, res) => {
     Controller_Estoque.excluirMaterial(req.params.id).then(function() {
         res.redirect("/listar-estoque")
     }).catch(function(erro) {
         res.send("Erro ao deletar os dados: " + erro)
     })
-})*/
+})
 
 // ------------------------------------ CRUD Cliente -------------------------------------------
 

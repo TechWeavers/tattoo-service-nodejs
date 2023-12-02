@@ -14,18 +14,18 @@ let diaAtual = dia + "/" + (mes + 1) + "/" + ano
 
 class Controller_Estoque {
 
-    static cadastrarMaterial(nome, quantidade, valor_unidade, data_compra) {
+    static cadastrarMaterial(nome, quantidade, valor_unidade) {
         // formatação de dados para a data brasileira
-        const dataCadastro = data_compra.split("-")
+        const dataCadastro = diaAtual.split("-")
         const diaCadastro = dataCadastro[2];
         const mesCadastro = dataCadastro[1];
         const anoCadastro = dataCadastro[0];
-        data_compra = diaCadastro + "/" + mesCadastro + "/" + anoCadastro
+        let data_compra = diaCadastro + "/" + mesCadastro + "/" + anoCadastro
         const cadastro = Material.create({
             nome: nome,
             quantidade: quantidade,
             valor_unidade: valor_unidade,
-            data_compra: data_compra
+            data_compra: diaAtual
         })
         return cadastro;
     }
