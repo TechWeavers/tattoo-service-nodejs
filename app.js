@@ -135,8 +135,8 @@ app.post("/login", async(req, res) => {
             where: { usuario: usuarioLogin },
         });
 
-        colaboradorEncontrado = await Colaborador.findOne({
-            where: {id_colaborador: usuarioEncontrado.dataValues.fk_colaborador}
+        const colaboradorEncontrado = await Colaborador.findOne({
+            where: { id_colaborador: usuarioEncontrado.dataValues.fk_colaborador }
         });
 
         if (!usuarioEncontrado) {
@@ -224,7 +224,7 @@ cron.schedule('0 11 * * *', () => {
 // criar um novo login para usuários do sistema
 app.post("/novo-usuario-login", eTatuador, async(req, res) => {
     try {
-        
+
         const senhaCriptLogin = await bcrypt.hash(req.body.senhaCadastro, 8);
         Usuario.create({
             usuario: req.body.usuarioCadastro,
@@ -237,7 +237,7 @@ app.post("/novo-usuario-login", eTatuador, async(req, res) => {
             res.redirect("/erro")
             console.log("Erro ao cadastrar " + erro)
         })
-        
+
     } catch (error) {
         res.redirect("/erro");
     }
@@ -258,7 +258,7 @@ app.get("/novo-colaborador", eAdmin, async(req, res) => {
 // rota interna recebe os dados do formulário de cadastro de colaboradores, e registra no banco
 app.post("/cadastrar-colaborador", eAdmin, async(req, res) => {
     try {
-        
+
         console.log(req.body.tipo)
         Controller_Colaborador_Usuario.cadastrarColaborador(
             req.body.nome,
@@ -270,7 +270,7 @@ app.post("/cadastrar-colaborador", eAdmin, async(req, res) => {
         );
         res.redirect("/listar-colaboradores");
         console.log("dados cadastrados com sucesso");
-        
+
     } catch (error) {
         res.redirect("/erro");
     }
@@ -327,8 +327,8 @@ app.get("/editar-colaborador/:id", eAdmin, function(req, res) {
         <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
         <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
         <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`,
-        usuarioLogin: usuarioEncontrado.usuario,
-        tipo: colaboradorEncontrado.tipo
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
         })
     }).catch(function(erro) {
         res.redirect("/erro")
@@ -339,7 +339,7 @@ app.get("/editar-colaborador/:id", eAdmin, function(req, res) {
 //rota interna que atualiza os dados do colaborador, vindo do formulário de atualização dos dados
 app.post("/atualizar-colaborador", eAdmin, function(req, res) {
     try {
-        
+
         Controller_Colaborador_Usuario.atualizarColaborador(
             req.body.id_colaborador,
             req.body.nome,
@@ -350,7 +350,7 @@ app.post("/atualizar-colaborador", eAdmin, function(req, res) {
             req.body.tipo).then(function() {
             res.redirect("/listar-colaboradores")
         })
-        
+
     } catch (error) {
         res.redirect("/erro");
     }
@@ -393,7 +393,7 @@ app.get("/novo-usuario", eAdmin, async(req, res) => {
             usuarioLogin: usuarioEncontrado.usuario,
             tipo: colaboradorEncontrado.tipo
         })
-        
+
     } catch (error) {
         res.redirect("/erro");
     }
@@ -404,16 +404,16 @@ app.get("/novo-usuario", eAdmin, async(req, res) => {
 // rota interna para criar um novo login para usuários do sistema, recebendo os dados do formulário de cadastro de usuários
 app.post("/novo-usuario", eTatuador, async(req, res) => {
     try {
-        
+
         const senhaCript = await bcrypt.hash(req.body.senha, 8);
         Controller_Colaborador_Usuario.cadastrarUsuario(
             req.body.usuario,
             senhaCript,
             req.body.fk_colaborador);
-    
+
         res.redirect("/listar-usuarios")
         console.log("Dados cadastrados com sucesso!")
-        
+
     } catch (error) {
         res.redirect("/erro");
     }
@@ -481,7 +481,7 @@ app.get("/editar-usuario/:id", eAdmin, function(req, res) {
 })
 
 //rota interna que atualiza os dados de cada usuário, recebendo os dados do formulário de edição de usuários
-app.post("/atualizar-usuario", eAdmin, async (req, res) => {
+app.post("/atualizar-usuario", eAdmin, async(req, res) => {
     try {
         const senhaCript = await bcrypt.hash(req.body.senha, 8);
         Controller_Colaborador_Usuario.atualizarUsuario(
@@ -490,11 +490,11 @@ app.post("/atualizar-usuario", eAdmin, async (req, res) => {
             senhaCript).then(function() {
             res.redirect("/listar-usuarios")
         })
-        
+
     } catch (error) {
         res.redirect("/erro");
     }
-    
+
 })
 
 // ---------------------------- CRUD ESTOQUE -------------------------------------
@@ -539,7 +539,7 @@ app.post("/cadastrar-estoque", eAdmin, async(req, res) => {
         res.redirect("/erro");
     }
 
-   
+
 
 })
 
@@ -618,8 +618,8 @@ app.post("/atualizar-estoque", eAdmin, async(req, res) => {
     } catch (error) {
         res.redirect("/erro");
     }
-    
-    
+
+
 })
 
 app.post("/consumir-estoque", eTatuador, async(req, res) => {
@@ -628,15 +628,15 @@ app.post("/consumir-estoque", eTatuador, async(req, res) => {
             req.body.id_material,
             req.body.id_colaborador,
             req.body.quantidade,
-    
+
         ).then(function() {
             res.redirect("/listar-estoque")
         })
     } catch (error) {
         res.redirect("/erro");
     }
-    
-    
+
+
 })
 
 /*app.get("/excluir-estoque/:id", eTatuador, async(req, res) => {
@@ -693,8 +693,8 @@ app.post("/cadastrar-cliente", eTatuador, async(req, res) => {
     } catch (erro) {
         res.redirect("/erro")
     }
-    
-    
+
+
 })
 
 // rota de exclusão do cliente
@@ -732,8 +732,8 @@ app.get("/editar-cliente/:id", eTatuador, async(req, res) => {
                     <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
                     <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
                     <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`,
-                    usuarioLogin: usuarioEncontrado.usuario,
-                    tipo: colaboradorEncontrado.tipo
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
         })
     })
 })
@@ -865,9 +865,12 @@ app.get("/excluir-dados-ficha/:id", eTatuador, async(req, res) => {
 
 app.get("/listar-evento", eTatuador, async(req, res) => {
     copiaEventos.findAll().then((eventos) => {
-        res.render("listar-evento", { eventos, style: `<link rel="stylesheet" href="/css/style.css">`,
-        usuarioLogin: usuarioEncontrado.usuario,
-        tipo: colaboradorEncontrado.tipo })
+        res.render("listar-evento", {
+            eventos,
+            style: `<link rel="stylesheet" href="/css/style.css">`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
+        })
     })
 })
 
@@ -899,59 +902,64 @@ app.get("/novo-agendamento", eTatuador, async(req, res) => {
 // ao inserir um procedimento, ele chama o módulo da biblioteca de enviar o email de confirmação, e envia pro email do cliente.
 
 app.post("/criarAgendamento", eTatuador, async(req, res) => {
-    const id_colab = colaboradorEncontrado.id_colaborador;
-    const colaborador = await Colaborador.findByPk(id_colab);
-    const id_cliente = req.body.id_cliente;
-    const cliente = await Cliente.findByPk(id_cliente);
-    const { email } = cliente;
-    const { nome } = cliente;
-    if (colaborador && cliente) {
-        const email_cliente = cliente.email;
-        const nome_cliente = cliente.nome;
-        const email_colaborador = colaborador.email;
-        const nome_colaborador = colaborador.nome;
-        googleCalendar.createEvent(
-            req.body.nome_evento,
-            req.body.local_evento,
-            req.body.descricao_evento,
-            req.body.data_evento,
-            req.body.hora_inicio,
-            req.body.hora_termino,
-            email_cliente,
-            nome_cliente,
-            email_colaborador,
-            nome_colaborador
+    try {
+        const id_colab = req.body.id_colaborador;
+        const colaborador = await Colaborador.findByPk(id_colab);
+        const id_cliente = req.body.id_cliente;
+        const cliente = await Cliente.findByPk(id_cliente);
+        const { email } = cliente;
+        const { nome } = cliente;
+        if (colaborador && cliente) {
+            const email_cliente = cliente.email;
+            const nome_cliente = cliente.nome;
+            const email_colaborador = colaborador.email;
+            const nome_colaborador = colaborador.nome;
+            googleCalendar.createEvent(
+                req.body.nome_evento,
+                req.body.local_evento,
+                req.body.descricao_evento,
+                req.body.data_evento,
+                req.body.hora_inicio,
+                req.body.hora_termino,
+                email_cliente,
+                nome_cliente,
+                email_colaborador,
+                nome_colaborador
 
-        ).then(async() => {
-            let materiais = [];
-            let quantidades = [];
-            for (let index = 0; index < req.body.id_material.length; index++) {
-                materiais.push(req.body.id_material[index])
-                quantidades.push(req.body.quantidade[index])
-            }
-            Controller_Estoque.consumirMateriaisAgendamento(
-                materiais,
-                quantidades,
-                req.body.id_colaborador
-            ).then(() => {
-                console.log("Material utilizado com sucesso");
+            ).then(async() => {
+                let materiais = [];
+                let quantidades = [];
+                for (let index = 0; index < req.body.id_material.length; index++) {
+                    materiais.push(req.body.id_material[index])
+                    quantidades.push(req.body.quantidade[index])
+                }
+                Controller_Estoque.consumirMateriaisAgendamento(
+                    materiais,
+                    quantidades,
+                    req.body.id_colaborador
+                ).then(() => {
+                    console.log("Material utilizado com sucesso");
+                }).catch((erro) => { console.log("erro ao consumir material: " + erro) })
+                if (cliente) {
+                    nodemailer.email.enviarEmail(email_cliente, nome_cliente);
+                    console.log("email enviado com sucesso")
+                } else {
+                    console.log("falha ao enviar email")
+                }
+                res.redirect("/agenda")
+            }).catch((error) => {
+
+                console.log("Dados incorretos ou não encontrados ao cadastrar agendamento <br> Retorne a página anterior!" + error)
+                console.log("Dados incorretos ou não encontrados ao cadastrar agendamento <br> Retorne a página anterior!" + error)
             })
-            if (cliente) {
-                nodemailer.email.enviarEmail(email_cliente, nome_cliente);
-                console.log("email enviado com sucesso")
-            } else {
-                console.log("falha ao enviar email")
-            }
-            res.redirect("/agenda")
-        }).catch((error) => {
-            res.redirect("/erro")
-            console.log("Dados incorretos ou não encontrados ao cadastrar agendamento <br> Retorne a página anterior!" + error)
-            console.log("Dados incorretos ou não encontrados ao cadastrar agendamento <br> Retorne a página anterior!" + error)
-        })
-    } else {
-        throw new error("Cliente não encontrado!")
+        } else {
+            throw new error("Cliente não encontrado!")
+        }
+    } catch {
+        res.redirect("/erro")
     }
 })
+
 
 
 
@@ -966,33 +974,7 @@ app.get("/excluir-agendamento/:id_procedimento_API", eTatuador, async(req, res) 
     })
 })
 
-// teste Enviar email pro cliente
-app.get("/email", async(req, res) => {
-    const transport = nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: true,
-        auth: {
-            user: "sixdevsfatec@gmail.com",
-            pass: "bdsx clop ykqi thaw"
-        }
-    })
 
-    transport.sendMail({
-        from: "sixdevsfatec@gmail.com",
-        to: "jplima.dev@outlook.com",
-        subject: "Enviando email com Nodemailer",
-        html: "<h1> Olá João Pedro!</h1> <p> Este email foi enviado usando o NodeMailer</p>",
-        text: "Este email foi enviado usando o NodeMailer"
-    }).then(() => {
-        console.log("email enviado com sucesso!")
-    }).catch((error) => {
-        res.redirect("/erro")
-        console.log("falha ao enviar email")
-    })
-
-
-})
 
 app.get("/erro", async(req, res) => {
     res.render("refresh", {
@@ -1039,8 +1021,6 @@ app.post("/alterar-senha", eTatuador, async (req, res) => {
     } else {
 
     }
-    
-
     
 })
 
