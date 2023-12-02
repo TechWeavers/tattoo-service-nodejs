@@ -1077,6 +1077,29 @@ app.get("/login-error", async(req, res) => {
     })
 })
 
+app.get("/sexo", async(req, res) => {
+    res.render("pedir-email", {
+        style: `<link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@600&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/form.css">
+        <link rel="stylesheet" href="/css/login-container.css">
+        <link rel="stylesheet" href="/css/overlay.css">
+        <link rel="stylesheet" href="/css/reset.css">
+        <link rel="stylesheet" href="/css/estilo3.css">
+        <script src="/js/login.js" defer></script>
+        <script src="https://kit.fontawesome.com/76d409ea62.js" crossorigin="anonymous"></script>
+        <style>
+            .sidebar {
+                display: none;
+            }
+            .header {
+                display: none;
+            }
+        </style>`
+    })
+})
+
 app.get("/admin-error", async(req, res) => {
     res.render("admin-error", {
         style: `<link rel="stylesheet" href="/css/error.css">`
@@ -1125,6 +1148,6 @@ app.get("/excluir-historico", eAdmin, async(req, res) => {
 
 
 //porta principal
-app.listen(8081, () => {
+app.listen(8083, () => {
     console.log("Servidor iniciado na porta 8080: http://localhost:8081")
 })
