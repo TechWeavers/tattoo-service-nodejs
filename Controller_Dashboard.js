@@ -45,7 +45,8 @@ class Dashboard {
                 'data_evento': {
                     [Op.gte]: data,
                 }
-            }
+            },
+            limit: 5,
         });
         return proximos_eventos;
     }

@@ -1028,22 +1028,3 @@ app.post("/alterar-senha", eTatuador, async(req, res) => {
 app.listen(8081, () => {
     console.log("Servidor iniciado na porta 8080: http://localhost:8081")
 })
-
-
-
-//Colaborador.create({
-// nome: req.body.nome,
-//cpf: req.body.cpf,
-//telefone: req.body.telefone,
-//email: req.body.email,
-//redeSocial: req.body.redeSocial,
-//tipo: req.body.tipo
-//}).then(function() {
-//res.redirect("/listar-colaboradores")
-//console.log("Dados cadastrados com sucesso!")
-//}).catch(function(erro) {
-// res.send("Erro ao cadastrar " + erro)
-//}).catch(function(erro) {
-// res.send("Erro ao cadastrar " + erro)
-//})es.send("Erro ao cadastrar " + erro)
-//})
