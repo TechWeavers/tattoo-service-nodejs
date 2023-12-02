@@ -87,6 +87,18 @@ class Controller_Colaborador_Usuario {
         return atualiza;
     }
 
+    static resetarSenhaSet(id_usuario, token, data) {
+        const atualiza = Usuario.update({
+            resetarSenhaToken: token,
+            resetarSenhaExpire: data,
+        }, {
+            where: {
+                id_usuario: id_usuario
+            }
+        })
+        return atualiza;
+    }
+
     static alterarSenha(id_usuario, senha) {
         const atualizaSenha = Usuario.update({
             senha: senha

@@ -63,6 +63,26 @@ class email {
             text: "Este email foi enviado usando o NodeMailer"
         })
     }
+
+    static recuperacaoSenha(email, nome, token) {
+        const transport = nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 465,
+            secure: true,
+            auth: {
+                user: "sixdevsfatec@gmail.com",
+                pass: "bdsx clop ykqi thaw"
+            }
+        })
+
+        transport.sendMail({
+            from: "sixdevsfatec@gmail.com",
+            to: email,
+            subject: "Convite ao Estúdio",
+            html: "<h1> Olá" + nome + "!</h1> <p> Este email está sendo enviado pois foi feita uma solicitação de recuperação de senha. Caso não tenha sido solicitado por você, favor desconsiderar.</p> <p> Clique no link para criar uma nova senha: http://127.0.0.1:8081/recuperar-senha/" + token + " </p>",
+            text: "Este email foi enviado usando o NodeMailer"
+        })
+    }
 }
 
 module.exports = { email };
