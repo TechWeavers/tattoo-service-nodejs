@@ -180,10 +180,11 @@ app.get("/dashboard", eTatuador, async(req, res) => {
     const promiseQuantidadeClientes = Dashboard.quantClientes();
     const promiseMateriaisConsumidos = Dashboard.visualizarMaterialConsumido();
     const promiseMateriaisfaltantes = Dashboard.materiaisFaltantes()
-    Promise.all([promiseProximosProcedimentos, promiseMateriaisConsumidos, promiseMateriaisfaltantes]).then(([eventos, materiaisConsumidos, materiaisFaltantes]) => {
+    Promise.all([promiseProximosProcedimentos, promiseQuantidadeClientes, promiseMateriaisConsumidos, promiseMateriaisfaltantes]).then(([eventos, quantidadeClientes, materiaisConsumidos, materiaisFaltantes]) => {
 
         res.render("dashboard", {
             eventos,
+            quantidadeClientes,
             materiaisConsumidos,
             materiaisFaltantes,
 
@@ -904,12 +905,11 @@ app.get("/novo-agendamento", eTatuador, async(req, res) => {
 
 app.post("/criarAgendamento", eTatuador, async(req, res) => {
     try {
-        const id_colab = req.body.id_colaborador;
+        const id_colab = colaboradorEncontrado.id_colaborador;
         const colaborador = await Colaborador.findByPk(id_colab);
         const id_cliente = req.body.id_cliente;
         const cliente = await Cliente.findByPk(id_cliente);
-        const { email } = cliente;
-        const { nome } = cliente;
+
         if (colaborador && cliente) {
             const email_cliente = cliente.email;
             const nome_cliente = cliente.nome;
