@@ -17,8 +17,7 @@ class email {
             from: "sixdevsfatec@gmail.com",
             to: email,
             subject: "Enviando email com Nodemailer teste com express",
-            html: "<h1> Olá" + nome + "!</h1> <p> Só passando aqui para avisar que a sua tatuagem esá confirmada!</p> <p> Agradecemos pela preferência! </p>",
-            text: "Este email foi enviado usando o NodeMailer"
+            html: "<h1> Olá " + nome + "!</h1><br><p>Sua tatuagem foi marcada com sucesso!<br> Qualquer dúvida contate o nosso colaborador. Obrigado pela preferência :)</p>"
         })
 
 
@@ -39,8 +38,7 @@ class email {
             from: "sixdevsfatec@gmail.com",
             to: email,
             subject: "Email Pós Procedimento",
-            html: "<h1> Olá" + nome + "!</h1> <p> Só passando aqui para lhe alertar dos cuidados pós tatuagem!!</p> <p> Agradecemos pela preferência! </p>",
-            text: "Este email foi enviado usando o NodeMailer"
+            html: "<h1>Ei " + nome + "!</h1><br><p>Passando pra avisar que a sua tatuagem está marcada para daqui 24 horas.<br>Qualquer dúvida contate o nosso colaborador. Obrigado pela preferência :)</p>"
         })
     }
 
@@ -59,8 +57,7 @@ class email {
             from: "sixdevsfatec@gmail.com",
             to: email,
             subject: "Convite ao Estúdio",
-            html: "<h1> Olá" + nome + "!</h1> <p> Tudo bem? Que tal uma visitinha ao estúdio para vermos como está a sua tatuagem hein? ficaremos contentes em avaliarmos seu processo de cicatrização!</p> <p> Agradecemos pela preferência! </p>",
-            text: "Este email foi enviado usando o NodeMailer"
+            html: "<h1> Olá " + nome + "!</h1> <p>Tudo bem? Que tal uma visitinha ao estúdio para vermos como está a sua tatuagem hein? ficaremos contentes em avaliarmos seu processo de cicatrização!</p> <p>Obrigado pela preferência :)</p>"
         })
     }
 }

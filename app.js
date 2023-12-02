@@ -190,6 +190,7 @@ app.get("/dashboard", eTatuador, async(req, res) => {
 
             title: "Dashboard",
             style: `<link rel="stylesheet" href="/css/estilos3.css">
+            <link rel="stylesheet" href="/css/contador.css">
             <link rel="stylesheet" href="/css/sidebar.css">
             <link rel="stylesheet" href="/css/header.css">
             <link rel="stylesheet" href="../../css/style.css">
