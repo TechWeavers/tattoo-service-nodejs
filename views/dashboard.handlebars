@@ -19,6 +19,7 @@
                 <tr>
                   <th>ID do evento</th>
                   <th>Nome do evento</th>
+     
                   <th>Data </th>
                   <th>Hora do inicio</th>
                   <th>Hora de término</th>
@@ -54,7 +55,7 @@
       <div class="col-lg-12 grid-margin stretch-card">
         <div class="row col-sm">
           <div id="ordem-ativo" class="col-auto  pasta-ordem">
-            <a href="/dashboard">Histórico de Materiais Consumidos</a>
+            <a href="/dashboard">Agendamentos Realizados</a>
           </div>
         </div>
 
@@ -64,29 +65,27 @@
            <table class="table table-striped text-center">
               <thead>
                 <tr>
-                  <th>ID do consumo</th>
-                  <th>Nome do material</th>
-                  <th>Quantidade</th>
-                  <th>Valor Total</th>
-                  <th>Data de consumo</th>
-                  <th></th>
+                  <th>ID evento</th>
+                  <th>Nome do Agendamento</th>
+              
+                  <th>Data</th>
+                  <th>Hora de Início</th>
+                  <th>Hora de Término</th>
+                  <th>Nome do Cliente</th>
+                  <th>Nome do colaborador</th>
                 </tr>
               </thead>
-              {{#each materiaisConsumidos}} {{#dataValues}}
+              {{#each eventosRealizados}} {{#dataValues}}
               <tbody>
                 <tr>
-                  <td class="py-1">{{id_consumo}}</td>
-                  <td>{{nome}}</td>
-                  <td>{{quantidade}}</td>
-                  <td>{{valor_total}}</td>
-                  <td>{{data_consumo}}</td>
-                  <td>
-                   <!-- <a href="/editar-usuario/{{id_procedimento_API}}" style="color:inherit"><i
-                        class="bi bi-pencil"></i></a>-->
-
-                    <a href="/excluir-agendamento/{{id_procedimento_API}}" style="color:inherit"><i
-                        class="bi bi-trash-fill"></i></a>
-                  </td>
+                  <td class="py-1">{{id_evento}}</td>
+                  <td>{{nome_evento}}</td>
+                  <td>{{data_evento}}</td>
+                  <td>{{hora_inicio}}</td>
+                  <td>{{hora_termino}}</td>
+                  <td>{{nome_cliente}}</td>
+                  <td>{{nome_colaborador}}</td>
+          
                 </tr>
               </tbody>
               {{/dataValues}}
@@ -97,6 +96,8 @@
       </div>
     </div>
     <br>
+
+
     <div class="row">
       <!--DIV tattoo realizadas-->
       <div class="col-lg-4 grid-margin stretch-card">
@@ -129,14 +130,7 @@
          <table class="table table-striped text-center">
               <thead>
                 <tr>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th>Lol</th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
+                  <th>Quantidade</th>
                 </tr>
               </thead>
               {{#each quantidadeClientes}} {{#dataValues}}
@@ -144,7 +138,7 @@
                 <tr>
                   <td class="py-1"></td>
             
-                  <td>{{totClientes}}</td>
+                  <td>{{this.quantidadeClientes}}</td>
     
                   <td>
                     <a href="/editar-usuario/{{id_procedimento_API}}" style="color:inherit"><i

@@ -35,10 +35,9 @@ class Dashboard {
         return totClientes;
     }
 
-    static async quantidadeAgendamentos(quant) {
-        const agendamentos = await copiaEventos.findAll();
-        let quantEventos = agendamentos.length;
-        return quantEventos;
+    static async quantidadeAgendamentos() {
+        const quantAgendamentos = await copiaEventos.count();
+        return quantAgendamentos;
     }
 
 

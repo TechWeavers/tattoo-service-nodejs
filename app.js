@@ -240,13 +240,15 @@ app.post('/recuperar-senha/:token', async(req, res) => {
 app.get("/dashboard", eTatuador, async(req, res) => {
     // fazer aqui a funcionalidade de retornar todos os metodos da dashboard
     const promiseProximosProcedimentos = Dashboard.próximosProcedimentos();
+    const promiseProcedimentosRealizados = Dashboard.procedimentosRealizados();
     const promiseQuantidadeClientes = Dashboard.quantClientes();
     const promiseMateriaisConsumidos = Dashboard.visualizarMaterialConsumido();
     const promiseMateriaisfaltantes = Dashboard.materiaisFaltantes()
-    Promise.all([promiseProximosProcedimentos, promiseQuantidadeClientes, promiseMateriaisConsumidos, promiseMateriaisfaltantes]).then(([eventos, quantidadeClientes, materiaisConsumidos, materiaisFaltantes]) => {
+    Promise.all([promiseProximosProcedimentos, promiseProcedimentosRealizados, promiseQuantidadeClientes, promiseMateriaisConsumidos, promiseMateriaisfaltantes]).then(([eventos, eventosRealizados, quantidadeClientes, materiaisConsumidos, materiaisFaltantes]) => {
 
         res.render("dashboard", {
             eventos,
+            eventosRealizados,
             quantidadeClientes,
             materiaisConsumidos,
             materiaisFaltantes,
@@ -280,7 +282,7 @@ app.get("/dashboard", eTatuador, async(req, res) => {
 
 // atualiza o status dos procedimentos do dia anterior para realizado, envia o email de 24 horas pós agendamento, e convite para retorno no estúdio 15 dias após o agendamento
 //esta funcionalidade é executada 1 vez por dia, todos os dias.
-cron.schedule('0 09 * * *', () => {
+cron.schedule('0 11 * * *', () => {
     Controller_Agendamento.posAgendamento24Horas();
     Controller_Agendamento.posAgendamento15Dias();
 });
@@ -1115,7 +1117,7 @@ app.get("/redefinir-senha", async(req, res) => {
                 display: none;
             }
         </style>`,
-        
+
     })
 })
 
