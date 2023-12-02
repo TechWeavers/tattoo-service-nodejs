@@ -13,6 +13,14 @@ const Usuario = db.sequelize.define("Usuario", {
     senha: {
         type: db.Sequelize.STRING,
     },
+    resetarSenhaToken: {
+        type: db.Sequelize.STRING,
+        defaultValue: null
+    },
+    resetarSenhaExpire: {
+        type: db.Sequelize.DATE,
+        defaultValue: null
+    },
 });
 
 Usuario.beforeCreate(async (usuario, options) => {
