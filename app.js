@@ -135,7 +135,7 @@ app.post("/login", async(req, res) => {
             where: { usuario: usuarioLogin },
         });
 
-        const colaboradorEncontrado = await Colaborador.findOne({
+        colaboradorEncontrado = await Colaborador.findOne({
             where: { id_colaborador: usuarioEncontrado.dataValues.fk_colaborador }
         });
 
@@ -206,8 +206,8 @@ app.get("/dashboard", eTatuador, async(req, res) => {
             <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
             <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
             <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`,
-            //usuarioLogin: usuarioEncontrado.usuario,
-            // tipo: colaboradorEncontrado.tipo
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
         });
 
     })
