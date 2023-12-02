@@ -77,7 +77,7 @@ class email {
             from: "sixdevsfatec@gmail.com",
             to: email,
             subject: "Recuperação de Senha",
-            html: "<h1> Olá " + nome + "!</h1> <p> Este email está sendo enviado pois foi feita uma solicitação de recuperação de senha. Caso não tenha sido solicitado por você, favor desconsiderar.</p> <p> Clique no link para criar uma nova senha: http://127.0.0.1:8081/recuperar-senha/" + token + " </p>",
+            html: "<h1> Olá " + nome + "!</h1> <p> Este email está sendo enviado pois foi feita uma solicitação de recuperação de senha. Caso não tenha sido solicitado por você, favor desconsiderar.</p> <p> Clique no link para criar uma nova senha: http://127.0.0.1:8081/recuperar-senha/" + token + "/" + email + "</p>",
             text: "Este email foi enviado usando o NodeMailer"
         })
     }

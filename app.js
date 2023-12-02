@@ -176,11 +176,24 @@ app.get("/logout", (req, res) => {
 //Recuperação de senha
 
 //redefinir senha
-app.get("/recuperar-senha/:token", async(req, res) => {
+app.get("/recuperar-senha/:token/:email", async(req, res) => {
     const token = req.params.token;
-    res.render("alterar-senha", {token,
-        style: `<link rel="stylesheet" href="/css/style.css">
+    const email = req.params.email;
+    res.render("alterar-senha", {token, email,
+        style: `<link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@600&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/form.css">
+        <link rel="stylesheet" href="/css/login-container.css">
+        <link rel="stylesheet" href="/css/overlay.css">
+        <link rel="stylesheet" href="/css/reset.css">
+        <link rel="stylesheet" href="/css/estilo3.css">
+        <script src="/js/login.js" defer></script>
+        <script src="https://kit.fontawesome.com/76d409ea62.js" crossorigin="anonymous"></script>
         <style>
+            .sidebar {
+                display: none;
+            }
             .header {
                 display: none;
             }
@@ -251,33 +264,50 @@ app.post('/recuperar-senha', async(req, res) => {
     const novaSenha = req.body.novaSenha;
     const confirmacaoNovaSenha = req.body.confirmacaoNovaSenha;
 
+
     try {
-        const colaboradorEncontrado = Colaborador.findOne({ where: { 'email': emailUsuario } });
-        const usuarioEncontrado = Usuario.findOne({ where: { 'fk_colaborador': colaboradorEncontrado.id_colaborador } });
+        const colaboradorEncontrado = await Colaborador.findOne({ where: { 'email': emailUsuario } });
+        const usuarioEncontrado = await Usuario.findOne({ where: { 'fk_colaborador': colaboradorEncontrado.id_colaborador } });
+
+        console.log(colaboradorEncontrado)
+        console.log(usuarioEncontrado)
+
+
 
         if (!usuarioEncontrado) {
             res.redirect('/erro');
+            console.log("Usuario nao encontrado")
         }
 
         if(tokenUsuario !== usuarioEncontrado.dataValues.resetarSenhaToken) {
             res.redirect('/erro');
+            console.log("token incorreto")
         }
 
         const now = new Date();
 
         if(now > usuarioEncontrado.dataValues.resetarSenhaExpire) {
             res.redirect('/erro');
+            console.log("token expirado")
         }
 
         if (novaSenha !== confirmacaoNovaSenha) {
             res.redirect('/erro');
+            console.log("Confirmacao incorreta")
         }
 
-        Controller_Colaborador_Usuario.atualizarUsuario(usuarioEncontrado.dataValues.id_usuario, usuarioEncontrado.dataValues.usuario, novaSenha);
+        const senhaCriptLogin = await bcrypt.hash(req.body.novaSenha, 8);
+
+
+        Controller_Colaborador_Usuario.atualizarUsuario(usuarioEncontrado.dataValues.id_usuario, usuarioEncontrado.dataValues.usuario, senhaCriptLogin);
+
+        res.redirect('/');
 
     } catch (error) {
-        res.redirect('/erro')
+        res.redirect('/erro');
+
     }
+       
 });
 
 // Tela principal do site, com todas as funcionalidades do sistema
