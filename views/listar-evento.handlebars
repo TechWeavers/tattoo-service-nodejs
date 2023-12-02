@@ -15,6 +15,7 @@
         </div>
         <div class="card-body card-pasta bg-orange">
           <h4 class="card-title">Listar</h4>
+          <h5>Obs: Para alterar ou excluir os agendamentos, clique no ícone do lápis, e altere direto no site principal do Google Agenda! <br> O ícone de lixeira excluirá <strong>Apenas</strong> a visualização do agendamento no site!</h5>
           <div class="table-responsive ">
             <table class="table table-striped ">
               <thead>
@@ -42,9 +43,9 @@
                   <td>{{nome_colaborador}}</td>
                  
                   <td>
-                    <a href="/editar-usuario/{{id_procedimento_API}}" style="color:inherit"><i class="bi bi-pencil"></i></a>
+                    <a href="https://calendar.google.com/calendar/u/0/r/week/2023/11/30?ctz=America/Sao_Paulo" target="_blank"><i class="bi bi-pencil"></i></a>
 
-                    <a href="/excluir-agendamento/{{id_procedimento_API}}" style="color:inherit"><i class="bi bi-trash-fill"></i></a>
+                    <a href="/excluir-agendamento/{{id_evento}}" style="color:inherit"><i class="bi bi-trash-fill"></i></a>
                   </td>
                 </tr>
               </tbody>

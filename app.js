@@ -1132,14 +1132,16 @@ app.post("/criarAgendamento", eTatuador, async(req, res) => {
 
 
 //excluir agendamento
-app.get("/excluir-agendamento/:id_procedimento_API", eTatuador, async(req, res) => {
-    googleCalendar.deleta(req.params.id_procedimento_API).then(() => {
-
-        res.redirect("/listar-evento")
-    }).catch((erro) => {
+app.get("/excluir-agendamento/:id_evento", eTatuador, async(req, res) => {
+    try {
+        copiaEventos.destroy({ where: { 'id_evento': req.params.id_evento } }).then(() => {
+            res.redirect("/listar-evento")
+        }).catch(() => {
+            console.log("erro ao excluir evento")
+        })
+    } catch {
         res.redirect("/erro")
-        console.log("erro" + erro)
-    })
+    }
 })
 
 
