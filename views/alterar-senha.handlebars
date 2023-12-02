@@ -1,34 +1,47 @@
-<div class="main-panel">        
-  <div class="content-wrapper bg-transparent">
-    <div class="row">
-      <div class="col-lg-12 grid-margin stretch-card">
-        <div class="row col-sm">
-          <div id="ordem-ativo" class="col-auto pasta-ordem">
-            <a href="#">Redefinição de senha</a>
-          </div>
+<main>
+    <div class="login-container" id="login-container">
+        <div class="form-container bg-transparent">
+            <form class="form form-login" action="/recuperar-senha" method="POST">
+                <img src="/img/logo.svg">
+                
+                <input type="hidden" name="token" class="form-control" id="token" value="{{token}}">
+                <input type="hidden" name="email" class="form-control" id="email" value="{{email}}">
+
+                <div class="form-input-container">
+                    <div class="col-auto">
+                      <h3 class="form-label text-white mb-3" style="font-family: inter;">Recuperacao de Senha</h3>
+                        <label class="sr-only" for="novaSenha">Nova Senha</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                        height="16" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
+                                        <path
+                                            d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2M5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1" />
+                                    </svg></div>
+                            </div>
+                            <input type="password" name="novaSenha" class="form-control" id="novaSenha"
+                                placeholder="Nova Senha">
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <label class="sr-only" for="confirmacaoNovaSenha">Confirmação de Senha</label>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                        height="16" fill="currentColor" class="bi bi-lock" viewBox="0 0 16 16">
+                                        <path
+                                            d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2M5 8h6a1 1 0 0 1 1 1v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1" />
+                                    </svg></div>
+                            </div>
+                            <input type="password" name="confirmacaoNovaSenha" class="form-control" id="confirmacaoNovaSenha"
+                                placeholder="Insira a Senha Novamente">
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3 text-start">
+                    <button type="submit" class="form-button">Atualizar</button>
+                </div>
+            </form>
         </div>
-        <div class="card-body card-pasta">
-          <div class="table-responsive ">
-            <table class="table table-striped ">
-              <h4 class="card-title">Redefinir senha</h4>
-                <form class="forms-sample" action="/alterar-senha" method="POST">
-                  <input type="hidden" name="token" class="form-control" id="token" value="{{token}}">
-                  <div class="form-group">
-                    <label class="form-label">Nova senha</label>
-                    <input type="password" name="nova-senha" required=" Dado Obrigatório!" class="form-control" id="novaSenha">
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label">Repita a nova senha:</label>
-                    <input type="password" name="repetir-senha" required=" Dado Obrigatório!"  class="form-control" id="repetirSenha">
-                  </div>
-                  <button type="submit" class="butn butn-primary mr-2">Redefinir</button>
-                  
-                </form>
-              </div>
-            </table>
-          </div>
-        </div>  
-      </div>
     </div>
-  </div>
-</div>
+</main>
