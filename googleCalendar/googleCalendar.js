@@ -160,26 +160,31 @@ class googleCalendar {
 
                 };
 
-                calendar.events.insert({
+                const inserirEvento = calendar.events.insert({
                     calendarId: 'sixdevsfatec@gmail.com',
                     resource: event,
                 }, (err, res) => {
                     if (err) return console.error('Erro ao inserir evento:', err);
 
                     console.log('Evento inserido:', res.data);
+                    copiaEventos.create({
+                        nome_evento: nome_evento,
+                        nome_cliente: nome_cliente,
+                        email_cliente: email_cliente,
+                        nome_colaborador: nome_colaborador,
+                        data_evento: data_evento,
+                        hora_inicio: hora_inicio,
+                        hora_termino: hora_termino,
+                        status: "agendado",
+                        id_procedimento_API: event.iCalUID
+                    })
                 })
 
-                copiaEventos.create({
-                    nome_evento: nome_evento,
-                    nome_cliente: nome_cliente,
-                    email_cliente: email_cliente,
-                    nome_colaborador: nome_colaborador,
-                    data_evento: data_evento,
-                    hora_inicio: hora_inicio,
-                    hora_termino: hora_termino,
-                    status: "agendado",
-                    id_procedimento_API: event.iCalUID
-                })
+
+
+
+
+
             }
         } catch {
             console.log("erro ao inserir evento na agenda")
