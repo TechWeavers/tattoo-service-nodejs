@@ -35,17 +35,18 @@
                 <div class="form-group">
                   <label for="endereco" class="form-label">Endereço:</label>
                   <input type="text" name="endereco" class="form-control" id="endereco" >
-                </div>         
+                </div>
+              
                 <div class="form-group">
                   <label for="tratamento" class="form-label">Faz Tratamento Médico:</label>
                   <div>
                     <div class="sim-ficha">
-                      <input type="radio" name="tratamento" id="tratamento-sim" value="true" class="radio-style" >
+                      <input type="radio" name="tratamento" id="tratamento-sim" value="true" class="radio-style">
                       <label for="tratamento-sim">Sim</label>
                     </div>
                     
                     <div class="nao-ficha">
-                      <input type="radio" name="tratamento" id="tratamento-nao" value="false" class="radio-style"  checked="checked">
+                      <input type="radio" name="tratamento" id="tratamento-nao" value="false" class="radio-style"  checked="checked"checked="checked">
                       <label for="tratamento-nao">Não</label>
                     </div>
                     
@@ -55,7 +56,7 @@
 
                 <div class="form-group">
                   <label for="tratamentoDesc">Descrição do Tratamento:</label>
-                  <input type="text" name="tratamentoDesc" class="form-control" id="tratamentoDesc" disabled>
+                  <input type="text" name="tratamentoDesc" class="form-control" id="tratamentoDesc">
                 </div>
               
                 <div class="form-group">
@@ -74,7 +75,7 @@
 
                 <div class="form-group">
                   <label for="cirurgiaDesc">Descrição da Cirurgia:</label>
-                  <input type="text" name="cirurgiaDesc" class="form-control" id="cirurgiaDesc" class="radio-style" disabled>
+                  <input type="text" name="cirurgiaDesc" class="form-control" id="cirurgiaDesc" class="radio-style">
                 </div>
               
                 <div class="form-group">
@@ -96,8 +97,9 @@
               
                 <div class="form-group">
                   <label for="alergiaDesc">Descrição da Alergia:</label>
-                  <input type="text" name="alergiaDesc" class="form-control" id="alergiaDesc"  disabled>
+                  <input type="text" name="alergiaDesc" class="form-control" id="alergiaDesc">
                 </div>
+
                 <div class="form-group">
                   <label for="problemaCardiaco" class="form-label">Possui Problema Cardíaco:</label>
                   <div>
@@ -107,7 +109,7 @@
                     </div>
 
                     <div class="nao-ficha">
-                      <input type="radio" name="problemaCardiaco" id="problemaCardiaco-nao" value="false" class="radio-style" checked="checked" >
+                      <input type="radio" name="problemaCardiaco" id="problemaCardiaco-nao" value="false" class="radio-style" checked="checked">
                       <label for="problemaCardiaco-nao">Não</label>
                     </div>
                   </div>
@@ -183,8 +185,9 @@
 
                 <div class="form-group">
                   <label for="diabetesDesc">Descrição da Diabetes:</label>
-                  <input type="text" name="diabetesDesc" class="form-control" id="diabetesDesc"  disabled>
-                </div>            
+                  <input type="text" name="diabetesDesc" class="form-control" id="diabetesDesc">
+                </div>
+              
                 <div class="form-group">
                   <label for="convulsao" class="form-label">Teve Convulsões:</label>
                   <div>
@@ -202,9 +205,9 @@
                 
                 <div class="form-group">
                   <label for="convulsaoDesc">Descrição das Convulsões:</label>
-                  <input type="text" name="convulsaoDesc" class="form-control" id="convulsaoDesc" disabled>
-                </div>   
-
+                  <input type="text" name="convulsaoDesc" class="form-control" id="convulsaoDesc">
+                </div>
+              
                 <div class="form-group">
                   <label for="doencasTransmissiveis" class="form-label">Possui Doenças Transmissíveis:</label>
                   <div>
@@ -213,7 +216,7 @@
                       <label for="doencasTransmissiveis-sim">Sim</label>
                     </div>
                     <div class="nao-ficha">
-                      <input type="radio" name="doencasTransmissiveis" id="doencasTransmiss iveis-nao" value="false" class="radio-style" checked="checked">
+                      <input type="radio" name="doencasTransmissiveis" id="doencasTransmiss checked="checked"iveis-nao" value="false" class="radio-style" >
                       <label for="doencasTransmissiveis-nao">Não</label>
                     </div>
                     
@@ -225,7 +228,7 @@
 
                 <div class="form-group">
                   <label for="doencasTransmissiveisDesc">Descrição das Doenças Transmissíveis:</label>
-                  <input type="text" name="doencasTransmissiveisDesc" class="form-control" id="doencasTransmissiveisDesc" disabled>
+                  <input type="text" name="doencasTransmissiveisDesc" class="form-control" id="doencasTransmissiveisDesc">
                 </div>
               
                 <div class="form-group">
@@ -313,8 +316,9 @@
 
                 <div class="form-group">
                   <label for="outroDesc">Descrição de Outras Condições:</label>
-                  <input type="text" name="outroDesc" class="form-control" id="outroDesc" disabled>
+                  <input type="text" name="outroDesc" class="form-control" id="outroDesc">
                 </div>
+              
                 <div class="form-group">
                   <label for="dataAtual" class="form-label">Data Atual:</label>
                   <input type="date" name="dataAtual" class="form-control" id="dataAtual" required>
@@ -333,14 +337,3 @@
     </div>
   </div>
 </div>
-
-<script>
-  function habilitar(textinput) {
-    document.getElementById(textinput).disabled = true; document.getElementById(textinput).disabled = false;
-  }
-
-  function desabilitar(textinput) {
-    document.getElementById(textinput).disabled = false; document.getElementById(textinput).disabled = true;
-  }
-  
-</script>

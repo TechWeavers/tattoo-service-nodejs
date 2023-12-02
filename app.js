@@ -349,7 +349,6 @@ app.get("/dashboard", eTatuador, async(req, res) => {
             <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
             <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
             <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`,
-            contadorCliente: quantClientes(),
             usuarioLogin: usuarioEncontrado.usuario,
             tipo: colaboradorEncontrado.tipo
         });
