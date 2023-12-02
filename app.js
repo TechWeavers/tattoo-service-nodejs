@@ -13,6 +13,7 @@ const copiaEventos = require("./models/copiaEventos")
 const nodemailer = require("./Nodemailer")
 const puppeteer = require("puppeteer");
 const cron = require("node-cron");
+const { format, parseISO } = require('date-fns');
 const Colaborador = require("./models/Colaborador")
 
 //identificar que esta usando o sistema
@@ -986,6 +987,20 @@ app.get("/nova-ficha/:id", eTatuador, async(req, res) => {
 
 // rota interna que atualiza o cliente, com os dados da ficha
 app.post("/cadastrar-ficha", async(req, res) => {
+    const dataAtual = new Date();
+    //const diaAtual = String(dataAtual.getDate()).padStart(2, '0'); // Adiciona um zero à esquerda se for necessário.
+    //const mesAtual = String(dataAtual.getMonth() + 1).padStart(2, '0'); // Adiciona um zero à esquerda se for necessário.
+    //const anoAtual = dataAtual.getFullYear();
+    //const dataAtualFormatada = `${diaAtual}/${mesAtual}/${anoAtual}`;
+    
+
+
+    //const nascimento = req.body.nascimento
+    //const diaNascimento = String(nascimento.getDate()).padStart(2, '0'); // Adiciona um zero à esquerda se for necessário.
+    //const mesNascimento = String(nascimento.getMonth() + 1).padStart(2, '0'); // Adiciona um zero à esquerda se for necessário.
+    //const anoNascimento = nascimento.getFullYear();
+    //const nascimentoFormatado = `${diaNascimento}/${mesNascimento}/${anoNascimento}`;
+    
     Controller_Cliente.cadastrarFicha(
         req.body.nascimento,
         req.body.endereco,
@@ -1011,7 +1026,7 @@ app.post("/cadastrar-ficha", async(req, res) => {
         req.body.hepatite,
         req.body.outro,
         req.body.outroDesc,
-        req.body.dataAtual,
+        dataAtual,
         req.body.fk_cliente
     ).then(() => {
         res.redirect("listar-cliente")
