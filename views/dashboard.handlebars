@@ -18,8 +18,9 @@
               <thead>
                 <tr>
                   <th>Nome do evento</th>
+                  <th>Data </th>
                   <th>Hora do inicio</th>
-                  <th>Data de inicio </th>
+                  <th>Hora de término</th>
                   <th>Nome do cliente</th>
                   <th>Nome do colaborador</th>
                   <th></th>
@@ -29,8 +30,9 @@
               <tbody>
                 <tr>
                   <td class="py-1">{{nome_evento}}</td>
+                   <td>{{data_evento}}</td>
                   <td>{{hora_inicio}}</td>
-                  <td>{{data_evento}}</td>
+                 <td>{{hora_termino}}</td>
                   <td>{{nome_cliente}}</td>
                   <td>{{nome_colaborador}}</td>
                   <td></td>
@@ -108,6 +110,8 @@
           </div>
         </div>
       </div>
+
+
       <!--DIV Clientes-->
       <div class="col-lg-4 grid-margin stretch-card">
         <div class="row col-sm">
@@ -115,25 +119,12 @@
             <a href="/dashboard">Quantidade de clientes cadastrados</a>
           </div>
         </div>
-
         <div class="card-body card-pasta bg-orange">
-          {{#each clientes}}
-          {{#dataValues}}
-
-          <p>Quantidade de clientes: {{quantCli}}</p>
-          {{/dataValues}}
-          {{/each}}
-          
-          
-          
-        
-          
-         <!--
           <div class="table-responsive">
          <table class="table table-striped text-center">
               <thead>
                 <tr>
-                  <th></th>
+                  <th> </th>
                   <th></th>
                   <th></th>
                   <th></th>
@@ -143,11 +134,11 @@
                   <th></th>
                 </tr>
               </thead>
-              {{#each eventos}} {{#dataValues}}
+              {{#each quantidadeClientes}} {{#dataValues}}
               <tbody>
                 <tr>
                   <td class="py-1"></td>
-                  <td></td>
+                  <td>{{totClientes}}</td>
                   <td></td>
                   <td></td>
                   <td></td>
@@ -165,7 +156,7 @@
               {{/dataValues}}
               {{/each}}
             </table>
-          </div>-->
+          </div>
         </div>
       </div>
       <!--DIV estoque-->

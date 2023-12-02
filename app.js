@@ -180,10 +180,11 @@ app.get("/dashboard", eTatuador, async(req, res) => {
     const promiseQuantidadeClientes = Dashboard.quantClientes();
     const promiseMateriaisConsumidos = Dashboard.visualizarMaterialConsumido();
     const promiseMateriaisfaltantes = Dashboard.materiaisFaltantes()
-    Promise.all([promiseProximosProcedimentos, promiseMateriaisConsumidos, promiseMateriaisfaltantes]).then(([eventos, materiaisConsumidos, materiaisFaltantes]) => {
+    Promise.all([promiseProximosProcedimentos, promiseQuantidadeClientes, promiseMateriaisConsumidos, promiseMateriaisfaltantes]).then(([eventos, quantidadeClientes, materiaisConsumidos, materiaisFaltantes]) => {
 
         res.render("dashboard", {
             eventos,
+            quantidadeClientes,
             materiaisConsumidos,
             materiaisFaltantes,
 
@@ -531,7 +532,8 @@ app.post("/cadastrar-estoque", eAdmin, async(req, res) => {
             req.body.nome,
             req.body.quantidade,
             req.body.valor_unidade,
-            req.body.data_compra
+
+
         );
         res.redirect("/listar-estoque");
         console.log("dados cadastrados com sucesso");
@@ -639,13 +641,13 @@ app.post("/consumir-estoque", eTatuador, async(req, res) => {
 
 })
 
-/*app.get("/excluir-estoque/:id", eTatuador, async(req, res) => {
+app.get("/excluir-estoque/:id", eTatuador, async(req, res) => {
     Controller_Estoque.excluirMaterial(req.params.id).then(function() {
         res.redirect("/listar-estoque")
     }).catch(function(erro) {
         res.send("Erro ao deletar os dados: " + erro)
     })
-})*/
+})
 
 // ------------------------------------ CRUD Cliente -------------------------------------------
 
@@ -903,12 +905,11 @@ app.get("/novo-agendamento", eTatuador, async(req, res) => {
 
 app.post("/criarAgendamento", eTatuador, async(req, res) => {
     try {
-        const id_colab = req.body.id_colaborador;
+        const id_colab = colaboradorEncontrado.id_colaborador;
         const colaborador = await Colaborador.findByPk(id_colab);
         const id_cliente = req.body.id_cliente;
         const cliente = await Cliente.findByPk(id_cliente);
-        const { email } = cliente;
-        const { nome } = cliente;
+
         if (colaborador && cliente) {
             const email_cliente = cliente.email;
             const nome_cliente = cliente.nome;

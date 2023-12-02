@@ -32,9 +32,9 @@ function diminuirMaterial(clientes) {
 }
 
 async function quantClientes() {
-    const clientes = await Cliente.findAll();
-    let x = clientes.length;
-    console.log("quantidade de clientes " + clientes);
+    const clientes = await Cliente.count();
+    console.log("clientes " + clientes)
+
 
 }
 

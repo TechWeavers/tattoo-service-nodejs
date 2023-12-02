@@ -167,12 +167,19 @@ class googleCalendar {
                     if (err) return console.error('Erro ao inserir evento:', err);
 
                     console.log('Evento inserido:', res.data);
+
+                    // tratamento de data
+                    let data_formatada = data_evento.split("-");
+                    let dia = data_formatada[2];
+                    let mes = data_formatada[1];
+                    let ano = data_formatada[0];
+                    let data_ofc = dia + "/" + mes + "/" + ano;
                     copiaEventos.create({
                         nome_evento: nome_evento,
                         nome_cliente: nome_cliente,
                         email_cliente: email_cliente,
                         nome_colaborador: nome_colaborador,
-                        data_evento: data_evento,
+                        data_evento: data_ofc,
                         hora_inicio: hora_inicio,
                         hora_termino: hora_termino,
                         status: "agendado",
