@@ -10,6 +10,16 @@ let dia = data.getDate();
 let mes = data.getMonth()
 let ano = data.getFullYear()
 
+// variaveis para configurar data de ontem
+let dataOntem = new Date(data);
+dataOntem.setDate(data.getDate() - 1);
+let dataOntemTeste = dataOntem.toLocaleDateString();
+let dataFormatadaOntem = dataOntemTeste.split("/");
+let anoOntem = dataFormatadaOntem[2];
+let mesOntem = dataFormatadaOntem[1];
+let diaOntem = dataFormatadaOntem[0];
+dataFormatadaOntem = anoOntem + "-" + mesOntem + "-" + diaOntem;
+
 //variavel do sequelize 
 const { Op } = require('sequelize');
 
@@ -42,7 +52,7 @@ class Dashboard {
         const proximos_eventos = await copiaEventos.findAll({
             where: {
                 'data_evento': {
-                    [Op.gte]: diaAtual,
+                    [Op.gte]: data,
                 }
             },
             limit: 5,
@@ -50,6 +60,16 @@ class Dashboard {
         return proximos_eventos;
     }
 
+    static async procedimentosRealizados() {
+        const eventosRealizados = await copiaEventos.findAll({
+            where: {
+                data_evento: {
+                    [Op.lte]: dataFormatadaOntem,
+                },
+            },
+        });
+        return eventosRealizados;
+    }
     static async materiaisFaltantes() {
         const faltantes = await Material.findAll({
             where: {
@@ -60,6 +80,10 @@ class Dashboard {
         })
         return faltantes;
     }
+
 }
+
+
+
 
 module.exports = { Dashboard };
