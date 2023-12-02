@@ -16,11 +16,8 @@
 
           <div class="card-body card-pasta">
             <table class="table table-striped ">
-              <h4 class="card-title">Usuários</h4>
+              <h4 class="card-title">Atualizar usuários</h4>
               <p class="card-description">
-              Atualização de Usuários
-              </p>
-              <p class="card-description">Coloque "N/A", caso algum dado seja inexistente.</p>
               {{#each usuarios}} {{#dataValues}} 
               <form action="/atualizar-usuario" method="POST">
                 <input type="hidden" name="id_usuario" class="form-control" id="id_usuario" value="{{id_usuario}}"> 

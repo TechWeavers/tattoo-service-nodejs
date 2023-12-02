@@ -14,6 +14,10 @@ const puppeteer = require("puppeteer");
 const cron = require("node-cron");
 const Colaborador = require("./models/Colaborador")
 
+//identificar que esta usando o sistema
+let colaboradorEncontrado
+let usuarioEncontrado
+
 // variaveis que servirao de controle da dashboard
 const { Dashboard } = require("./Controller_Dashboard");
 let agendamentos = 0;
@@ -127,7 +131,7 @@ app.post("/login", async(req, res) => {
     const senhaLogin = req.body.senhaLogin;
 
     try {
-        const usuarioEncontrado = await Usuario.findOne({
+        usuarioEncontrado = await Usuario.findOne({
             where: { usuario: usuarioLogin },
         });
 
@@ -201,7 +205,9 @@ app.get("/dashboard", eTatuador, async(req, res) => {
             <script src="https://unpkg.com/select2@latest/dist/js/select2.min.js"></script>
             <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
             <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
-            <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`
+            <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
         });
 
     })
@@ -244,6 +250,8 @@ app.get("/novo-colaborador", eAdmin, async(req, res) => {
     res.render("novo-colaborador", {
         title: "Cadastro de Colaborador",
         style: `<link rel="stylesheet" href="/css/style.css">`,
+        usuarioLogin: usuarioEncontrado.usuario,
+        tipo: colaboradorEncontrado.tipo
     });
 })
 
@@ -276,7 +284,9 @@ app.get("/listar-colaboradores", eTatuador, async(req, res) => {
         res.render("listar-colaboradores", {
             colaboradores,
             title: "Listar Colaboradores",
-            style: `<link rel="stylesheet" href="/css/style.css">`
+            style: `<link rel="stylesheet" href="/css/style.css">`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
         })
     }).catch(function(erro) {
         res.redirect("/erro")
@@ -316,7 +326,9 @@ app.get("/editar-colaborador/:id", eAdmin, function(req, res) {
         <script src="https://unpkg.com/select2@latest/dist/js/select2.min.js"></script>
         <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
         <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
-        <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`
+        <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
         })
     }).catch(function(erro) {
         res.redirect("/erro")
@@ -357,6 +369,8 @@ app.post("/buscar-colaborador", eTatuador, async(req, res) => {
             res.render("listar-colaboradores", {
                 colaboradores,
                 style: `<link rel="stylesheet" href="/css/style.css">`,
+                usuarioLogin: usuarioEncontrado.usuario,
+                tipo: colaboradorEncontrado.tipo
             })
         })
     } catch (error) {
@@ -371,11 +385,18 @@ app.post("/buscar-colaborador", eTatuador, async(req, res) => {
 //------------------------------------ CRUD Usuários --------------------------------------
 
 //renderiza a formulário de cadastro de novos usuários
-app.get("/novo-usuario", eTatuador, async(req, res) => {
-    res.render("novo-usuario", {
-        title: "Cadastro de Usuario",
-        style: `<link rel="stylesheet" href="/css/style.css">`
-    });
+app.get("/novo-usuario", eAdmin, async(req, res) => {
+    try {
+        res.render("novo-usuario", {
+            title: "Cadastro de Usuario",
+            style: `<link rel="stylesheet" href="/css/style.css">`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
+        })
+
+    } catch (error) {
+        res.redirect("/erro");
+    }
 })
 
 
@@ -404,7 +425,9 @@ app.get("/listar-usuarios", eTatuador, async(req, res) => {
         res.render("listar-usuarios", {
             usuarios,
             title: "Listar Usuarios",
-            style: `<link rel="stylesheet" href="/css/style.css">`
+            style: `<link rel="stylesheet" href="/css/style.css">`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
         })
     }).catch(function(erro) {
         res.redirect("/erro")
@@ -447,7 +470,9 @@ app.get("/editar-usuario/:id", eAdmin, function(req, res) {
             <script src="https://unpkg.com/select2@latest/dist/js/select2.min.js"></script>
             <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
             <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
-            <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`
+            <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
         })
     }).catch(function(erro) {
         res.redirect("/erro")
@@ -481,6 +506,8 @@ app.get("/listar-estoque", eTatuador, function(req, res) {
             title: "Listagem de estoque",
             style: `<link rel="stylesheet" href="/css/style.css">
             <link rel="stylesheet" href="../../css/fileStyle.css">`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
         })
     })
 })
@@ -491,6 +518,8 @@ app.get("/novo-estoque", eAdmin, function(req, res) {
         title: "Cadastrar estoque",
         style: `<link rel="stylesheet" href="/css/style.css">
         <link rel="stylesheet" href="../../css/fileStyle.css">`,
+        usuarioLogin: usuarioEncontrado.usuario,
+        tipo: colaboradorEncontrado.tipo
     })
 })
 
@@ -537,6 +566,8 @@ app.get("/editar-estoque/:id", eAdmin, async(req, res) => {
             <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
             <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
             <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
         })
     }).catch(function(erro) {
         res.redirect("/erro")
@@ -566,6 +597,8 @@ app.get("/consumir-estoque/:id", eTatuador, async(req, res) => {
             <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
             <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
             <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
         })
     }).catch(function(erro) {
         res.redirect("/erro")
@@ -623,6 +656,8 @@ app.get("/listar-cliente", eTatuador, function(req, res) {
             clientes,
             title: "Listar cliente",
             style: `<link rel="stylesheet" href="/css/style.css">`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
         })
     }).catch((erro) => {
         res.redirect("/erro")
@@ -634,7 +669,9 @@ app.get("/listar-cliente", eTatuador, function(req, res) {
 app.get("/novo-cliente", eTatuador, function(req, res) {
     res.render("novo-cliente", {
         title: "Novo cliente",
-        style: `<link rel="stylesheet" href="/css/style.css">`
+        style: `<link rel="stylesheet" href="/css/style.css">`,
+        usuarioLogin: usuarioEncontrado.usuario,
+        tipo: colaboradorEncontrado.tipo
     })
 })
 
@@ -695,6 +732,8 @@ app.get("/editar-cliente/:id", eTatuador, async(req, res) => {
                     <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
                     <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
                     <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
         })
     })
 })
@@ -729,6 +768,8 @@ app.post("/buscar-cliente", eTatuador, async(req, res) => {
             res.render("listar-cliente", {
                 clientes,
                 style: `<link rel="stylesheet" href="/css/style.css">`,
+                usuarioLogin: usuarioEncontrado.usuario,
+                tipo: colaboradorEncontrado.tipo
             })
         })
     } catch (error) {
@@ -749,6 +790,8 @@ app.get("/listar-ficha/:id", eTatuador, async(req, res) => {
         res.render("listar-ficha", {
             cliente,
             style: `<link rel="stylesheet" href="/css/style.css">`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
         })
     }).catch((erro) => {
         res.redirect("/erro")
@@ -762,6 +805,8 @@ app.get("/nova-ficha/:id", eTatuador, async(req, res) => {
         res.render("nova-ficha", {
             cliente,
             style: `<link rel="stylesheet" href="/css/style.css">`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
         })
     }).catch(() => {
         res.redirect("/erro")
@@ -820,14 +865,21 @@ app.get("/excluir-dados-ficha/:id", eTatuador, async(req, res) => {
 
 app.get("/listar-evento", eTatuador, async(req, res) => {
     copiaEventos.findAll().then((eventos) => {
-        res.render("listar-evento", { eventos, style: `<link rel="stylesheet" href="/css/style.css">`, })
+        res.render("listar-evento", {
+            eventos,
+            style: `<link rel="stylesheet" href="/css/style.css">`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
+        })
     })
 })
 
 // renderiza a agenda com todos os agendamentos até agora
 app.get("/agenda", eTatuador, async(req, res) => {
     res.render("agenda", {
-        style: `<link rel="stylesheet" href="/css/style.css">`
+        style: `<link rel="stylesheet" href="/css/style.css">`,
+        usuarioLogin: usuarioEncontrado.usuario,
+        tipo: colaboradorEncontrado.tipo
     })
 })
 
@@ -839,6 +891,8 @@ app.get("/novo-agendamento", eTatuador, async(req, res) => {
             title: "Listagem de estoque",
             style: `<link rel="stylesheet" href="/css/style.css">
             <link rel="stylesheet" href="../../css/fileStyle.css">`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
         })
     })
 
@@ -940,6 +994,35 @@ app.get("/admin-error", async(req, res) => {
     })
 })
 
+//Alterar senha
+app.get("/redefinir-senha", async(req, res) => {
+    res.render("alterar-senha", {
+        style: `<link rel="stylesheet" href="/css/style.css">`,
+        usuarioLogin: usuarioEncontrado.usuario,
+        tipo: colaboradorEncontrado.tipo
+    })
+})
+
+app.post("/alterar-senha", eTatuador, async(req, res) => {
+    if (req.body.novaSenha == req.body.repetirSenha) {
+        try {
+            const senhaCript = await bcrypt.hash(req.body.novaSenha, 8);
+            await Controller_Colaborador_Usuario.alterarSenha(
+                usuarioEncontrado.id_usuario,
+                req.body.novaSenha,
+                senhaCript).then(function() {
+                res.redirect("/redefinir-senha")
+            })
+
+        } catch (error) {
+            res.redirect("/erro");
+            console.log(error)
+        }
+    } else {
+        console.log("Senhas não iguais")
+    }
+
+})
 
 //porta principal
 app.listen(8081, () => {
