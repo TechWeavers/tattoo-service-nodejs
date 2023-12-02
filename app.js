@@ -1022,23 +1022,25 @@ app.get("/redefinir-senha", async(req, res) => {
 })
 
 app.post("/alterar-senha", eTatuador, async (req, res) => {
-    if(req.body.novaSenha == req.body.repetirSenha) {
+    
+    if(String(var1).equals(var2)){
         try {
-            const senhaCript = await bcrypt.hash(req.body.novaSenha, 8);
-            await Controller_Colaborador_Usuario.alterarSenha(
-                usuarioEncontrado.id_usuario,
-                req.body.novaSenha,
-                senhaCript).then(function() {
-                res.redirect("/redefinir-senha")
-            })
-            
+        const senhaCript = await bcrypt.hash(req.body.senha, 8);
+        Controller_Colaborador_Usuario.atualizarUsuario(
+            req.body.id_usuario,
+            req.body.usuario,
+            senhaCript).then(function() {
+            res.redirect("/listar-usuarios")
+        })
+        
         } catch (error) {
             res.redirect("/erro");
-            console.log(error)
         }
     } else {
-        console.log("Senhas não iguais")
+
     }
+    
+
     
 })
 
