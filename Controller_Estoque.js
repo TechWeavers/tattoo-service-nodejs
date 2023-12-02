@@ -132,6 +132,13 @@ class Controller_Estoque {
         return procura;
     }
 
+    static excluirHistorico() {
+        const deleta = MaterialConsumido.destroy({ 
+            where: {},
+            truncate: true });
+        return deleta;
+    }
+
 
 }
 

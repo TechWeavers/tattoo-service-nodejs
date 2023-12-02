@@ -1,48 +1,46 @@
-
 <div class="main-panel">
   <div class="content-wrapper bg-transparent">
     
     <div class="row">
-      <div class="col-lg-12 grid-margin stretch-card">
+      <div class="col-sm-12 grid-margin stretch-card">
+
+        
         <div class="row col-sm">
-          <div id="ordem-ativo" class="col-auto pasta-ordem">
+          <div id="ordem" class="col-auto pasta-ordem">
             <a href="/listar-estoque">Lista Materias</a>
           </div>
           <div id="ordem" class="col-auto  pasta-ordem">
             <a href="/novo-estoque">Cadastrar Novo Material</a>
           </div>
-          <div id="ordem" class="col-auto  pasta-ordem">
+          <div id="ordem-ativo" class="col-auto  pasta-ordem">
             <a href="/historico-estoque">Histórico</a>
           </div>
         </div>
-        <div class="card-body card-pasta ">
-                  
-          <h4 class="card-title">Lista de materiais</h4>
+
+        <div class="card-body card-pasta bg-orange">
+          <h4>Histórico</h4>
+          <a href="/excluir-historico"><button class="butn butn-primary">Excluir histórico</button></a>
           <div class="table-responsive">
             <table class="table table-striped text-center">
               <thead>
                 <tr>
-                  <th>ID do Material</th>
-                  <th>Material</th>
+                  <th>ID do consumo</th>
+                  <th>Nome do material</th>
                   <th>Quantidade</th>
-                  <th>Valor Unidade</th>
-                  <th>Data de última atualização</th>
+                  <th>Valor Total</th>
+                  <th>Data de consumo</th>
                   <th></th>
                 </tr>
               </thead>
-              {{#each materiais}}
-              {{#dataValues}}
+              {{#each materiaisConsumidos}} {{#dataValues}}
               <tbody>
                 <tr>
-                  <td>{{id_material}}</td>
+                  <td class="py-1">{{id_consumo}}</td>
                   <td>{{nome}}</td>
                   <td>{{quantidade}}</td>
-                  <td>{{valor_unidade}}</td>
-                  <td>{{data_compra}}</td>
-                  <td>
-                    <a href="/editar-estoque/{{id_material}}" style="color:inherit"><i class="bi bi-pencil"></i></a>
-                    <!--<button class="butn butn-secondary"><a href="/consumir-estoque/{{id_material}}" style="color:inherit">Utilizar</a></button>-->
-                  </td>
+                  <td>{{valor_total}}</td>
+                  <td>{{data_consumo}}</td>
+                  <td></td>
                 </tr>
               </tbody>
               {{/dataValues}}
@@ -54,3 +52,4 @@
     </div>
   </div>
 </div>
+

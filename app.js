@@ -1024,6 +1024,28 @@ app.post("/alterar-senha", eTatuador, async(req, res) => {
 
 })
 
+//Materiais Consumido
+app.get("/historico-estoque", eTatuador, async(req, res) => {
+    copiaEventos.findAll().then((materiaisConsumidos) => {
+        res.render("historico-estoque", {
+            materiaisConsumidos,
+            style: `<link rel="stylesheet" href="/css/style.css">`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
+        })
+    })
+})
+
+app.get("/excluir-historico", eAdmin, async(req, res) => {
+    Controller_Estoque.excluirHistorico().then(() => {
+        res.redirect("/historico-estoque")
+    }).catch((erro) => {
+        res.redirect("/erro")
+        console.log("Houve um erro. Volte a página anterior.<br> Erro: " + erro)
+    })
+})
+
+
 //porta principal
 app.listen(8081, () => {
     console.log("Servidor iniciado na porta 8080: http://localhost:8081")
