@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { promisify } = require('util');
 const tokenModule = require('../modules/token');
-const { Controller_Colaborador_Usuario } = require('../Controller_Colaborador_Usuario');
+const { Controller_Colaborador_Usuario } = require('../controllers/Controller_Colaborador_Usuario');
 
 
 module.exports = {

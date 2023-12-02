@@ -1,5 +1,5 @@
-const Cliente = require("./models/Cliente");
-const ClienteFicha = require("./models/ClienteFicha");
+const Cliente = require("../models/Cliente");
+const ClienteFicha = require("../models/ClienteFicha");
 
 class Controller_Cliente {
     static visualizarCliente() {

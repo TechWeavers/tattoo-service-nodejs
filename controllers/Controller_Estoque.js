@@ -1,6 +1,6 @@
-const { Sequelize } = require("./models/db");
-const Material = require("./models/Material");
-const MaterialConsumido = require("./models/MaterialConsumido");
+const { Sequelize } = require("../models/db");
+const Material = require("../models/Material");
+const MaterialConsumido = require("../models/MaterialConsumido");
 
 // classe de controle que utiliza a própria entidade no banco de dados, possui funções estáticas  que devem ser implementadas nas rotas do arquivo app.js, a fim de se responsabilizar pela logica de execução das entidade de estoque
 

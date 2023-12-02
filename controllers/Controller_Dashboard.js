@@ -1,8 +1,8 @@
 // este arquivo será de armazenamento dos dados que serão exibidos na dashboar
-const MaterialConsumido = require("./models/MaterialConsumido")
-const copiaEventos = require("./models/copiaEventos")
-const Cliente = require("./models/Cliente")
-const Material = require("./models/Material")
+const MaterialConsumido = require("../models/MaterialConsumido")
+const copiaEventos = require("../models/copiaEventos")
+const Cliente = require("../models/Cliente")
+const Material = require("../models/Material")
 
 // variaveis de data do dia
 let data = new Date();

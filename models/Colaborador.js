@@ -1,8 +1,5 @@
-const Administrador = require("./Administrador");
 const Procedimento = require("./Procedimento");
-const Tatuador = require("./Tatuador");
 const Usuario = require("./Usuario");
-const Telefone_Colaborador = require("./Telefone_Colaborador");
 const db = require("./db");
 const MaterialConsumido = require("./MaterialConsumido");
 
@@ -34,8 +31,6 @@ const Colaborador = db.sequelize.define('Colaborador', {
 
 Colaborador.hasOne(Usuario, { foreignKey: 'fk_colaborador' });
 Colaborador.hasOne(Procedimento, { foreignKey: 'fk_colaborador' });
-Colaborador.hasOne(Tatuador, { foreignKey: 'fk_colaborador' });
-Colaborador.hasOne(Administrador, { foreignKey: 'fk_colaborador' });
 Colaborador.hasOne(MaterialConsumido, { foreignKey: 'fk_colaborador' });
 
 

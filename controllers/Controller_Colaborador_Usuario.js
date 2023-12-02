@@ -1,5 +1,5 @@
-const Colaborador = require("./models/Colaborador");
-const Usuario = require("./models/Usuario");
+const Colaborador = require("../models/Colaborador");
+const Usuario = require("../models/Usuario");
 
 // classe de controle que utiliza a própria entidade no banco de dados, possui funções estáticas  que devem ser implementadas nas rotas do arquivo app.js, a fim de se responsabilizar pela logica de execução das entidades de colaborador e usuário
 

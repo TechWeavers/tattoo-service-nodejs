@@ -1,4 +1,4 @@
-const copiaEventos = require("./models/copiaEventos")
+const copiaEventos = require("../models/copiaEventos")
 const Nodemailer = require("./Nodemailer")
 
 

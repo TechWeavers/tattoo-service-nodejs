@@ -11,7 +11,7 @@ const Cliente = require("../models/Cliente")
 
 // importando a entidade cópiaEventos que vai copiar cada evento da API
 const copiaEventos = require("../models/copiaEventos");
-const { Controller_Cliente } = require('../Controller_Cliente');
+const { Controller_Cliente } = require('../controllers/Controller_Cliente');
 
 // If modifying these scopes, delete token.json.
 const SCOPES = ['https://www.googleapis.com/auth/calendar'];
