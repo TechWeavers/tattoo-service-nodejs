@@ -38,7 +38,7 @@ class email {
             from: "sixdevsfatec@gmail.com",
             to: email,
             subject: "Email Pós Procedimento",
-            html: "<h1>Ei " + nome + "!</h1><br><p>Passando pra avisar que a sua tatuagem está marcada para daqui 24 horas.<br>Qualquer dúvida contate o nosso colaborador. Obrigado pela preferência :)</p>"
+            html: "<h1>Ei " + nome + "!</h1><br><p>Passando para passar os cuidados pós tatuagem.<br> </p>"
         })
     }
 

@@ -8,7 +8,6 @@ const crypto = require('crypto');
 const tokenModule = require('./modules/token');
 const { eTatuador, eAdmin } = require('./middlewares/auth')
 const Usuario = require("./models/Usuario");
-const Evento = require("./models/Evento");
 const copiaEventos = require("./models/copiaEventos")
 const nodemailer = require("./Nodemailer")
 const puppeteer = require("puppeteer");
@@ -21,10 +20,6 @@ let usuarioEncontrado
 
 // variaveis que servirao de controle da dashboard
 const { Dashboard } = require("./Controller_Dashboard");
-
-
-
-
 
 // configurações handlebars
 app.engine("handlebars", handlebars({ defaultLayout: "main" }))
@@ -255,9 +250,6 @@ app.post('/esqueceu-senha', async(req, res) => {
         res.redirect('/erro')
     }
 
-
-
-
 });
 
 app.post('/recuperar-senha', async(req, res) => {
@@ -315,24 +307,23 @@ app.post('/recuperar-senha', async(req, res) => {
 // Tela principal do site, com todas as funcionalidades do sistema
 app.get("/dashboard", eTatuador, async(req, res) => {
     // fazer aqui a funcionalidade de retornar todos os metodos da dashboard
-    const promiseProximosProcedimentos = Dashboard.próximosProcedimentos();
-    const promiseProcedimentosRealizados = Dashboard.procedimentosRealizados();
-    const promiseQuantidadeClientes = Dashboard.quantClientes();
-    const promiseQuantidadeAgendamentos = Dashboard.quantidadeAgendamentos();
-    const promiseMateriaisConsumidos = Dashboard.visualizarMaterialConsumido();
-    const promiseMateriaisfaltantes = Dashboard.materiaisFaltantes()
-    Promise.all([promiseProximosProcedimentos, promiseProcedimentosRealizados, promiseQuantidadeClientes, promiseQuantidadeAgendamentos, promiseMateriaisConsumidos, promiseMateriaisfaltantes]).then(([eventos, eventosRealizados, quantidadeClientes, quantidadeAgendamentos, materiaisConsumidos, materiaisFaltantes]) => {
+    try {
+        const promiseProximosProcedimentos = Dashboard.próximosProcedimentos();
+        const promiseProcedimentosRealizados = Dashboard.procedimentosRealizados();
+        const promiseQuantidadeClientes = Dashboard.quantClientes();
+        const promiseQuantidadeAgendamentos = Dashboard.quantidadeAgendamentos();
+        const promiseMateriaisfaltantes = Dashboard.materiaisFaltantes()
+        Promise.all([promiseProximosProcedimentos, promiseProcedimentosRealizados, promiseQuantidadeClientes, promiseQuantidadeAgendamentos, promiseMateriaisfaltantes]).then(([eventos, eventosRealizados, quantidadeClientes, quantidadeAgendamentos, materiaisFaltantes]) => {
 
-        res.render("dashboard", {
-            eventos,
-            eventosRealizados,
-            quantidadeClientes,
-            quantidadeAgendamentos,
-            materiaisConsumidos,
-            materiaisFaltantes,
+            res.render("dashboard", {
+                eventos,
+                eventosRealizados,
+                quantidadeClientes,
+                quantidadeAgendamentos,
+                materiaisFaltantes,
 
-            title: "Dashboard",
-            style: `<link rel="stylesheet" href="/css/estilos3.css">
+                title: "Dashboard",
+                style: `<link rel="stylesheet" href="/css/estilos3.css">
             <link rel="stylesheet" href="/css/contador.css">
             <link rel="stylesheet" href="/css/sidebar.css">
             <link rel="stylesheet" href="/css/header.css">
@@ -342,7 +333,7 @@ app.get("/dashboard", eTatuador, async(req, res) => {
             <link rel="stylesheet" href="https://unpkg.com/vendors-base@latest/vendor.bundle.base.css">
             <link rel="stylesheet" href="https://unpkg.com/select2@latest/dist/css/select2.min.css">
             <link rel="stylesheet" href="https://unpkg.com/select2@latest/dist/css/select2-bootstrap.min.css">`,
-            script: `<script src="https://unpkg.com/vendors-base@latest/vendor.bundle.base.js"></script>
+                script: `<script src="https://unpkg.com/vendors-base@latest/vendor.bundle.base.js"></script>
             <script src="https://unpkg.com/@vx/off-canvas@^latest/dist/off-canvas.js"></script>
             <script src="https://unpkg.com/@vx/hoverable-collapse@^latest/dist/hoverable-collapse.js"></script>
             <script src="https://unpkg.com/@vx/template@^latest/dist/template.js"></script>
@@ -351,11 +342,14 @@ app.get("/dashboard", eTatuador, async(req, res) => {
             <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
             <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
             <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`,
-            usuarioLogin: usuarioEncontrado.usuario,
-            tipo: colaboradorEncontrado.tipo
-        });
+                usuarioLogin: usuarioEncontrado.usuario,
+                tipo: colaboradorEncontrado.tipo
+            });
 
-    })
+        })
+    } catch {
+        res.redirect("/erro")
+    }
 
 })
 
@@ -392,12 +386,16 @@ app.post("/novo-usuario-login", eTatuador, async(req, res) => {
 
 // página que renderiza o formulário de cadastro de um novo colaborador
 app.get("/novo-colaborador", eAdmin, async(req, res) => {
-    res.render("novo-colaborador", {
-        title: "Cadastro de Colaborador",
-        style: `<link rel="stylesheet" href="/css/style.css">`,
-        usuarioLogin: usuarioEncontrado.usuario,
-        tipo: colaboradorEncontrado.tipo
-    });
+    try {
+        res.render("novo-colaborador", {
+            title: "Cadastro de Colaborador",
+            style: `<link rel="stylesheet" href="/css/style.css">`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
+        })
+    } catch {
+        res.redirect("/erro")
+    }
 })
 
 // rota interna recebe os dados do formulário de cadastro de colaboradores, e registra no banco
@@ -424,37 +422,40 @@ app.post("/cadastrar-colaborador", eAdmin, async(req, res) => {
 
 //visualização de todos os colaboradores cadastrados
 app.get("/listar-colaboradores", eTatuador, async(req, res) => {
-    //const viewDados = Controller_Colaborador_Usuario.visualizarColaboradores;
-    Controller_Colaborador_Usuario.visualizarColaboradores().then((colaboradores) => {
-        res.render("listar-colaboradores", {
-            colaboradores,
-            title: "Listar Colaboradores",
-            style: `<link rel="stylesheet" href="/css/style.css">`,
-            usuarioLogin: usuarioEncontrado.usuario,
-            tipo: colaboradorEncontrado.tipo
+    try {
+        //const viewDados = Controller_Colaborador_Usuario.visualizarColaboradores;
+        Controller_Colaborador_Usuario.visualizarColaboradores().then((colaboradores) => {
+            res.render("listar-colaboradores", {
+                colaboradores,
+                title: "Listar Colaboradores",
+                style: `<link rel="stylesheet" href="/css/style.css">`,
+                usuarioLogin: usuarioEncontrado.usuario,
+                tipo: colaboradorEncontrado.tipo
+            })
         })
-    }).catch(function(erro) {
+    } catch {
         res.redirect("/erro")
-        console.log("Erro ao carregar os dados " + erro)
-    })
+    }
 })
 
 // exclusão do colaborador selecionado, através de um botão de delete
 app.get("/excluir-colaborador/:id", eAdmin, function(req, res) {
-    Controller_Colaborador_Usuario.excluirColaborador(req.params.id).then(function() {
-        res.redirect("/listar-colaboradores")
-    }).catch(function(erro) {
+    try {
+        Controller_Colaborador_Usuario.excluirColaborador(req.params.id).then(function() {
+            res.redirect("/listar-colaboradores")
+        })
+    } catch {
         res.redirect("/erro")
-        console.log("Erro ao carregar os dados " + erro)
-    })
+    }
 })
 
 //rota externa que renderiza um formulário de edição do colaborador, que foi selecionado pelo botão de editar, na página de visualização, trazendo os dados do colaborador selecionado
 app.get("/editar-colaborador/:id", eAdmin, function(req, res) {
-    Controller_Colaborador_Usuario.procurarColaborador(req.params.id).then(function(colaboradores) {
-        res.render("editar-colaborador", {
-            colaboradores,
-            style: `<link rel="stylesheet" href="/css/estilos3.css">
+    try {
+        Controller_Colaborador_Usuario.procurarColaborador(req.params.id).then(function(colaboradores) {
+            res.render("editar-colaborador", {
+                colaboradores,
+                style: `<link rel="stylesheet" href="/css/estilos3.css">
         <link rel="stylesheet" href="/css/sidebar.css">
         <link rel="stylesheet" href="/css/header.css">
         <link rel="stylesheet" href="../../css/style.css">
@@ -463,7 +464,7 @@ app.get("/editar-colaborador/:id", eAdmin, function(req, res) {
         <link rel="stylesheet" href="https://unpkg.com/vendors-base@latest/vendor.bundle.base.css">
         <link rel="stylesheet" href="https://unpkg.com/select2@latest/dist/css/select2.min.css">
         <link rel="stylesheet" href="https://unpkg.com/select2@latest/dist/css/select2-bootstrap.min.css">`,
-            script: `<script src="https://unpkg.com/vendors-base@latest/vendor.bundle.base.js"></script>
+                script: `<script src="https://unpkg.com/vendors-base@latest/vendor.bundle.base.js"></script>
         <script src="https://unpkg.com/@vx/off-canvas@^latest/dist/off-canvas.js"></script>
         <script src="https://unpkg.com/@vx/hoverable-collapse@^latest/dist/hoverable-collapse.js"></script>
         <script src="https://unpkg.com/@vx/template@^latest/dist/template.js"></script>
@@ -472,13 +473,13 @@ app.get("/editar-colaborador/:id", eAdmin, function(req, res) {
         <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
         <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
         <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`,
-            usuarioLogin: usuarioEncontrado.usuario,
-            tipo: colaboradorEncontrado.tipo
+                usuarioLogin: usuarioEncontrado.usuario,
+                tipo: colaboradorEncontrado.tipo
+            })
         })
-    }).catch(function(erro) {
+    } catch {
         res.redirect("/erro")
-        console.log("Erro ao carregar os dados " + erro)
-    })
+    }
 })
 
 //rota interna que atualiza os dados do colaborador, vindo do formulário de atualização dos dados
@@ -566,18 +567,19 @@ app.post("/novo-usuario", eTatuador, async(req, res) => {
 
 //página de visualização de todos os usuários cadastrados no sistema
 app.get("/listar-usuarios", eTatuador, async(req, res) => {
-    Controller_Colaborador_Usuario.visualizarUsuarios().then((usuarios) => {
-        res.render("listar-usuarios", {
-            usuarios,
-            title: "Listar Usuarios",
-            style: `<link rel="stylesheet" href="/css/style.css">`,
-            usuarioLogin: usuarioEncontrado.usuario,
-            tipo: colaboradorEncontrado.tipo
+    try {
+        Controller_Colaborador_Usuario.visualizarUsuarios().then((usuarios) => {
+            res.render("listar-usuarios", {
+                usuarios,
+                title: "Listar Usuarios",
+                style: `<link rel="stylesheet" href="/css/style.css">`,
+                usuarioLogin: usuarioEncontrado.usuario,
+                tipo: colaboradorEncontrado.tipo
+            })
         })
-    }).catch(function(erro) {
+    } catch {
         res.redirect("/erro")
-        console.log("Erro ao carregar os dados " + erro)
-    })
+    }
 })
 
 
@@ -597,10 +599,11 @@ app.get("/excluir-usuario/:id", eAdmin, function(req, res) {
 
 //rota externa que renderiza um formulário de edição do colaborador, que foi selecionado pelo botão de editar, na página de visualização, trazendo os dados do colaborador selecionado
 app.get("/editar-usuario/:id", eAdmin, function(req, res) {
-    Controller_Colaborador_Usuario.procurarUsuario(req.params.id).then(function(usuarios) {
-        res.render("editar-usuario", {
-            usuarios,
-            style: `<link rel="stylesheet" href="/css/estilos3.css">
+    try {
+        Controller_Colaborador_Usuario.procurarUsuario(req.params.id).then(function(usuarios) {
+            res.render("editar-usuario", {
+                usuarios,
+                style: `<link rel="stylesheet" href="/css/estilos3.css">
             <link rel="stylesheet" href="/css/sidebar.css">
             <link rel="stylesheet" href="/css/header.css">
             <link rel="stylesheet" href="/css/style.css">
@@ -611,7 +614,7 @@ app.get("/editar-usuario/:id", eAdmin, function(req, res) {
             <link rel="stylesheet" href="https://unpkg.com/vendors-base@latest/vendor.bundle.base.css">
             <link rel="stylesheet" href="https://unpkg.com/select2@latest/dist/css/select2.min.css">
             <link rel="stylesheet" href="https://unpkg.com/select2@latest/dist/css/select2-bootstrap.min.css">`,
-            script: `<script src="https://unpkg.com/vendors-base@latest/vendor.bundle.base.js"></script>
+                script: `<script src="https://unpkg.com/vendors-base@latest/vendor.bundle.base.js"></script>
             <script src="https://unpkg.com/@vx/off-canvas@^latest/dist/off-canvas.js"></script>
             <script src="https://unpkg.com/@vx/hoverable-collapse@^latest/dist/hoverable-collapse.js"></script>
             <script src="https://unpkg.com/@vx/template@^latest/dist/template.js"></script>
@@ -620,13 +623,13 @@ app.get("/editar-usuario/:id", eAdmin, function(req, res) {
             <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
             <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
             <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`,
-            usuarioLogin: usuarioEncontrado.usuario,
-            tipo: colaboradorEncontrado.tipo
+                usuarioLogin: usuarioEncontrado.usuario,
+                tipo: colaboradorEncontrado.tipo
+            })
         })
-    }).catch(function(erro) {
+    } catch {
         res.redirect("/erro")
-        console.log("Erro ao carregar os dados " + erro)
-    })
+    }
 })
 
 //rota interna que atualiza os dados de cada usuário, recebendo os dados do formulário de edição de usuários
@@ -649,27 +652,35 @@ app.post("/atualizar-usuario", eAdmin, async(req, res) => {
 // ---------------------------- CRUD ESTOQUE -------------------------------------
 //rota de listagem dos materiais disponíveis no estoque
 app.get("/listar-estoque", eTatuador, function(req, res) {
-    Controller_Estoque.visualizarMaterial().then((materiais) => {
-        res.render("listar-estoque", {
-            materiais,
-            title: "Listagem de estoque",
-            style: `<link rel="stylesheet" href="/css/style.css">
+    try {
+        Controller_Estoque.visualizarMaterial().then((materiais) => {
+            res.render("listar-estoque", {
+                materiais,
+                title: "Listagem de estoque",
+                style: `<link rel="stylesheet" href="/css/style.css">
             <link rel="stylesheet" href="../../css/fileStyle.css">`,
-            usuarioLogin: usuarioEncontrado.usuario,
-            tipo: colaboradorEncontrado.tipo
+                usuarioLogin: usuarioEncontrado.usuario,
+                tipo: colaboradorEncontrado.tipo
+            })
         })
-    })
+    } catch {
+        res.redirect("/erro")
+    }
 })
 
 // renderiza o formulário de cadastro do material
 app.get("/novo-estoque", eAdmin, function(req, res) {
-    res.render("novo-estoque", {
-        title: "Cadastrar estoque",
-        style: `<link rel="stylesheet" href="/css/style.css">
+    try {
+        res.render("novo-estoque", {
+            title: "Cadastrar estoque",
+            style: `<link rel="stylesheet" href="/css/style.css">
         <link rel="stylesheet" href="../../css/fileStyle.css">`,
-        usuarioLogin: usuarioEncontrado.usuario,
-        tipo: colaboradorEncontrado.tipo
-    })
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
+        })
+    } catch {
+        res.redirect("/erro")
+    }
 })
 
 // rota interna recebe os dados do formulário de cadastro de materiais, e registra no banco
@@ -695,10 +706,11 @@ app.post("/cadastrar-estoque", eAdmin, async(req, res) => {
 
 // procura o material especificado no botão e renderiza o formulário de edição do mesmo
 app.get("/editar-estoque/:id", eAdmin, async(req, res) => {
-    Controller_Estoque.procurarMaterial(req.params.id).then(function(materiais) {
-        res.render("editar-estoque", {
-            materiais,
-            style: `<link rel="stylesheet" href="/css/estilos3.css">
+    try {
+        Controller_Estoque.procurarMaterial(req.params.id).then(function(materiais) {
+            res.render("editar-estoque", {
+                materiais,
+                style: `<link rel="stylesheet" href="/css/estilos3.css">
             <link rel="stylesheet" href="/css/sidebar.css">
             <link rel="stylesheet" href="/css/header.css">
             <link rel="stylesheet" href="../../css/style.css">
@@ -707,7 +719,7 @@ app.get("/editar-estoque/:id", eAdmin, async(req, res) => {
             <link rel="stylesheet" href="https://unpkg.com/vendors-base@latest/vendor.bundle.base.css">
             <link rel="stylesheet" href="https://unpkg.com/select2@latest/dist/css/select2.min.css">
             <link rel="stylesheet" href="https://unpkg.com/select2@latest/dist/css/select2-bootstrap.min.css">`,
-            script: `<script src="https://unpkg.com/vendors-base@latest/vendor.bundle.base.js"></script>
+                script: `<script src="https://unpkg.com/vendors-base@latest/vendor.bundle.base.js"></script>
             <script src="https://unpkg.com/@vx/off-canvas@^latest/dist/off-canvas.js"></script>
             <script src="https://unpkg.com/@vx/hoverable-collapse@^latest/dist/hoverable-collapse.js"></script>
             <script src="https://unpkg.com/@vx/template@^latest/dist/template.js"></script>
@@ -716,13 +728,13 @@ app.get("/editar-estoque/:id", eAdmin, async(req, res) => {
             <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
             <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
             <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`,
-            usuarioLogin: usuarioEncontrado.usuario,
-            tipo: colaboradorEncontrado.tipo
+                usuarioLogin: usuarioEncontrado.usuario,
+                tipo: colaboradorEncontrado.tipo
+            })
         })
-    }).catch(function(erro) {
+    } catch {
         res.redirect("/erro")
-        console.log("erro ao carregar os dados: " + erro)
-    })
+    }
 })
 
 app.get("/consumir-estoque/:id", eTatuador, async(req, res) => {
@@ -768,8 +780,6 @@ app.post("/atualizar-estoque", eAdmin, async(req, res) => {
     } catch (error) {
         res.redirect("/erro");
     }
-
-
 })
 
 app.post("/consumir-estoque", eTatuador, async(req, res) => {
@@ -818,32 +828,50 @@ app.get("/historico-estoque", eTatuador, async(req, res) => {
     }
 })
 
+app.get("/excluir-historico", eAdmin, async(req, res) => {
+    try {
+        Controller_Estoque.excluirHistorico().then(() => {
+            res.redirect("/historico-estoque")
+        }).catch((erro) => {
+
+            console.log("Houve um erro. Volte a página anterior.<br> Erro: " + erro)
+        })
+    } catch {
+        res.redirect("/erro")
+    }
+})
+
 // ------------------------------------ CRUD Cliente -------------------------------------------
 
 //visualização de clientes cadastrados
 app.get("/listar-cliente", eTatuador, function(req, res) {
-    Controller_Cliente.visualizarCliente().then((clientes) => {
-        res.render("listar-cliente", {
-            clientes,
-            title: "Listar cliente",
-            style: `<link rel="stylesheet" href="/css/style.css">`,
-            usuarioLogin: usuarioEncontrado.usuario,
-            tipo: colaboradorEncontrado.tipo
+    try {
+        Controller_Cliente.visualizarCliente().then((clientes) => {
+            res.render("listar-cliente", {
+                clientes,
+                title: "Listar cliente",
+                style: `<link rel="stylesheet" href="/css/style.css">`,
+                usuarioLogin: usuarioEncontrado.usuario,
+                tipo: colaboradorEncontrado.tipo
+            })
         })
-    }).catch((erro) => {
+    } catch {
         res.redirect("/erro")
-        console.log("Erro ao carregar os dados. Volte a página anterior! <br> Erro: " + erro)
-    })
+    }
 })
 
 // renderiza o formulário de cadastro de clientes
 app.get("/novo-cliente", eTatuador, function(req, res) {
-    res.render("novo-cliente", {
-        title: "Novo cliente",
-        style: `<link rel="stylesheet" href="/css/style.css">`,
-        usuarioLogin: usuarioEncontrado.usuario,
-        tipo: colaboradorEncontrado.tipo
-    })
+    try {
+        res.render("novo-cliente", {
+            title: "Novo cliente",
+            style: `<link rel="stylesheet" href="/css/style.css">`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
+        })
+    } catch {
+        res.redirect("/erro")
+    }
 })
 
 //rota interna de cadastro de clientes
@@ -869,23 +897,27 @@ app.post("/cadastrar-cliente", eTatuador, async(req, res) => {
 })
 
 // rota de exclusão do cliente
+
 app.get("/excluir-cliente/:id", eTatuador, async(req, res) => {
-    Controller_Cliente.excluirCliente(req.params.id).then(() => {
-        res.redirect("/listar-cliente")
-        console.log("dados excluídos com sucesso")
-    }).catch((erro) => {
+    try {
+        Controller_Cliente.excluirCliente(req.params.id).then(() => {
+            res.redirect("/listar-cliente")
+            console.log("dados excluídos com sucesso")
+        })
+    } catch {
+        console.log("erro ao excluir os dados")
         res.redirect("/erro")
-        console.log("Erro ao excluir os dados: " + erro)
-    })
+    }
 })
 
 // procura o cliente esepcificado ao apertar o botão de editar, e renderiza o formulário com os dados dele para editá-lo
 app.get("/editar-cliente/:id", eTatuador, async(req, res) => {
-    Controller_Cliente.procurarCliente(req.params.id).then((cliente) => {
-        res.render("editar-cliente", {
-            cliente,
-            title: "Editar cliente",
-            style: `<link rel="stylesheet" href="/css/estilos3.css">
+    try {
+        Controller_Cliente.procurarCliente(req.params.id).then((cliente) => {
+            res.render("editar-cliente", {
+                cliente,
+                title: "Editar cliente",
+                style: `<link rel="stylesheet" href="/css/estilos3.css">
                     <link rel="stylesheet" href="/css/sidebar.css">
                     <link rel="stylesheet" href="/css/header.css">
                     <link rel="stylesheet" href="../../css/style.css">
@@ -894,7 +926,7 @@ app.get("/editar-cliente/:id", eTatuador, async(req, res) => {
                     <link rel="stylesheet" href="https://unpkg.com/vendors-base@latest/vendor.bundle.base.css">
                     <link rel="stylesheet" href="https://unpkg.com/select2@latest/dist/css/select2.min.css">
                     <link rel="stylesheet" href="https://unpkg.com/select2@latest/dist/css/select2-bootstrap.min.css">`,
-            script: `<script src="https://unpkg.com/vendors-base@latest/vendor.bundle.base.js"></script>
+                script: `<script src="https://unpkg.com/vendors-base@latest/vendor.bundle.base.js"></script>
                     <script src="https://unpkg.com/@vx/off-canvas@^latest/dist/off-canvas.js"></script>
                     <script src="https://unpkg.com/@vx/hoverable-collapse@^latest/dist/hoverable-collapse.js"></script>
                     <script src="https://unpkg.com/@vx/template@^latest/dist/template.js"></script>
@@ -903,27 +935,35 @@ app.get("/editar-cliente/:id", eTatuador, async(req, res) => {
                     <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
                     <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
                     <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`,
-            usuarioLogin: usuarioEncontrado.usuario,
-            tipo: colaboradorEncontrado.tipo
+                usuarioLogin: usuarioEncontrado.usuario,
+                tipo: colaboradorEncontrado.tipo
+            })
         })
-    })
+    } catch {
+        console.log("erro ao editar cliente")
+        res.redirect("/erro")
+    }
 })
 
 // rota de atualização dos dados
 app.post("/atualizar-cliente", eTatuador, async(req, res) => {
-    Controller_Cliente.atualizarCliente(
-        req.body.id_cliente,
-        req.body.nome,
-        req.body.cpf,
-        req.body.telefone,
-        req.body.email,
-        req.body.redeSocial
-    ).then(() => {
-        res.redirect("/listar-cliente");
-        console.log("Dados atualizados com sucesso")
-    }).catch((erro) => {
+    try {
+        Controller_Cliente.atualizarCliente(
+            req.body.id_cliente,
+            req.body.nome,
+            req.body.cpf,
+            req.body.telefone,
+            req.body.email,
+            req.body.redeSocial
+        ).then(() => {
+            res.redirect("/listar-cliente");
+            console.log("Dados atualizados com sucesso")
+        }).catch((erro) => {
+            console.log("erro ao atualizar os dados")
+        })
+    } catch {
         res.redirect("/erro")
-    })
+    }
 })
 
 // funcionalidade de busca por CPF
@@ -972,62 +1012,74 @@ app.get("/listar-ficha/:id", eTatuador, async(req, res) => {
 
 //esta rota renderiza o formulário de cadastro dos dados da ficha, que também é o mesmo de edição
 app.get("/nova-ficha/:id", eTatuador, async(req, res) => {
-    Controller_Cliente.procurarCliente(req.params.id).then((cliente) => {
-        res.render("nova-ficha", {
-            cliente,
-            style: `<link rel="stylesheet" href="/css/style.css">`,
-            usuarioLogin: usuarioEncontrado.usuario,
-            tipo: colaboradorEncontrado.tipo
+    try {
+        Controller_Cliente.procurarCliente(req.params.id).then((cliente) => {
+            res.render("nova-ficha", {
+                cliente,
+                style: `<link rel="stylesheet" href="/css/style.css">`,
+                usuarioLogin: usuarioEncontrado.usuario,
+                tipo: colaboradorEncontrado.tipo
+            })
+        }).catch(() => {
+            console.log("erro ao renderizar a ficha")
         })
-    }).catch(() => {
+    } catch {
         res.redirect("/erro")
-    })
+    }
 })
 
 // rota interna que atualiza o cliente, com os dados da ficha
 app.post("/cadastrar-ficha", async(req, res) => {
-    Controller_Cliente.cadastrarFicha(
-        req.body.nascimento,
-        req.body.endereco,
-        req.body.tratamento,
-        req.body.tratamentoDesc,
-        req.body.cirurgia,
-        req.body.cirurgiaDesc,
-        req.body.alergia,
-        req.body.alergiaDesc,
-        req.body.problemaCardiaco,
-        req.body.cancer,
-        req.body.drogas,
-        req.body.cicatrizacao,
-        req.body.diabetes,
-        req.body.diabetesDesc,
-        req.body.convulsao,
-        req.body.convulsaoDesc,
-        req.body.doencasTransmissiveis,
-        req.body.doencasTransmissiveisDesc,
-        req.body.pressao,
-        req.body.anemia,
-        req.body.hemofilia,
-        req.body.hepatite,
-        req.body.outro,
-        req.body.outroDesc,
-        req.body.dataAtual,
-        req.body.fk_cliente
-    ).then(() => {
-        res.redirect("listar-cliente")
-    }).catch((erro) => {
-        res.redirect("/erro")
-        console.log("erro ao carregar os dados. Volte para a página anterior. <br> Erro: " + erro)
-    })
+    try {
+        Controller_Cliente.cadastrarFicha(
+            req.body.nascimento,
+            req.body.endereco,
+            req.body.tratamento,
+            req.body.tratamentoDesc,
+            req.body.cirurgia,
+            req.body.cirurgiaDesc,
+            req.body.alergia,
+            req.body.alergiaDesc,
+            req.body.problemaCardiaco,
+            req.body.cancer,
+            req.body.drogas,
+            req.body.cicatrizacao,
+            req.body.diabetes,
+            req.body.diabetesDesc,
+            req.body.convulsao,
+            req.body.convulsaoDesc,
+            req.body.doencasTransmissiveis,
+            req.body.doencasTransmissiveisDesc,
+            req.body.pressao,
+            req.body.anemia,
+            req.body.hemofilia,
+            req.body.hepatite,
+            req.body.outro,
+            req.body.outroDesc,
+            req.body.dataAtual,
+            req.body.fk_cliente
+        ).then(() => {
+            res.redirect("listar-cliente")
+        }).catch((erro) => {
+
+            console.log("erro ao carregar os dados. Volte para a página anterior. <br> Erro: " + erro)
+        })
+    } catch {
+        res.redirect("/erro");
+    }
 })
 
 app.get("/excluir-dados-ficha/:id", eTatuador, async(req, res) => {
-    Controller_Cliente.excluirDadosFicha(req.params.id).then(() => {
-        res.redirect("/listar-cliente")
-    }).catch((erro) => {
+    try {
+        Controller_Cliente.excluirDadosFicha(req.params.id).then(() => {
+            res.redirect("/listar-cliente")
+        }).catch((erro) => {
+
+            console.log("Houve um erro. Volte a página anterior.<br> Erro: " + erro)
+        })
+    } catch {
         res.redirect("/erro")
-        console.log("Houve um erro. Volte a página anterior.<br> Erro: " + erro)
-    })
+    }
 })
 
 
@@ -1035,37 +1087,51 @@ app.get("/excluir-dados-ficha/:id", eTatuador, async(req, res) => {
 //------------------------------------ Google agenda --------------------------------------
 
 app.get("/listar-evento", eTatuador, async(req, res) => {
-    copiaEventos.findAll().then((eventos) => {
-        res.render("listar-evento", {
-            eventos,
-            style: `<link rel="stylesheet" href="/css/style.css">`,
-            usuarioLogin: usuarioEncontrado.usuario,
-            tipo: colaboradorEncontrado.tipo
+    try {
+        copiaEventos.findAll().then((eventos) => {
+            res.render("listar-evento", {
+                eventos,
+                style: `<link rel="stylesheet" href="/css/style.css">`,
+                usuarioLogin: usuarioEncontrado.usuario,
+                tipo: colaboradorEncontrado.tipo
+            })
         })
-    })
+    } catch {
+        console.log("erro ao listar eventos")
+        res.redirect("/erro")
+    }
 })
 
 // renderiza a agenda com todos os agendamentos até agora
 app.get("/agenda", eTatuador, async(req, res) => {
-    res.render("agenda", {
-        style: `<link rel="stylesheet" href="/css/style.css">`,
-        usuarioLogin: usuarioEncontrado.usuario,
-        tipo: colaboradorEncontrado.tipo
-    })
+    try {
+        res.render("agenda", {
+            style: `<link rel="stylesheet" href="/css/style.css">`,
+            usuarioLogin: usuarioEncontrado.usuario,
+            tipo: colaboradorEncontrado.tipo
+        })
+    } catch {
+        console.log("erro ao renderizar agenda");
+        res.redirect("/erro")
+    }
 })
 
 // renderiza formulário de captação dos dados para agendamento
 app.get("/novo-agendamento", eTatuador, async(req, res) => {
-    Controller_Estoque.visualizarMaterial().then((materiais) => {
-        res.render("novo-evento", {
-            materiais,
-            title: "Listagem de estoque",
-            style: `<link rel="stylesheet" href="/css/style.css">
+    try {
+        Controller_Estoque.visualizarMaterial().then((materiais) => {
+            res.render("novo-evento", {
+                materiais,
+                title: "Listagem de estoque",
+                style: `<link rel="stylesheet" href="/css/style.css">
             <link rel="stylesheet" href="../../css/fileStyle.css">`,
-            usuarioLogin: usuarioEncontrado.usuario,
-            tipo: colaboradorEncontrado.tipo
+                usuarioLogin: usuarioEncontrado.usuario,
+                tipo: colaboradorEncontrado.tipo
+            })
         })
-    })
+    } catch {
+        res.redirect("/erro")
+    }
 
 })
 
@@ -1166,14 +1232,7 @@ app.get("/admin-error", async(req, res) => {
     })
 })
 
-app.get("/excluir-historico", eAdmin, async(req, res) => {
-    Controller_Estoque.excluirHistorico().then(() => {
-        res.redirect("/historico-estoque")
-    }).catch((erro) => {
-        res.redirect("/erro")
-        console.log("Houve um erro. Volte a página anterior.<br> Erro: " + erro)
-    })
-})
+
 
 
 //porta principal
