@@ -932,7 +932,11 @@ app.get("/erro", async (req, res) => {
     })
 })
 
-
+app.get("/erronovo", async (req, res) => {
+    res.render("erro-novo", {
+        style: `<link rel="stylesheet" href="/css/error.css">`
+    })
+})
 
 //porta principal
 app.listen(8083, () => {

@@ -16,3 +16,8 @@ function contarCheckboxes() {
     // Exibir a contagem no console (você pode ajustar conforme necessário)
     return contagem
   }
+
+      function goBack() {
+        window.history.back();
+      }
+    
