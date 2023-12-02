@@ -45,9 +45,6 @@ class Dashboard {
                     [Op.gte]: diaAtual,
                 }
             },
-            order: [
-                ['data_evento', 'ASC'], // Ordena os resultados pela data do evento em ordem crescente
-            ],
             limit: 5,
         });
         return proximos_eventos;

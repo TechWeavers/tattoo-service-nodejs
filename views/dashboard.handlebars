@@ -17,6 +17,7 @@
             <table class="table table-striped text-center">
               <thead>
                 <tr>
+                  <th>ID do evento</th>
                   <th>Nome do evento</th>
                   <th>Data </th>
                   <th>Hora do inicio</th>
@@ -29,7 +30,8 @@
               {{#each eventos}} {{#dataValues}}
               <tbody>
                 <tr>
-                  <td class="py-1">{{nome_evento}}</td>
+                  <td class="py-1">{{id_evento}}</td>
+                  <td>{{nome_evento}}</td>
                    <td>{{data_evento}}</td>
                   <td>{{hora_inicio}}</td>
                  <td>{{hora_termino}}</td>

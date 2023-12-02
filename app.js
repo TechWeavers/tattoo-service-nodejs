@@ -20,8 +20,7 @@ let usuarioEncontrado
 
 // variaveis que servirao de controle da dashboard
 const { Dashboard } = require("./Controller_Dashboard");
-let agendamentos = 0;
-let clientes = 0;
+
 
 
 
@@ -46,6 +45,7 @@ const path = require("path");
 const Cliente = require("./models/Cliente");
 const Material = require("./models/Material");
 const { col } = require("sequelize");
+const MaterialConsumido = require("./models/MaterialConsumido");
 
 
 // Página que renderiza a tela de login (handlebars)
@@ -217,7 +217,7 @@ app.get("/dashboard", eTatuador, async(req, res) => {
 
 // atualiza o status dos procedimentos do dia anterior para realizado, envia o email de 24 horas pós agendamento, e convite para retorno no estúdio 15 dias após o agendamento
 //esta funcionalidade é executada 1 vez por dia, todos os dias.
-cron.schedule('0 11 * * *', () => {
+cron.schedule('0 09 * * *', () => {
     Controller_Agendamento.posAgendamento24Horas();
     Controller_Agendamento.posAgendamento15Dias();
 });
@@ -642,11 +642,32 @@ app.post("/consumir-estoque", eTatuador, async(req, res) => {
 })
 
 app.get("/excluir-estoque/:id", eTatuador, async(req, res) => {
-    Controller_Estoque.excluirMaterial(req.params.id).then(function() {
-        res.redirect("/listar-estoque")
-    }).catch(function(erro) {
-        res.send("Erro ao deletar os dados: " + erro)
-    })
+    try {
+        Controller_Estoque.excluirMaterial(req.params.id).then(function() {
+            res.redirect("/listar-estoque")
+        }).catch(function(erro) {
+            console.log("Erro ao deletar os dados: " + erro)
+        })
+    } catch {
+        res.redirect("/erro")
+    }
+})
+
+
+//Materiais Consumido
+app.get("/historico-estoque", eTatuador, async(req, res) => {
+    try {
+        MaterialConsumido.findAll().then((materiaisConsumidos) => {
+            res.render("historico-estoque", {
+                materiaisConsumidos,
+                style: `<link rel="stylesheet" href="/css/style.css">`,
+                usuarioLogin: usuarioEncontrado.usuario,
+                tipo: colaboradorEncontrado.tipo
+            })
+        })
+    } catch {
+        res.redirect("/erro")
+    }
 })
 
 // ------------------------------------ CRUD Cliente -------------------------------------------
@@ -1025,17 +1046,6 @@ app.post("/alterar-senha", eTatuador, async(req, res) => {
 
 })
 
-//Materiais Consumido
-app.get("/historico-estoque", eTatuador, async(req, res) => {
-    copiaEventos.findAll().then((materiaisConsumidos) => {
-        res.render("historico-estoque", {
-            materiaisConsumidos,
-            style: `<link rel="stylesheet" href="/css/style.css">`,
-            usuarioLogin: usuarioEncontrado.usuario,
-            tipo: colaboradorEncontrado.tipo
-        })
-    })
-})
 
 app.get("/excluir-historico", eAdmin, async(req, res) => {
     Controller_Estoque.excluirHistorico().then(() => {
