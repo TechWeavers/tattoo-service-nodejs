@@ -49,7 +49,7 @@ const { col } = require("sequelize");
 
 
 // Página que renderiza a tela de login (handlebars)
-app.get("/", async(req, res) => {
+app.get("/", async (req, res) => {
     res.render("login", {
         style: `<link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -76,7 +76,7 @@ app.get("/", async(req, res) => {
 //--------------------------------- rota html pdf-----------------------------------
 
 // Rota para gerar o PDF
-app.get("/pdf/:id", async(req, res) => {
+app.get("/pdf/:id", async (req, res) => {
     let responseSent = false;
 
     try {
@@ -126,7 +126,7 @@ app.get("/pdf/:id", async(req, res) => {
 
 
 //rota interna de validação do login
-app.post("/login", async(req, res) => {
+app.post("/login", async (req, res) => {
     const usuarioLogin = req.body.usuarioLogin;
     const senhaLogin = req.body.senhaLogin;
 
@@ -247,7 +247,7 @@ app.post("/novo-usuario-login", eTatuador, async(req, res) => {
 //--------------------------------------- CRUD de Colaborador -------------------------------
 
 // página que renderiza o formulário de cadastro de um novo colaborador
-app.get("/novo-colaborador", eAdmin, async(req, res) => {
+app.get("/novo-colaborador", eAdmin, async (req, res) => {
     res.render("novo-colaborador", {
         title: "Cadastro de Colaborador",
         style: `<link rel="stylesheet" href="/css/style.css">`,
@@ -289,25 +289,25 @@ app.get("/listar-colaboradores", eTatuador, async(req, res) => {
             usuarioLogin: usuarioEncontrado.usuario,
             tipo: colaboradorEncontrado.tipo
         })
-    }).catch(function(erro) {
+    }).catch(function (erro) {
         res.redirect("/erro")
         console.log("Erro ao carregar os dados " + erro)
     })
 })
 
 // exclusão do colaborador selecionado, através de um botão de delete
-app.get("/excluir-colaborador/:id", eAdmin, function(req, res) {
-    Controller_Colaborador_Usuario.excluirColaborador(req.params.id).then(function() {
+app.get("/excluir-colaborador/:id", eAdmin, function (req, res) {
+    Controller_Colaborador_Usuario.excluirColaborador(req.params.id).then(function () {
         res.redirect("/listar-colaboradores")
-    }).catch(function(erro) {
+    }).catch(function (erro) {
         res.redirect("/erro")
         console.log("Erro ao carregar os dados " + erro)
     })
 })
 
 //rota externa que renderiza um formulário de edição do colaborador, que foi selecionado pelo botão de editar, na página de visualização, trazendo os dados do colaborador selecionado
-app.get("/editar-colaborador/:id", eAdmin, function(req, res) {
-    Controller_Colaborador_Usuario.procurarColaborador(req.params.id).then(function(colaboradores) {
+app.get("/editar-colaborador/:id", eAdmin, function (req, res) {
+    Controller_Colaborador_Usuario.procurarColaborador(req.params.id).then(function (colaboradores) {
         res.render("editar-colaborador", {
             colaboradores,
             style: `<link rel="stylesheet" href="/css/estilos3.css">
@@ -331,7 +331,7 @@ app.get("/editar-colaborador/:id", eAdmin, function(req, res) {
             usuarioLogin: usuarioEncontrado.usuario,
             tipo: colaboradorEncontrado.tipo
         })
-    }).catch(function(erro) {
+    }).catch(function (erro) {
         res.redirect("/erro")
         console.log("Erro ao carregar os dados " + erro)
     })
@@ -430,7 +430,7 @@ app.get("/listar-usuarios", eTatuador, async(req, res) => {
             usuarioLogin: usuarioEncontrado.usuario,
             tipo: colaboradorEncontrado.tipo
         })
-    }).catch(function(erro) {
+    }).catch(function (erro) {
         res.redirect("/erro")
         console.log("Erro ao carregar os dados " + erro)
     })
@@ -438,18 +438,22 @@ app.get("/listar-usuarios", eTatuador, async(req, res) => {
 
 
 //exclusão do colaborador selecionado, através de um botão de delete, na página de edição dos usuários
-app.get("/excluir-usuario/:id", eAdmin, function(req, res) {
-    Controller_Colaborador_Usuario.excluirUsuario(req.params.id).then(function() {
+app.get("/excluir-usuario/:id", eAdmin, function (req, res) {
+    Controller_Colaborador_Usuario.excluirUsuario(req.params.id).then(function () {
         res.redirect("/listar-usuarios")
-    }).catch(function(erro) {
-        res.redirect("/erro")
+    }).catch(function (erro) {
+        res.status(500).send('error', {
+            message: 'Erro de nota'
+        });
+        res.render("/listar-usuarios", { script: '<script src="/js/alert.js"></script>' })
         console.log("Erro ao carregar os dados " + erro)
+
     })
 })
 
 //rota externa que renderiza um formulário de edição do colaborador, que foi selecionado pelo botão de editar, na página de visualização, trazendo os dados do colaborador selecionado
-app.get("/editar-usuario/:id", eAdmin, function(req, res) {
-    Controller_Colaborador_Usuario.procurarUsuario(req.params.id).then(function(usuarios) {
+app.get("/editar-usuario/:id", eAdmin, function (req, res) {
+    Controller_Colaborador_Usuario.procurarUsuario(req.params.id).then(function (usuarios) {
         res.render("editar-usuario", {
             usuarios,
             style: `<link rel="stylesheet" href="/css/estilos3.css">
@@ -475,7 +479,7 @@ app.get("/editar-usuario/:id", eAdmin, function(req, res) {
             usuarioLogin: usuarioEncontrado.usuario,
             tipo: colaboradorEncontrado.tipo
         })
-    }).catch(function(erro) {
+    }).catch(function (erro) {
         res.redirect("/erro")
         console.log("Erro ao carregar os dados " + erro)
     })
@@ -514,7 +518,7 @@ app.get("/listar-estoque", eTatuador, function(req, res) {
 })
 
 // renderiza o formulário de cadastro do material
-app.get("/novo-estoque", eAdmin, function(req, res) {
+app.get("/novo-estoque", eAdmin, function (req, res) {
     res.render("novo-estoque", {
         title: "Cadastrar estoque",
         style: `<link rel="stylesheet" href="/css/style.css">
@@ -525,7 +529,7 @@ app.get("/novo-estoque", eAdmin, function(req, res) {
 })
 
 // rota interna recebe os dados do formulário de cadastro de materiais, e registra no banco
-app.post("/cadastrar-estoque", eAdmin, async(req, res) => {
+app.post("/cadastrar-estoque", eAdmin, async (req, res) => {
 
     try {
         Controller_Estoque.cadastrarMaterial(
@@ -546,8 +550,8 @@ app.post("/cadastrar-estoque", eAdmin, async(req, res) => {
 })
 
 // procura o material especificado no botão e renderiza o formulário de edição do mesmo
-app.get("/editar-estoque/:id", eAdmin, async(req, res) => {
-    Controller_Estoque.procurarMaterial(req.params.id).then(function(materiais) {
+app.get("/editar-estoque/:id", eAdmin, async (req, res) => {
+    Controller_Estoque.procurarMaterial(req.params.id).then(function (materiais) {
         res.render("editar-estoque", {
             materiais,
             style: `<link rel="stylesheet" href="/css/estilos3.css">
@@ -571,7 +575,7 @@ app.get("/editar-estoque/:id", eAdmin, async(req, res) => {
             usuarioLogin: usuarioEncontrado.usuario,
             tipo: colaboradorEncontrado.tipo
         })
-    }).catch(function(erro) {
+    }).catch(function (erro) {
         res.redirect("/erro")
         console.log("erro ao carregar os dados: " + erro)
     })
@@ -602,7 +606,7 @@ app.get("/consumir-estoque/:id", eTatuador, async(req, res) => {
             usuarioLogin: usuarioEncontrado.usuario,
             tipo: colaboradorEncontrado.tipo
         })
-    }).catch(function(erro) {
+    }).catch(function (erro) {
         res.redirect("/erro")
         console.log("erro ao carregar os dados: " + erro)
     })
@@ -816,7 +820,7 @@ app.get("/nova-ficha/:id", eTatuador, async(req, res) => {
 })
 
 // rota interna que atualiza o cliente, com os dados da ficha
-app.post("/cadastrar-ficha", async(req, res) => {
+app.post("/cadastrar-ficha", async (req, res) => {
     Controller_Cliente.cadastrarFicha(
         req.body.nascimento,
         req.body.endereco,

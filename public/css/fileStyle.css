@@ -54,3 +54,18 @@
 .borda-redonda{
   border-radius: 12px 12px 12px 12px;
 }
+
+/*--------------icone do lado ------------*/
+
+/*.btn-fixed{
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  visibility: visible;
+  width: 60px;
+  height: 60px;
+  background-color: aqua;
+  border-radius: 50%;
+  text-align: center;
+  background-image: url(/img/ye.jpg);
+}*/
