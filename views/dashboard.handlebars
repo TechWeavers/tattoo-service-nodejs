@@ -17,11 +17,9 @@
             <table class="table table-striped text-center">
               <thead>
                 <tr>
-                  <th>ID do evento</th>
                   <th>Nome do evento</th>
                   <th>Hora do inicio</th>
                   <th>Data de inicio </th>
-                  <th>Hora do termino</th>
                   <th>Nome do cliente</th>
                   <th>Nome do colaborador</th>
                   <th></th>
@@ -30,20 +28,12 @@
               {{#each eventos}} {{#dataValues}}
               <tbody>
                 <tr>
-                  <td class="py-1">{{id_evento}}</td>
-                  <td>{{nome_evento}}</td>
+                  <td class="py-1">{{nome_evento}}</td>
                   <td>{{hora_inicio}}</td>
                   <td>{{data_evento}}</td>
-                  <td>{{hora_termino}}</td>
                   <td>{{nome_cliente}}</td>
                   <td>{{nome_colaborador}}</td>
-                  <td>
-                    <a href="/editar-usuario/{{id_procedimento_API}}" style="color:inherit"><i
-                        class="bi bi-pencil"></i></a>
-
-                    <a href="/excluir-agendamento/{{id_procedimento_API}}" style="color:inherit"><i
-                        class="bi bi-trash-fill"></i></a>
-                  </td>
+                  <td></td>
                 </tr>
               </tbody>
               {{/dataValues}}
@@ -112,40 +102,9 @@
         <div class="card-body card-pasta bg-orange">
 
           <div class="table-responsive">
-            <table class="table table-striped text-center">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                </tr>
-              </thead>
-          
-              <tbody>
-                <tr>
-                  <td class="py-1"></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td>
-                    <a href="/editar-usuario/{{id_procedimento_API}}" style="color:inherit"><i
-                        class="bi bi-pencil"></i></a>
-
-                    <a href="/excluir-agendamento/{{id_procedimento_API}}" style="color:inherit"><i
-                        class="bi bi-trash-fill"></i></a>
-                  </td>
-                </tr>
-              </tbody>
+            <div class="contador-tatto">
               
-            </table>
+            </div>
           </div>
         </div>
       </div>
@@ -227,7 +186,6 @@
                   <th>Nome</th>
                   <th>Quantidade</th>
                   <th>Valor por unidade</th>
-                  <th>data de atualização</th>
                   <th></th>
                 </tr>
               </thead>
@@ -238,15 +196,7 @@
                   <td>{{nome}}</td>
                   <td>{{quantidade}}</td>
                   <td>{{valor_unidade}}</td>
-                  <td>{{data_compra}}</td>
-                  
-                  <td>
-                    <a href="/editar-usuario/{{id_procedimento_API}}" style="color:inherit"><i
-                        class="bi bi-pencil"></i></a>
-
-                    <a href="/excluir-agendamento/{{id_procedimento_API}}" style="color:inherit"><i
-                        class="bi bi-trash-fill"></i></a>
-                  </td>
+                  <td></td>
                 </tr>
               </tbody>
               {{/dataValues}}
