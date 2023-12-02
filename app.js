@@ -206,8 +206,8 @@ app.get("/dashboard", eTatuador, async(req, res) => {
             <script src="https://unpkg.com/@vx/file-upload@^latest/dist/file-upload.js"></script>
             <script src="https://unpkg.com/@vx/typeahead@^latest/dist/typeahead.js"></script>
             <script src="https://unpkg.com/@vx/select2@^latest/dist/js/select2.js"></script>`,
-            usuarioLogin: usuarioEncontrado.usuario,
-            tipo: colaboradorEncontrado.tipo
+            //usuarioLogin: usuarioEncontrado.usuario,
+            // tipo: colaboradorEncontrado.tipo
         });
 
     })
@@ -1003,25 +1003,25 @@ app.get("/redefinir-senha", async(req, res) => {
     })
 })
 
-app.post("/alterar-senha", eTatuador, async (req, res) => {
-    
-    if(String(var1).equals(var2)){
+app.post("/alterar-senha", eTatuador, async(req, res) => {
+
+    if (String(var1).equals(var2)) {
         try {
-        const senhaCript = await bcrypt.hash(req.body.senha, 8);
-        Controller_Colaborador_Usuario.atualizarUsuario(
-            req.body.id_usuario,
-            req.body.usuario,
-            senhaCript).then(function() {
-            res.redirect("/listar-usuarios")
-        })
-        
+            const senhaCript = await bcrypt.hash(req.body.senha, 8);
+            Controller_Colaborador_Usuario.atualizarUsuario(
+                req.body.id_usuario,
+                req.body.usuario,
+                senhaCript).then(function() {
+                res.redirect("/listar-usuarios")
+            })
+
         } catch (error) {
             res.redirect("/erro");
         }
     } else {
 
     }
-    
+
 })
 
 //porta principal
