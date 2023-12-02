@@ -318,14 +318,16 @@ app.get("/dashboard", eTatuador, async(req, res) => {
     const promiseProximosProcedimentos = Dashboard.próximosProcedimentos();
     const promiseProcedimentosRealizados = Dashboard.procedimentosRealizados();
     const promiseQuantidadeClientes = Dashboard.quantClientes();
+    const promiseQuantidadeAgendamentos = Dashboard.quantidadeAgendamentos();
     const promiseMateriaisConsumidos = Dashboard.visualizarMaterialConsumido();
     const promiseMateriaisfaltantes = Dashboard.materiaisFaltantes()
-    Promise.all([promiseProximosProcedimentos, promiseProcedimentosRealizados, promiseQuantidadeClientes, promiseMateriaisConsumidos, promiseMateriaisfaltantes]).then(([eventos, eventosRealizados, quantidadeClientes, materiaisConsumidos, materiaisFaltantes]) => {
+    Promise.all([promiseProximosProcedimentos, promiseProcedimentosRealizados, promiseQuantidadeClientes, promiseQuantidadeAgendamentos, promiseMateriaisConsumidos, promiseMateriaisfaltantes]).then(([eventos, eventosRealizados, quantidadeClientes, quantidadeAgendamentos, materiaisConsumidos, materiaisFaltantes]) => {
 
         res.render("dashboard", {
             eventos,
             eventosRealizados,
             quantidadeClientes,
+            quantidadeAgendamentos,
             materiaisConsumidos,
             materiaisFaltantes,
 

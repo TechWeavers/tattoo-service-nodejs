@@ -113,11 +113,11 @@
             <div class="tatto-container">
               <div class="tatto-contador">
                 <span>
-                  {{contador-tatto}}
+                  {{quantidadeAgendamentos}}
                 </span>
               </div>
               <div class="tatto-text">
-                <span>Tatuagens realizadas</span>
+                <span>Agendamentos</span>
               </div>
             </div>
           </div>
@@ -129,39 +129,27 @@
       <div class="col-lg-4 grid-margin stretch-card">
         <div class="row col-sm">
           <div id="ordem-ativo" class="col-auto  pasta-ordem">
-            <a href="/dashboard">Quantidade de clientes cadastrados</a>
+            <a href="/dashboard"> Quantidade de Clientes Cadastrados</a>
           </div>
         </div>
-        <div class="card-body card-pasta bg-orange">
-          <div class="table-responsive">
-         <table class="table table-striped text-center">
-              <thead>
-                <tr>
-                  <th>Quantidade</th>
-                </tr>
-              </thead>
-              {{#each quantidadeClientes}} {{#dataValues}}
-              <tbody>
-                <tr>
-                  <td class="py-1"></td>
-            
-                  <td>{{this.quantidadeClientes}}</td>
-    
-                  <td>
-                    <a href="/editar-usuario/{{id_procedimento_API}}" style="color:inherit"><i
-                        class="bi bi-pencil"></i></a>
 
-                    <a href="/excluir-agendamento/{{id_procedimento_API}}" style="color:inherit"><i
-                        class="bi bi-trash-fill"></i></a>
-                  </td>
-                </tr>
-              </tbody>
-              {{/dataValues}}
-              {{/each}}
-            </table>
+        <div class="card-body card-pasta bg-orange">
+
+          <div class="table-responsive">
+            <div class="tatto-container">
+              <div class="tatto-contador">
+                <span>
+                  {{quantidadeClientes}}
+                </span>
+              </div>
+              <div class="tatto-text">
+                <span>Clientes Cadastrados</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
+
       <!--DIV estoque-->
       <div class="col-lg-4 grid-margin stretch-card">
         <div class="row col-sm">
