@@ -59,7 +59,6 @@ app.get("/", async(req, res) => {
         <link rel="stylesheet" href="/css/login-container.css">
         <link rel="stylesheet" href="/css/overlay.css">
         <link rel="stylesheet" href="/css/reset.css">
-        <link rel="stylesheet" href="/css/estilo3.css">
         <script src="/js/login.js" defer></script>
         <script src="https://kit.fontawesome.com/76d409ea62.js" crossorigin="anonymous"></script>
         <style>
@@ -175,8 +174,47 @@ app.get("/logout", (req, res) => {
 });
 
 //Recuperação de senha
-app.post('/esqueceu-senha', async(req, res) => {
-    const emailUsuario = req.body.email;
+
+//redefinir senha
+app.get("/recuperar-senha/:token", async(req, res) => {
+    const token = req.params.token;
+    res.render("alterar-senha", {token,
+        style: `<link rel="stylesheet" href="/css/style.css">
+        <style>
+            .header {
+                display: none;
+            }
+        </style>`,
+    })
+})
+
+//pedir email
+app.get("/esqueceu-senha", async(req, res) => {
+    res.render("pedir-email", {
+        style: `<link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@600&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/css/form.css">
+        <link rel="stylesheet" href="/css/login-container.css">
+        <link rel="stylesheet" href="/css/overlay.css">
+        <link rel="stylesheet" href="/css/reset.css">
+        <link rel="stylesheet" href="/css/estilo3.css">
+        <script src="/js/login.js" defer></script>
+        <script src="https://kit.fontawesome.com/76d409ea62.js" crossorigin="anonymous"></script>
+        <style>
+            .sidebar {
+                display: none;
+            }
+            .header {
+                display: none;
+            }
+        </style>`,
+        title: "Recuperação de Senha"
+    });
+})
+
+app.post('/esqueceu-senha', async (req, res) => {
+    const emailUsuario = req.body.emailSenha;
 
     try {
         const colaborador = await Colaborador.findOne({ where: { 'email': emailUsuario } });
@@ -185,6 +223,7 @@ app.post('/esqueceu-senha', async(req, res) => {
 
         if (!usuario) {
             res.redirect('/erro')
+            console.log("Usuario nao encontrado!")
         }
 
         const token = crypto.randomBytes(20).toString('hex');
@@ -192,18 +231,23 @@ app.post('/esqueceu-senha', async(req, res) => {
         const now = new Date();
         now.setHours(now.getHours() + 1);
 
-        await Controller_Colaborador_Usuario.resetarSenhaSet(usuario.id_usuario, token, now);
+        await Controller_Colaborador_Usuario.resetarSenhaSet(usuario.dataValues.id_usuario, token, now);
 
-        nodemailer.email.recuperacaoSenha(emailUsuario, colaborador.nome, token);
+        nodemailer.email.recuperacaoSenha(emailUsuario, colaborador.dataValues.nome, token);
 
+        res.redirect('/');
     } catch (error) {
         res.redirect('/erro')
     }
+
+        
+
+   
 });
 
-app.post('/recuperar-senha/:token', async(req, res) => {
+app.post('/recuperar-senha', async(req, res) => {
     const emailUsuario = req.body.email;
-    const tokenUsuario = req.params.token;
+    const tokenUsuario = req.body.token;
     const novaSenha = req.body.novaSenha;
     const confirmacaoNovaSenha = req.body.confirmacaoNovaSenha;
 
@@ -215,13 +259,13 @@ app.post('/recuperar-senha/:token', async(req, res) => {
             res.redirect('/erro');
         }
 
-        if (tokenUsuario !== usuarioEncontrado.resetarSenhaToken) {
+        if(tokenUsuario !== usuarioEncontrado.dataValues.resetarSenhaToken) {
             res.redirect('/erro');
         }
 
         const now = new Date();
 
-        if (now > usuarioEncontrado.resetarSenhaExpire) {
+        if(now > usuarioEncontrado.dataValues.resetarSenhaExpire) {
             res.redirect('/erro');
         }
 
@@ -229,7 +273,7 @@ app.post('/recuperar-senha/:token', async(req, res) => {
             res.redirect('/erro');
         }
 
-        Controller_Colaborador_Usuario.atualizarUsuario(usuarioEncontrado.id_usuario, usuarioEncontrado.usuario, novaSenha);
+        Controller_Colaborador_Usuario.atualizarUsuario(usuarioEncontrado.dataValues.id_usuario, usuarioEncontrado.dataValues.usuario, novaSenha);
 
     } catch (error) {
         res.redirect('/erro')
@@ -1108,41 +1152,6 @@ app.get("/admin-error", async(req, res) => {
     })
 })
 
-//Alterar senha
-app.get("/redefinir-senha", async(req, res) => {
-    res.render("alterar-senha", {
-        style: `<link rel="stylesheet" href="/css/style.css">
-        <style>
-            .sidebar {
-                display: none;
-            }
-        </style>`,
-        
-    })
-})
-
-app.post("/alterar-senha", eTatuador, async(req, res) => {
-
-    if (String(var1).equals(var2)) {
-        try {
-            const senhaCript = await bcrypt.hash(req.body.senha, 8);
-            Controller_Colaborador_Usuario.atualizarUsuario(
-                req.body.id_usuario,
-                req.body.usuario,
-                senhaCript).then(function() {
-                res.redirect("/listar-usuarios")
-            })
-
-        } catch (error) {
-            res.redirect("/erro");
-        }
-    } else {
-
-    }
-
-})
-
-
 app.get("/excluir-historico", eAdmin, async(req, res) => {
     Controller_Estoque.excluirHistorico().then(() => {
         res.redirect("/historico-estoque")
@@ -1155,5 +1164,5 @@ app.get("/excluir-historico", eAdmin, async(req, res) => {
 
 //porta principal
 app.listen(8081, () => {
-    console.log("Servidor iniciado na porta 8080: http://localhost:8081")
+    console.log("Servidor iniciado na porta 8081: http://localhost:8081")
 })

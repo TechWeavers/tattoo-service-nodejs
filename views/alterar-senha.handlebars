@@ -12,6 +12,7 @@
             <table class="table table-striped ">
               <h4 class="card-title">Redefinir senha</h4>
                 <form class="forms-sample" action="/alterar-senha" method="POST">
+                  <input type="hidden" name="token" class="form-control" id="token" value="{{token}}">
                   <div class="form-group">
                     <label class="form-label">Nova senha</label>
                     <input type="password" name="nova-senha" required=" Dado Obrigatório!" class="form-control" id="novaSenha">
