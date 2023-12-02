@@ -67,6 +67,7 @@ class Dashboard {
                     [Op.lte]: dataFormatadaOntem,
                 },
             },
+            limit: 5
         });
         return eventosRealizados;
     }
