@@ -1109,9 +1109,13 @@ app.get("/admin-error", async(req, res) => {
 //Alterar senha
 app.get("/redefinir-senha", async(req, res) => {
     res.render("alterar-senha", {
-        style: `<link rel="stylesheet" href="/css/style.css">`,
-        usuarioLogin: usuarioEncontrado.usuario,
-        tipo: colaboradorEncontrado.tipo
+        style: `<link rel="stylesheet" href="/css/style.css">
+        <style>
+            .sidebar {
+                display: none;
+            }
+        </style>`,
+        
     })
 })
 
